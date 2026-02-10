@@ -5,7 +5,7 @@ This compares wall time of `generate_until_valid` for different `attempt_workers
 values while keeping all optimizer settings fixed.
 
 Run:
-    python -m project.benchmarks.benchmark_attempt_workers
+    python -m vorongen.benchmarks.benchmark_attempt_workers
 
 Optional env overrides:
     BENCH_ROWS, BENCH_REPEATS, BENCH_MAX_ATTEMPTS, BENCH_MAX_ITERS,
@@ -13,7 +13,7 @@ Optional env overrides:
     BENCH_WORKERS
 
 Examples:
-    BENCH_WORKERS=1,2 python -m project.benchmarks.benchmark_attempt_workers
+    BENCH_WORKERS=1,2 python -m vorongen.benchmarks.benchmark_attempt_workers
 """
 
 import os
@@ -22,10 +22,10 @@ import time
 
 import yaml
 
-from project import defaults
-from project.config import resolve_missing_columns, validate_config
-from project.generation import generate_until_valid
-from project.sample_configs import CONFIG_MIXED_LARGE
+from vorongen import defaults
+from vorongen.config import resolve_missing_columns, validate_config
+from vorongen.generation import generate_until_valid
+from vorongen.sample_configs import CONFIG_MIXED_LARGE
 
 
 def _env_int(name, default):

@@ -23,6 +23,10 @@ def setup_run_logger(log_dir=None, name="generator"):
     if logger.handlers:
         for handler in list(logger.handlers):
             logger.removeHandler(handler)
+            try:
+                handler.close()
+            except Exception:
+                pass
 
     file_handler = logging.FileHandler(log_path)
     file_handler.setLevel(logging.INFO)

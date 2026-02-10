@@ -2,15 +2,17 @@ import unittest
 
 import pandas as pd
 
-from project.config import (
+from vorongen import defaults
+from vorongen.config import (
     _collect_references,
     build_column_specs,
     check_feasibility,
     resolve_missing_columns,
     validate_config,
 )
-from project.adjustments import build_random_flips
-from project.metrics import (
+from vorongen.adjustments import build_random_flips
+from vorongen.generation import generate_until_valid
+from vorongen.metrics import (
     apply_equilibrium_patch,
     build_equilibrium_state,
     build_quality_report,
@@ -21,7 +23,7 @@ from project.metrics import (
     equilibrium_metrics_from_state,
     preview_equilibrium_objective,
 )
-from project.rng import RNG
+from vorongen.rng import RNG
 
 
 class WorkflowSmokeTests(unittest.TestCase):
@@ -423,6 +425,78 @@ class WorkflowSmokeTests(unittest.TestCase):
             validate_config(config)
         self.assertIn("unsupported value", str(exc.exception))
 
+    def test_build_specs_infers_conflicting_bin_probs(self):
+        config = {
+            "metadata": {},
+            "columns": [
+                {
+                    "column_id": "score",
+                    "distribution": {
+                        "type": "continuous",
+                        "targets": {
+                            "mean": 50.0,
+                            "std": 5.0,
+                            "min": 0.0,
+                            "max": 100.0,
+                        },
+                        "conditioning_bins": {
+                            "edges": [0.0, 30.0, 40.0, 60.0, 70.0, 100.0],
+                            "labels": ["vlow", "low", "mid", "high", "vhigh"],
+                        },
+                        "bin_probs": {
+                            "vlow": 0.01,
+                            "low": 0.04,
+                            "mid": 0.10,
+                            "high": 0.35,
+                            "vhigh": 0.50,
+                        },
+                    },
+                }
+            ],
+        }
+
+        warnings = validate_config(config)
+        self.assertTrue(any("conflict with targets" in w for w in warnings))
+
+        specs = build_column_specs(config)
+        probs = specs["score"]["bin_probs"]
+        self.assertGreater(probs["mid"], probs["vhigh"])
+        self.assertLess(probs["vhigh"], 0.2)
+
+    def test_validate_raises_on_conflicting_bin_probs_in_error_mode(self):
+        config = {
+            "metadata": {"continuous_bin_conflict_mode": "error"},
+            "columns": [
+                {
+                    "column_id": "score",
+                    "distribution": {
+                        "type": "continuous",
+                        "targets": {
+                            "mean": 50.0,
+                            "std": 5.0,
+                            "min": 0.0,
+                            "max": 100.0,
+                        },
+                        "conditioning_bins": {
+                            "edges": [0.0, 30.0, 40.0, 60.0, 70.0, 100.0],
+                            "labels": ["vlow", "low", "mid", "high", "vhigh"],
+                        },
+                        "bin_probs": {
+                            "vlow": 0.01,
+                            "low": 0.04,
+                            "mid": 0.10,
+                            "high": 0.35,
+                            "vhigh": 0.50,
+                        },
+                    },
+                }
+            ],
+        }
+
+        with self.assertRaises(ValueError) as exc:
+            validate_config(config)
+        self.assertIn("conflict with targets", str(exc.exception))
+
     def test_random_continuous_flips_use_row_specific_bounds(self):
         config = {
             "metadata": {},
@@ -620,6 +694,79 @@ class WorkflowSmokeTests(unittest.TestCase):
         ok, violations = check_equilibrium_rules(metrics, rules)
         self.assertFalse(ok)
         self.assertTrue(any("max_column_deviation" in v for v in violations))
+
+    def test_generate_until_valid_supports_attempt_workers(self):
+        config = {
+            "metadata": {
+                "name": "tiny_demo",
+                "version": "1.0",
+                "missing_columns_mode": "error",
+                "log_level": "quiet",
+            },
+            "columns": [
+                {
+                    "column_id": "loyalty",
+                    "values": {"true_value": 1, "false_value": 0},
+                    "distribution": {
+                        "type": "bernoulli",
+                        "probabilities": {"true_prob": 0.4, "false_prob": 0.6},
+                    },
+                },
+                {
+                    "column_id": "discount",
+                    "values": {"true_value": 1, "false_value": 0},
+                    "distribution": {
+                        "type": "conditional",
+                        "depend_on": ["loyalty"],
+                        "conditional_probs": {
+                            "loyalty=1": {"true_prob": 0.65, "false_prob": 0.35},
+                            "loyalty=0": {"true_prob": 0.25, "false_prob": 0.75},
+                        },
+                    },
+                },
+            ],
+        }
+
+        n_rows = 120
+        tolerance = 0.05
+        settings = defaults.derive_settings(n_rows, tolerance)
+        settings.update(
+            {
+                "max_iters": 3,
+                "patience": 1,
+                "batch_size": 64,
+                "proposals_per_batch": 4,
+            }
+        )
+        optimize_kwargs = {
+            **settings,
+            "log_level": "quiet",
+            "weight_marginal": defaults.DEFAULT_WEIGHT_MARGINAL,
+            "weight_conditional": defaults.DEFAULT_WEIGHT_CONDITIONAL,
+            "flip_mode": defaults.DEFAULT_FLIP_MODE,
+            "proposal_scoring_mode": "incremental",
+        }
+
+        df, metrics, _ok, attempts, _history, _initial_df = generate_until_valid(
+            config,
+            n_rows=n_rows,
+            base_seed=7,
+            max_attempts=2,
+            attempt_workers=2,
+            tolerance=tolerance,
+            optimize_kwargs=optimize_kwargs,
+            log_level="quiet",
+            collect_history=False,
+            logger=None,
+        )
+
+        self.assertIsNotNone(df)
+        self.assertIsNotNone(metrics)
+        if df is None:
+            self.fail("Expected dataframe result")
+        self.assertEqual(len(df), n_rows)
+        self.assertGreaterEqual(attempts, 1)
+        self.assertLessEqual(attempts, 2)
 
 
 if __name__ == "__main__":

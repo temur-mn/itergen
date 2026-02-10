@@ -6,7 +6,7 @@ This compares:
 - proposal_scoring_mode="incremental" (dependency-scoped preview path)
 
 Run:
-    python -m project.benchmarks.benchmark_optimizer_scoring
+    python -m vorongen.benchmarks.benchmark_optimizer_scoring
 
 Optional env overrides:
     BENCH_ROWS, BENCH_REPEATS, BENCH_MAX_ITERS, BENCH_BATCH_SIZE,
@@ -19,10 +19,10 @@ import time
 
 import yaml
 
-from project import defaults
-from project.config import resolve_missing_columns, validate_config
-from project.generation import generate_until_valid
-from project.sample_configs import CONFIG_MIXED_LARGE
+from vorongen import defaults
+from vorongen.config import resolve_missing_columns, validate_config
+from vorongen.generation import generate_until_valid
+from vorongen.sample_configs import CONFIG_MIXED_LARGE
 
 
 def _env_int(name, default):

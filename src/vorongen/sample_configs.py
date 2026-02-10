@@ -2,6 +2,11 @@
 Sample YAML configurations stored as strings.
 """
 
+import copy
+from typing import Any, Dict, List
+
+import yaml
+
 CONFIG_BINARY = """
 metadata:
   name: "binary_only_demo"
@@ -568,3 +573,47 @@ columns:
         "plan_tier=pro, priority_support=0, discount=1": { true_prob: 0.15, false_prob: 0.85 }
         "plan_tier=pro, priority_support=0, discount=0": { true_prob: 0.25, false_prob: 0.75 }
 """
+
+
+_SAMPLE_CONFIGS = {
+    "binary": CONFIG_BINARY,
+    "categorical": CONFIG_CATEGORICAL,
+    "binary_categorical_large": CONFIG_BINARY_CATEGORICAL_LARGE,
+    "continuous": CONFIG_CONTINUOUS,
+    "mixed": CONFIG_MIXED,
+    "continuous_parent_bins": CONFIG_CONTINUOUS_PARENT_BINS,
+    "mixed_large": CONFIG_MIXED_LARGE,
+}
+
+
+def available_sample_configs() -> List[str]:
+    """Return sorted names for all built-in sample configurations."""
+
+    return sorted(_SAMPLE_CONFIGS.keys())
+
+
+def load_config(config: Any) -> Dict[str, Any]:
+    """Parse and normalize a config from YAML text or dict input."""
+
+    if isinstance(config, dict):
+        return copy.deepcopy(config)
+
+    if isinstance(config, str):
+        parsed = yaml.safe_load(config)
+        if parsed is None:
+            raise ValueError("Config text is empty")
+        if not isinstance(parsed, dict):
+            raise ValueError("Config must parse to a mapping")
+        return parsed
+
+    raise TypeError("Config must be a dict or YAML string")
+
+
+def get_sample_config(name: str) -> Dict[str, Any]:
+    """Load one of the built-in sample configurations by name."""
+
+    key = str(name).strip().lower()
+    if key not in _SAMPLE_CONFIGS:
+        options = ", ".join(available_sample_configs())
+        raise ValueError(f"Unknown sample config '{name}'. Available: {options}")
+    return load_config(_SAMPLE_CONFIGS[key])
