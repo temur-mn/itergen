@@ -1,15 +1,29 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "vorongen"
 version = "0.1.0"
-description = "Import-first synthetic data generation package"
+description = "Synthetic data generation engine for dependency-driven tabular datasets"
 readme = "README.md"
 requires-python = ">=3.9"
-license = { file = "LICENSE" }
-authors = [{ name = "Voronogeen Contributors" }]
+license = "MIT"
+authors = [{ name = "Vorongen Contributors" }]
+keywords = ["synthetic-data", "tabular-data", "data-generation", "simulation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Testing",
+]
 dependencies = [
     "numpy>=1.23",
     "pandas>=1.5",
@@ -17,16 +31,54 @@ dependencies = [
     "openpyxl>=3.1",
 ]
 
+[project.scripts]
+vorongen = "vorongen.main:main"
+
 [project.optional-dependencies]
 torch = ["torch>=2.1"]
-dev = ["pytest>=7.0", "jupyter>=1.0"]
+dev = [
+    "build>=1.2.2",
+    "twine>=5.1.1",
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.6.4",
+    "mypy>=1.11",
+    "pre-commit>=3.8",
+    "jupyter>=1.0",
+]
+docs = [
+    "sphinx>=7.3",
+    "myst-parser>=2.0",
+    "furo>=2024.8.6",
+]
 
 [tool.setuptools]
-include-package-data = true
-packages = ["vorongen"]
+include-package-data = false
 
-[tool.setuptools.package-dir]
-vorongen = "src/vorongen"
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["vorongen*"]
+exclude = ["vorongen.tests*", "vorongen.benchmarks*"]
+namespaces = false
 
-[tool.setuptools.package-data]
-vorongen = ["notebooks/*.ipynb", "README.md", "summary.md"]
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+extend-exclude = ["build", "dist"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N", "W"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_unused_configs = true
+pretty = true
+namespace_packages = true
+explicit_package_bases = true
+mypy_path = "src"
+ignore_missing_imports = true
+files = ["src/vorongen"]

@@ -1,4 +1,34 @@
 __pycache__/
-# No need to track virtual environment dependencies
-.venv/*
-.backlog/*
+*.py[cod]
+
+# Virtual environments
+.venv/
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Packaging/build artifacts
+build/
+dist/
+*.egg-info/
+
+# Notebook artifacts
+.ipynb_checkpoints/
+
+# Local run artifacts
+draft.zip
+draft_1.xlsx
+logs/
+output/
+src/vorongen/logs/*.log
+
+# Local workspace folders
+.backlog/
+
+# OS metadata
+.DS_Store
