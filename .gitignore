@@ -2,4 +2,3 @@ __pycache__/
 # No need to track virtual environment dependencies
 .venv/*
 .backlog/*
-./core/draft/+A/*

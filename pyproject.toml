@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "voronogeen-package"
+version = "0.1.0"
+description = "Import-first synthetic data generation package built on vorongen"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [{ name = "Voronogeen Contributors" }]
+dependencies = [
+    "numpy>=1.23",
+    "pandas>=1.5",
+    "PyYAML>=6.0",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+torch = ["torch>=2.1"]
+dev = ["pytest>=7.0", "jupyter>=1.0"]
+
+[tool.setuptools]
+include-package-data = true
+packages = ["vorongen", "voronogeen_package"]
+
+[tool.setuptools.package-dir]
+vorongen = "src/vorongen"
+voronogeen_package = "voronogeen_package"
+
+[tool.setuptools.package-data]
+voronogeen_package = ["notebooks/*.ipynb"]
