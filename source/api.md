@@ -15,7 +15,7 @@
 .. autosummary::
    :toctree: _autosummary
 
-   vorongen.models
-   vorongen.synthesizer
-   vorongen.sample_configs
+   models
+   synthesizer
+   sample_configs
 ```
