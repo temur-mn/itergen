@@ -1,0 +1,75 @@
+2026-02-10 13:12:48,001 WARNING [CONFIG WARNINGS]
+2026-02-10 13:12:48,001 WARNING   - Column 'spend' marginal bin probabilities conflict with targets. mean_delta=15.225 tol=12.250 implied_mean=99.775 target_mean=115.000; std_delta=15.025 tol=15.750 implied_std=43.025 target_std=28.000 explicit bin_probs will be replaced by inferred probabilities
+2026-02-10 13:12:48,001 WARNING   - Column 'session_length' marginal bin probabilities conflict with targets. mean_delta=1.415 tol=1.400 implied_mean=11.085 target_mean=12.500; std_delta=1.879 tol=1.800 implied_std=6.379 target_std=4.500 explicit bin_probs will be replaced by inferred probabilities
+2026-02-10 13:12:48,001 WARNING   - Column 'support_cost' condition 'support_channel=chat, priority_support=0' bin probabilities conflict with targets. mean_delta=5.380 tol=3.500 implied_mean=17.380 target_mean=12.000; std_delta=7.287 tol=4.500 implied_std=11.287 target_std=4.000 explicit conditional_bin_probs will be replaced by inferred probabilities
+2026-02-10 13:12:48,001 WARNING   - Column 'support_cost' condition 'support_channel=chat, priority_support=1' bin probabilities conflict with targets. mean_delta=3.345 tol=3.500 implied_mean=21.345 target_mean=18.000; std_delta=7.964 tol=4.500 implied_std=12.964 target_std=5.000 explicit conditional_bin_probs will be replaced by inferred probabilities
+2026-02-10 13:12:48,001 WARNING   - Column 'support_cost' condition 'support_channel=email, priority_support=0' bin probabilities conflict with targets. mean_delta=5.470 tol=3.500 implied_mean=20.470 target_mean=15.000; std_delta=8.152 tol=4.500 implied_std=13.152 target_std=5.000 explicit conditional_bin_probs will be replaced by inferred probabilities
+2026-02-10 13:12:48,001 WARNING   - Column 'support_cost' condition 'support_channel=email, priority_support=1' bin probabilities conflict with targets. mean_delta=3.650 tol=3.500 implied_mean=25.650 target_mean=22.000; std_delta=9.498 tol=4.500 implied_std=15.498 target_std=6.000 explicit conditional_bin_probs will be replaced by inferred probabilities
+2026-02-10 13:12:48,001 WARNING   - Column 'support_cost' condition 'support_channel=phone, priority_support=0' bin probabilities conflict with targets. mean_delta=3.950 tol=3.500 implied_mean=25.950 target_mean=22.000; std_delta=10.006 tol=4.500 implied_std=16.006 target_std=6.000 explicit conditional_bin_probs will be replaced by inferred probabilities
+2026-02-10 13:12:48,001 WARNING   - Column 'support_cost' condition 'support_channel=phone, priority_support=1' bin probabilities conflict with targets. mean_delta=2.745 tol=3.500 implied_mean=32.745 target_mean=30.000; std_delta=11.131 tol=4.500 implied_std=19.131 target_std=8.000 explicit conditional_bin_probs will be replaced by inferred probabilities
+2026-02-10 13:12:48,001 WARNING   - Column 'risk_score' condition 'loyalty=0, discount=1' bin probabilities conflict with targets. mean_delta=1.425 tol=5.250 implied_mean=53.575 target_mean=55.000; std_delta=7.818 tol=6.750 implied_std=22.818 target_std=15.000 explicit conditional_bin_probs will be replaced by inferred probabilities
+2026-02-10 13:12:48,001 WARNING   - Column 'risk_score' condition 'loyalty=1, discount=0' bin probabilities conflict with targets. mean_delta=0.025 tol=5.250 implied_mean=45.025 target_mean=45.000; std_delta=9.859 tol=6.750 implied_std=21.859 target_std=12.000 explicit conditional_bin_probs will be replaced by inferred probabilities
+2026-02-10 13:12:48,001 WARNING   - Column 'risk_score' condition 'loyalty=1, discount=1' bin probabilities conflict with targets. mean_delta=2.250 tol=5.250 implied_mean=37.250 target_mean=35.000; std_delta=9.769 tol=6.750 implied_std=19.769 target_std=10.000 explicit conditional_bin_probs will be replaced by inferred probabilities
+2026-02-10 13:12:48,002 INFO [ATTEMPT MODE] parallel workers=3 total_attempts=3
+2026-02-10 13:14:40,768 INFO [RETRY] rules_not_met=max_error>0.1, continuous_mean_violation>0.75, continuous_max_violation>1.0
+2026-02-10 13:14:40,769 INFO [RETRY] rules_not_met=max_error>0.1, continuous_mean_violation>0.75, continuous_max_violation>1.0
+2026-02-10 13:14:40,769 INFO [RETRY] rules_not_met=max_error>0.1, continuous_mean_violation>0.75, continuous_max_violation>1.0
+2026-02-10 13:14:40,779 INFO [FINAL METRICS] status=BEST_EFFORT attempts=3 objective=0.037055 mean_marginal=0.028270 mean_conditional=0.010981 max_error=0.135139 max_column_deviation=0.099913 continuous_bin_max_error=0.015518
+2026-02-10 13:14:40,779 INFO 
+[FINAL STATS]
+2026-02-10 13:14:40,779 INFO   loyalty: {0: 16615, 1: 13385}
+2026-02-10 13:14:40,780 INFO   discount: {0: 18635, 1: 11365}
+2026-02-10 13:14:40,780 INFO   channel: {'web': 13548, 'app': 10540, 'store': 5912}
+2026-02-10 13:14:40,781 INFO   device: {'mobile': 13813, 'desktop': 11495, 'tablet': 4692}
+2026-02-10 13:14:40,781 INFO   region: {'na': 10610, 'emea': 10536, 'apac': 8854}
+2026-02-10 13:14:40,782 INFO   plan_tier: {'basic': 11631, 'plus': 11285, 'pro': 7084}
+2026-02-10 13:14:40,782 INFO   auto_pay: {0: 16660, 1: 13340}
+2026-02-10 13:14:40,782 INFO   support_channel: {'chat': 12406, 'email': 9938, 'phone': 7656}
+2026-02-10 13:14:40,783 INFO   priority_support: {0: 21927, 1: 8073}
+2026-02-10 13:14:40,783 INFO   tenure_bucket: {'mid': 12666, 'new': 10045, 'long': 7289}
+2026-02-10 13:14:40,784 INFO   payment_method: {'card': 14141, 'bank': 8288, 'wallet': 7571}
+2026-02-10 13:14:40,784 INFO   spend: {'count': 30000, 'mean': 114.37415930193728, 'std': 22.40488620217134, 'min': 11.4, 'max': 237.2}
+2026-02-10 13:14:40,784 INFO   session_length: {'count': 30000, 'mean': 12.312820944994883, 'std': 3.6080562672271004, 'min': 1.06, 'max': 39.2}
+2026-02-10 13:14:40,784 INFO   support_cost: {'count': 30000, 'mean': 17.56246880176218, 'std': 7.858665137557867, 'min': 1.21, 'max': 88.2}
+2026-02-10 13:14:40,784 INFO   risk_score: {'count': 30000, 'mean': 50.15804781181959, 'std': 18.376903796249035, 'min': 0.8, 'max': 99.6}
+2026-02-10 13:14:40,785 INFO   churn_risk: {0: 20962, 1: 9038}
+2026-02-10 13:14:45,298 INFO 
+ [DATASET IS SAVED] path=draft_1.xlsx
+2026-02-10 13:14:45,353 INFO 
+[QUALITY REPORT]
+2026-02-10 13:14:45,353 INFO   confidence=0.966 objective=0.034859 mean_marginal=0.028270 mean_conditional=0.010981 max_error=0.135139 max_column_deviation=0.099913 continuous_bin_mean_error=0.004602 continuous_bin_max_error=0.015518 continuous_violation_rate=0.001142 continuous_mean_violation=1.776223 continuous_max_violation=31.082321
+2026-02-10 13:14:45,353 INFO   per_column:
+2026-02-10 13:14:45,353 INFO     - loyalty: marginal_error=0.000007 conditional_error=0.000000
+2026-02-10 13:14:45,353 INFO     - discount: marginal_error=0.000000 conditional_error=0.000015
+2026-02-10 13:14:45,353 INFO     - channel: marginal_error=0.000007 conditional_error=0.000000
+2026-02-10 13:14:45,353 INFO     - device: marginal_error=0.000000 conditional_error=0.000032
+2026-02-10 13:14:45,353 INFO     - region: marginal_error=0.000000 conditional_error=0.000016
+2026-02-10 13:14:45,353 INFO     - plan_tier: marginal_error=0.000000 conditional_error=0.000036
+2026-02-10 13:14:45,353 INFO     - auto_pay: marginal_error=0.000000 conditional_error=0.000012
+2026-02-10 13:14:45,353 INFO     - support_channel: marginal_error=0.000000 conditional_error=0.000027
+2026-02-10 13:14:45,353 INFO     - priority_support: marginal_error=0.000000 conditional_error=0.000121
+2026-02-10 13:14:45,353 INFO     - tenure_bucket: marginal_error=0.000000 conditional_error=0.000017
+2026-02-10 13:14:45,353 INFO     - payment_method: marginal_error=0.000000 conditional_error=0.000031
+2026-02-10 13:14:45,353 INFO     - spend: marginal_error=0.099913 conditional_error=0.000000
+2026-02-10 13:14:45,353 INFO     - session_length: marginal_error=0.099105 conditional_error=0.000000
+2026-02-10 13:14:45,353 INFO     - support_cost: marginal_error=0.015518 conditional_error=0.062058
+2026-02-10 13:14:45,353 INFO     - risk_score: marginal_error=0.003603 conditional_error=0.069314
+2026-02-10 13:14:45,353 INFO     - churn_risk: marginal_error=0.000000 conditional_error=0.000094
+2026-02-10 13:14:45,353 INFO   worst_conditionals:
+2026-02-10 13:14:45,353 INFO     - risk_score | loyalty=0, discount=0 | error=0.135139 | group_size=12533
+2026-02-10 13:14:45,353 INFO     - support_cost | support_channel=0, priority_support=0 | error=0.088765 | group_size=9153
+2026-02-10 13:14:45,353 INFO     - support_cost | support_channel=1, priority_support=0 | error=0.071500 | group_size=7994
+2026-02-10 13:14:45,353 INFO     - support_cost | support_channel=1, priority_support=1 | error=0.054337 | group_size=1944
+2026-02-10 13:14:45,353 INFO     - support_cost | support_channel=2, priority_support=0 | error=0.050684 | group_size=4780
+2026-02-10 13:14:45,353 INFO   worst_continuous_bounds:
+2026-02-10 13:14:45,353 INFO     - support_cost | support_channel=0, priority_support=0 | violation_rate=0.000983 mean_violation=16.179178 max_violation=31.082321
+2026-02-10 13:14:45,353 INFO     - support_cost | support_channel=1, priority_support=0 | violation_rate=0.007506 mean_violation=3.734835 max_violation=28.200000
+2026-02-10 13:14:45,353 INFO     - support_cost | support_channel=0, priority_support=1 | violation_rate=0.004304 mean_violation=3.090548 max_violation=25.678229
+2026-02-10 13:14:45,353 INFO     - support_cost | support_channel=1, priority_support=1 | violation_rate=0.008230 mean_violation=3.108887 max_violation=18.200000
+2026-02-10 13:14:45,353 INFO     - support_cost | support_channel=2, priority_support=0 | violation_rate=0.007741 mean_violation=2.739032 max_violation=13.200000
+2026-02-10 13:14:45,353 INFO   worst_continuous_bins:
+2026-02-10 13:14:45,353 INFO     - support_cost | <marginal> | bin_error=0.015518 | group_size=30000
+2026-02-10 13:14:45,353 INFO     - support_cost | support_channel=1, priority_support=0 | bin_error=0.006716 | group_size=7994
+2026-02-10 13:14:45,353 INFO     - risk_score | loyalty=1, discount=1 | bin_error=0.006347 | group_size=7283
+2026-02-10 13:14:45,353 INFO     - support_cost | support_channel=0, priority_support=0 | bin_error=0.005751 | group_size=9153
+2026-02-10 13:14:45,353 INFO     - risk_score | loyalty=1, discount=0 | bin_error=0.005384 | group_size=6102

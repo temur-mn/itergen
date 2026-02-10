@@ -1,0 +1,63 @@
+2026-02-10 13:44:05,660 INFO [ATTEMPT MODE] parallel workers=3 total_attempts=3
+2026-02-10 13:45:38,001 INFO [RETRY] rules_not_met=continuous_mean_violation>0.75, continuous_max_violation>1.0
+2026-02-10 13:45:38,002 INFO [RETRY] rules_not_met=max_error>0.1, max_column_deviation>0.1, continuous_mean_violation>0.75, continuous_max_violation>1.0
+2026-02-10 13:45:38,002 INFO [RETRY] rules_not_met=max_error>0.1, max_column_deviation>0.1, continuous_mean_violation>0.75, continuous_max_violation>1.0
+2026-02-10 13:45:38,012 INFO [FINAL METRICS] status=BEST_EFFORT attempts=3 objective=0.032955 mean_marginal=0.025956 mean_conditional=0.008749 max_error=0.115162 max_column_deviation=0.102398 continuous_bin_max_error=0.015690
+2026-02-10 13:45:38,012 INFO 
+[FINAL STATS]
+2026-02-10 13:45:38,014 INFO   loyalty: {0: 16615, 1: 13385}
+2026-02-10 13:45:38,014 INFO   discount: {0: 18635, 1: 11365}
+2026-02-10 13:45:38,014 INFO   channel: {'web': 13548, 'app': 10540, 'store': 5912}
+2026-02-10 13:45:38,015 INFO   device: {'mobile': 13816, 'desktop': 11497, 'tablet': 4687}
+2026-02-10 13:45:38,015 INFO   region: {'na': 10592, 'emea': 10567, 'apac': 8841}
+2026-02-10 13:45:38,016 INFO   plan_tier: {'basic': 11626, 'plus': 11287, 'pro': 7087}
+2026-02-10 13:45:38,016 INFO   auto_pay: {0: 16660, 1: 13340}
+2026-02-10 13:45:38,017 INFO   support_channel: {'chat': 12385, 'email': 9943, 'phone': 7672}
+2026-02-10 13:45:38,017 INFO   priority_support: {0: 21993, 1: 8007}
+2026-02-10 13:45:38,017 INFO   tenure_bucket: {'mid': 12712, 'new': 10076, 'long': 7212}
+2026-02-10 13:45:38,018 INFO   payment_method: {'card': 14161, 'bank': 8262, 'wallet': 7577}
+2026-02-10 13:45:38,018 INFO   spend: {'count': 30000, 'mean': 114.3280542550195, 'std': 22.265702999525463, 'min': 11.4, 'max': 237.2}
+2026-02-10 13:45:38,018 INFO   session_length: {'count': 30000, 'mean': 12.307920069529132, 'std': 3.5799352651967298, 'min': 1.06, 'max': 39.2}
+2026-02-10 13:45:38,018 INFO   support_cost: {'count': 30000, 'mean': 17.552560005183064, 'std': 7.882513643012073, 'min': 1.28, 'max': 88.2}
+2026-02-10 13:45:38,019 INFO   risk_score: {'count': 30000, 'mean': 51.151667138991044, 'std': 17.71048897425874, 'min': 0.6, 'max': 99.6}
+2026-02-10 13:45:38,019 INFO   churn_risk: {0: 21005, 1: 8995}
+2026-02-10 13:45:42,407 INFO 
+ [DATASET IS SAVED] path=draft_1.xlsx
+2026-02-10 13:45:42,460 INFO 
+[QUALITY REPORT]
+2026-02-10 13:45:42,460 INFO   confidence=0.970 objective=0.031206 mean_marginal=0.025956 mean_conditional=0.008749 max_error=0.115162 max_column_deviation=0.102398 continuous_bin_mean_error=0.005275 continuous_bin_max_error=0.015690 continuous_violation_rate=0.001100 continuous_mean_violation=2.040423 continuous_max_violation=37.415807
+2026-02-10 13:45:42,460 INFO   per_column:
+2026-02-10 13:45:42,460 INFO     - loyalty: marginal_error=0.000007 conditional_error=0.000000
+2026-02-10 13:45:42,460 INFO     - discount: marginal_error=0.000000 conditional_error=0.000015
+2026-02-10 13:45:42,460 INFO     - channel: marginal_error=0.000007 conditional_error=0.000000
+2026-02-10 13:45:42,460 INFO     - device: marginal_error=0.000000 conditional_error=0.000033
+2026-02-10 13:45:42,460 INFO     - region: marginal_error=0.000000 conditional_error=0.000019
+2026-02-10 13:45:42,460 INFO     - plan_tier: marginal_error=0.000000 conditional_error=0.000039
+2026-02-10 13:45:42,460 INFO     - auto_pay: marginal_error=0.000000 conditional_error=0.000010
+2026-02-10 13:45:42,460 INFO     - support_channel: marginal_error=0.000000 conditional_error=0.000034
+2026-02-10 13:45:42,460 INFO     - priority_support: marginal_error=0.000000 conditional_error=0.000073
+2026-02-10 13:45:42,460 INFO     - tenure_bucket: marginal_error=0.000000 conditional_error=0.000014
+2026-02-10 13:45:42,460 INFO     - payment_method: marginal_error=0.000000 conditional_error=0.000033
+2026-02-10 13:45:42,460 INFO     - spend: marginal_error=0.102398 conditional_error=0.000000
+2026-02-10 13:45:42,460 INFO     - session_length: marginal_error=0.102229 conditional_error=0.000000
+2026-02-10 13:45:42,460 INFO     - support_cost: marginal_error=0.015690 conditional_error=0.069383
+2026-02-10 13:45:42,460 INFO     - risk_score: marginal_error=0.006358 conditional_error=0.035264
+2026-02-10 13:45:42,460 INFO     - churn_risk: marginal_error=0.000000 conditional_error=0.000073
+2026-02-10 13:45:42,460 INFO   worst_conditionals:
+2026-02-10 13:45:42,460 INFO     - support_cost | support_channel=0, priority_support=0 | error=0.115162 | group_size=9124
+2026-02-10 13:45:42,460 INFO     - support_cost | support_channel=2, priority_support=0 | error=0.083960 | group_size=4830
+2026-02-10 13:45:42,461 INFO     - risk_score | loyalty=0, discount=0 | error=0.064906 | group_size=12533
+2026-02-10 13:45:42,461 INFO     - support_cost | support_channel=1, priority_support=0 | error=0.055094 | group_size=8039
+2026-02-10 13:45:42,461 INFO     - risk_score | loyalty=0, discount=1 | error=0.042039 | group_size=4082
+2026-02-10 13:45:42,461 INFO   worst_continuous_bounds:
+2026-02-10 13:45:42,461 INFO     - support_cost | support_channel=0, priority_support=0 | violation_rate=0.001754 mean_violation=18.358488 max_violation=37.415807
+2026-02-10 13:45:42,461 INFO     - support_cost | support_channel=1, priority_support=0 | violation_rate=0.005598 mean_violation=3.455062 max_violation=28.200000
+2026-02-10 13:45:42,461 INFO     - support_cost | support_channel=0, priority_support=1 | violation_rate=0.004906 mean_violation=3.244457 max_violation=26.297671
+2026-02-10 13:45:42,461 INFO     - support_cost | support_channel=1, priority_support=1 | violation_rate=0.005252 mean_violation=7.637605 max_violation=18.200000
+2026-02-10 13:45:42,461 INFO     - support_cost | support_channel=2, priority_support=0 | violation_rate=0.008696 mean_violation=4.607588 max_violation=13.200000
+2026-02-10 13:45:42,461 INFO   worst_continuous_bins:
+2026-02-10 13:45:42,461 INFO     - support_cost | <marginal> | bin_error=0.015690 | group_size=30000
+2026-02-10 13:45:42,461 INFO     - support_cost | support_channel=1, priority_support=0 | bin_error=0.006429 | group_size=8039
+2026-02-10 13:45:42,461 INFO     - risk_score | <marginal> | bin_error=0.006358 | group_size=30000
+2026-02-10 13:45:42,461 INFO     - support_cost | support_channel=0, priority_support=0 | bin_error=0.005672 | group_size=9124
+2026-02-10 13:45:42,461 INFO     - support_cost | support_channel=2, priority_support=0 | bin_error=0.005114 | group_size=4830
