@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "declarix"
+version = "0.1.0"
+description = "Synthetic tabular data generation toolkit with iterative equlibrium technique"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+  { name = "Declarix Maintainers" }
+]
+keywords = ["synthetic-data", "tabular-data", "simulation", "data-generation"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+  "numpy>=2.0",
+  "pandas>=2.0",
+  "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+excel = ["openpyxl>=3.1"]
+dev = [
+  "build>=1.2",
+  "mypy>=1.10",
+  "pytest>=8.0",
+  "ruff>=0.6",
+  "twine>=5.0",
+]
+
+[project.scripts]
+declarix = "declarix.cli:main"
+
+[project.urls]
+Homepage = "https://example.com/declarix"
+Repository = "https://example.com/declarix/repository"
+Issues = "https://example.com/declarix/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["declarix*", "project*"]
+exclude = ["project_old*", "project_old_v2*", "notebooks*", "tmp_outputs*"]
+
+[tool.setuptools.package-data]
+declarix = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "project/tests"]
+python_files = ["test_*.py"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+src = ["declarix", "project", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N"]

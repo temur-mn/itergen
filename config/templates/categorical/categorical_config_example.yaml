@@ -1,0 +1,22 @@
+metadata:
+  name: "categorical_only_demo"
+  version: "1.0"
+
+columns:
+  - column_id: "device"
+    values:
+      categories: ["mobile", "desktop", "tablet"]
+    distribution:
+      type: "categorical"
+      probabilities: { mobile: 0.5, desktop: 0.35, tablet: 0.15 }
+
+  - column_id: "region"
+    values:
+      categories: ["na", "emea", "apac"]
+    distribution:
+      type: "categorical"
+      depend_on: ["device"]
+      conditional_probs:
+        "device=mobile": { na: 0.4, emea: 0.35, apac: 0.25 }
+        "device=desktop": { na: 0.5, emea: 0.3, apac: 0.2 }
+        "device=tablet": { na: 0.3, emea: 0.3, apac: 0.4 }

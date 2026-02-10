@@ -1,0 +1,28 @@
+metadata:
+  name: "binary_only_demo"
+  version: "1.0"
+
+columns:
+  - column_id: "loyalty"
+    values: { true_value: 1, false_value: 0 }
+    distribution:
+      type: "bernoulli"
+      probabilities: { true_prob: 0.4, false_prob: 0.6 }
+
+  - column_id: "discount"
+    values: { true_value: 1, false_value: 0 }
+    distribution:
+      type: "conditional"
+      depend_on: ["loyalty"]
+      conditional_probs:
+        "loyalty=1": { true_prob: 0.6, false_prob: 0.4 }
+        "loyalty=0": { true_prob: 0.2, false_prob: 0.8 }
+
+  - column_id: "online"
+    values: { true_value: 1, false_value: 0 }
+    distribution:
+      type: "conditional"
+      depend_on: ["discount"]
+      conditional_probs:
+        "discount=1": { true_prob: 0.2, false_prob: 0.8 }
+        "discount=0": { true_prob: 0.1, false_prob: 0.9 }

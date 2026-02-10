@@ -1,0 +1,42 @@
+metadata:
+  name: "continuous_parent_bins_demo"
+  version: "1.0"
+  continuous_bin_mean_error_max: 0.14
+  continuous_bin_max_error_max: 0.32
+
+columns:
+  - column_id: "risk_score"
+    distribution:
+      type: "continuous"
+      targets: { mean: 50.0, std: 15.0, min: 0.0, max: 100.0 }
+      conditioning_bins:
+        edges: [0.0, 35.0, 65.0, 100.0]
+        labels: ["low", "mid", "high"]
+      bin_probs: { low: 0.27, mid: 0.46, high: 0.27 }
+
+  - column_id: "retained"
+    values: { true_value: 1, false_value: 0 }
+    distribution:
+      type: "conditional"
+      depend_on: ["risk_score"]
+      conditional_probs:
+        "risk_score=low": { true_prob: 0.80, false_prob: 0.20 }
+        "risk_score=mid": { true_prob: 0.50, false_prob: 0.50 }
+        "risk_score=high": { true_prob: 0.25, false_prob: 0.75 }
+
+  - column_id: "support_cost"
+    distribution:
+      type: "continuous"
+      depend_on: ["risk_score"]
+      conditioning_bins:
+        edges: [1.0, 8.0, 12.0, 16.0, 22.0, 30.0, 40.0]
+        labels: ["vlow", "low", "mid", "high", "vhigh", "extreme"]
+      bin_probs: { vlow: 0.10, low: 0.22, mid: 0.28, high: 0.22, vhigh: 0.13, extreme: 0.05 }
+      conditional_targets:
+        "risk_score=low": { mean: 8.0, std: 2.0, min: 1.0, max: 20.0 }
+        "risk_score=mid": { mean: 14.0, std: 3.0, min: 3.0, max: 30.0 }
+        "risk_score=high": { mean: 22.0, std: 4.0, min: 6.0, max: 40.0 }
+      conditional_bin_probs:
+        "risk_score=low": { vlow: 0.33, low: 0.36, mid: 0.20, high: 0.08, vhigh: 0.02, extreme: 0.01 }
+        "risk_score=mid": { vlow: 0.08, low: 0.22, mid: 0.34, high: 0.24, vhigh: 0.09, extreme: 0.03 }
+        "risk_score=high": { vlow: 0.02, low: 0.09, mid: 0.21, high: 0.31, vhigh: 0.24, extreme: 0.13 }

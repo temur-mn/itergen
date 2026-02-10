@@ -1,0 +1,9 @@
+- `normal` (Gaussian): symmetric “bell curve” (measurement noise, heights-ish).
+- `lgnormal`: positive-only, right-skewed (income, file sizes, durations).
+- `exponential`: positive-only, many small values, few large (time between events in simple processes).
+- `gamma`: positive-only, flexible right-skew (lifetimes, waiting times, reliability).
+- `uniform`: flat across a range (random sampling, some synthetic features).
+- `beta`: bounded in [0,1] (rates, proportions, probabilities).
+- `student`: like normal but heavier tails (robust modeling).
+- `pareto`: very heavy tail (wealth, followers, city sizes).
+- `multimodal`: multiple peaks (e.g., heights of adults + children together).
