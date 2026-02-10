@@ -30,8 +30,31 @@ Run the packaged module entrypoint:
 python -m vorongen
 ```
 
-By default, if no filename is provided, generated data is written to
+With no arguments, the CLI prints guided next steps (notebook + sample script +
+explicit commands).
+
+To generate data directly from CLI:
+
+```bash
+python -m vorongen --list-samples
+python -m vorongen --sample mixed --rows 1200 --log-level quiet
+python -m vorongen --config path/to/config.yaml --rows 1200
+```
+
+If no explicit output filename is provided, generated data is written to
 `output/<timestamp>_vorongen.xlsx`.
+
+## Quickstart (Script + Notebook)
+
+Use the suggested script for a local smoke run:
+
+```bash
+python sample_run.py
+```
+
+Or run interactively in notebook:
+
+- `notebooks/testing_new_tools.ipynb`
 
 ## Quickstart (Programmatic)
 
@@ -69,3 +92,16 @@ including:
 
 - `notebooks/testing_new_tools.ipynb`
 - `notebooks/notes.ipynb`
+
+## Quality Checks
+
+```bash
+pip install -e .[dev]
+ruff check .
+ruff format --check .
+mypy src/vorongen
+PYTHONPATH=src python -m unittest discover -s tests -p "test*.py" -q
+coverage run -m unittest discover -s tests -p "test*.py"
+coverage report --fail-under=85
+python -m build
+```

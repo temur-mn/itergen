@@ -32,12 +32,13 @@ dependencies = [
 ]
 
 [project.scripts]
-vorongen = "vorongen.main:main"
+vorongen = "vorongen.cli:main"
 
 [project.optional-dependencies]
 torch = ["torch>=2.1"]
 dev = [
     "build>=1.2.2",
+    "coverage>=7.6",
     "twine>=5.1.1",
     "pytest>=7.4",
     "pytest-cov>=4.1",
@@ -82,3 +83,11 @@ explicit_package_bases = true
 mypy_path = "src"
 ignore_missing_imports = true
 files = ["src/vorongen"]
+
+[tool.coverage.run]
+branch = true
+source = ["vorongen"]
+
+[tool.coverage.report]
+fail_under = 85
+show_missing = true
