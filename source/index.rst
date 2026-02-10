@@ -1,17 +1,21 @@
-.. vorongen documentation master file, created by
-   sphinx-quickstart on Tue Feb 10 09:56:29 2026.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-vorongen documentation
+vorongen Documentation
 ======================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
-
+``vorongen`` is a synthetic tabular data generation package for dependency-driven
+workflows with binary, categorical, and continuous columns.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Getting Started
 
+   quickstart
+   configuration
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Reference
+
+   api
+   architecture
+   troubleshooting
+   changelog

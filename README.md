@@ -22,6 +22,22 @@ pip install -e .[docs]
 pip install -e .[torch]
 ```
 
+## Documentation
+
+Build the Sphinx docs locally:
+
+```bash
+python -m sphinx -W -b html source build/html
+```
+
+Main docs pages:
+
+- `source/quickstart.md`
+- `source/configuration.md`
+- `source/api.md`
+- `source/architecture.md`
+- `source/troubleshooting.md`
+
 ## Quickstart (CLI)
 
 Run the packaged module entrypoint:
@@ -92,6 +108,13 @@ including:
 
 - `notebooks/testing_new_tools.ipynb`
 - `notebooks/notes.ipynb`
+
+## Project standards
+
+- Contribution guide: `CONTRIBUTING.md`
+- Security policy: `SECURITY.md`
+- Code of conduct: `CODE_OF_CONDUCT.md`
+- Changelog: `CHANGELOG.md`
 
 ## Quality Checks
 

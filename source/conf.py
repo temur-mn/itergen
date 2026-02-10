@@ -1,28 +1,55 @@
-# Configuration file for the Sphinx documentation builder.
-#
-# For the full list of built-in configuration values, see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
+"""Sphinx configuration for vorongen documentation."""
 
-# -- Project information -----------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+from __future__ import annotations
 
-project = 'vorongen'
-copyright = '2026, Temurbek Mamanazarov'
-author = 'Temurbek Mamanazarov'
-release = '02-2026'
-
-# -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
-
-extensions = []
-
-templates_path = ['_templates']
-exclude_patterns = []
+from datetime import datetime
+from pathlib import Path
+import re
+import sys
 
 
+ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
 
-# -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+_pyproject_text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+_version_match = re.search(r'^version\s*=\s*"([^"]+)"', _pyproject_text, re.MULTILINE)
+_release = _version_match.group(1) if _version_match else "0.0.0"
 
-html_theme = 'alabaster'
-html_static_path = ['_static']
+project = "vorongen"
+author = "Vorongen Contributors"
+copyright = f"{datetime.now().year}, {author}"
+release = _release
+
+
+extensions = [
+    "myst_parser",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.viewcode",
+]
+
+templates_path = ["_templates"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+
+autosummary_generate = True
+autodoc_member_order = "bysource"
+autodoc_typehints = "description"
+
+napoleon_google_docstring = True
+napoleon_numpy_docstring = True
+
+myst_enable_extensions = ["colon_fence", "deflist"]
+
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
+    "pandas": ("https://pandas.pydata.org/docs/", None),
+}
+
+
+html_theme = "furo"
+html_static_path = []
