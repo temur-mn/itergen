@@ -6,12 +6,7 @@ from copy import deepcopy
 from typing import Any, Dict, List
 
 import yaml
-
-from ._bootstrap import ensure_vorongen_on_path
-
-ensure_vorongen_on_path()
-
-from vorongen import sample_configs
+from . import sample_configs
 
 
 _SAMPLE_MAP = {

@@ -10,22 +10,18 @@ from typing import Any, Dict, Iterator, Optional, Union
 
 import yaml
 
-from ._bootstrap import ensure_vorongen_on_path
+from . import defaults
 from .settings import RunConfig, SynthesisResult
 from .torch_controller import build_configured_controller_class, is_torch_available
-
-ensure_vorongen_on_path()
-
-from vorongen import defaults
-from vorongen.config import (
+from .config import (
     build_column_specs,
     check_feasibility,
     resolve_missing_columns,
     validate_config,
 )
-from vorongen.generation import generate_until_valid
-from vorongen.metrics import build_quality_report, default_equilibrium_rules
-import vorongen.optimizer as optimizer_module
+from .generation import generate_until_valid
+from .metrics import build_quality_report, default_equilibrium_rules
+from . import optimizer as optimizer_module
 
 
 ConfigSource = Union[Dict[str, Any], str, Path]
@@ -85,7 +81,7 @@ def _decode_categorical_values(df, column_specs):
     return out
 
 
-class VoronogeenSynthesizer:
+class VorongenSynthesizer:
     """Stateful generation pipeline with optional PyTorch adaptation."""
 
     def __init__(
@@ -141,7 +137,7 @@ class VoronogeenSynthesizer:
         controller_cls = build_configured_controller_class(torch_cfg)
         return _patched_penalty_controller(controller_cls)
 
-    def prepare(self) -> "VoronogeenSynthesizer":
+    def prepare(self) -> "VorongenSynthesizer":
         resolved = resolve_missing_columns(
             self.raw_config,
             mode=self.run_config.missing_columns_mode,
@@ -243,7 +239,7 @@ def generate(
     config_source: ConfigSource, run_config: Optional[RunConfig] = None
 ) -> SynthesisResult:
     """Functional API to run synthesis in one call."""
-    return VoronogeenSynthesizer(
+    return VorongenSynthesizer(
         config_source=config_source, run_config=run_config
     ).generate()
 
@@ -260,3 +256,7 @@ def compare_torch_vs_classic(
     classic = generate(config_source, classic_cfg)
     torch_result = generate(config_source, torch_cfg)
     return {"classic": classic, "torch": torch_result}
+
+
+# Backwards-compatible alias retained for older notebook text.
+VoronogeenSynthesizer = VorongenSynthesizer

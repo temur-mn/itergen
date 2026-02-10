@@ -1,4 +1,4 @@
-# voronogeen_package
+# vorongen
 
 Import-first package API for the `vorongen` synthetic data engine.
 
@@ -23,10 +23,10 @@ pip install -e .[torch]
 ```
 
 ```python
-from voronogeen_package import (
+from vorongen import (
     RunConfig,
     TorchControllerConfig,
-    VoronogeenSynthesizer,
+    VorongenSynthesizer,
     get_sample_config,
 )
 
@@ -38,7 +38,7 @@ run = RunConfig(
     torch_controller=TorchControllerConfig(lr=2e-3, hidden_dim=48),
 )
 
-engine = VoronogeenSynthesizer(config, run)
+engine = VorongenSynthesizer(config, run)
 result = engine.generate()
 
 print(result.success, result.objective())
@@ -48,4 +48,4 @@ print(result.dataframe.head())
 ## Notes
 
 - If `torch` is unavailable, the system falls back to the classic controller unless `RunConfig(torch_required=True)` is set.
-- Notebook example is available at `voronogeen_package/notebooks/state_of_art_workflow.ipynb`.
+- Notebook example is available at `src/vorongen/notebooks/state_of_art_workflow.ipynb`.
