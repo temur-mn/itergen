@@ -9,11 +9,17 @@ import pandas as pd
 
 @dataclass(frozen=True)
 class TorchControllerConfig:
-    """Configuration placeholder for optional torch-backed control."""
+    """Configuration for the torch-backed step-size controller."""
 
     lr: float = 2e-3
     hidden_dim: int = 48
     weight_decay: float = 0.0
+    min_mult: float = 0.025
+    max_mult: float = 0.075
+    trend_scale: float = 0.7
+    ema_alpha: float = 0.6
+    base_weight: float = 0.01
+    device: str = "cpu"
 
 
 @dataclass

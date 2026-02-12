@@ -1,7 +1,7 @@
 """High-level import-first runtime API for synthetic dataset generation."""
 
 import copy
-from dataclasses import replace
+from dataclasses import fields, is_dataclass, replace
 from datetime import datetime
 from importlib.util import find_spec
 from pathlib import Path
@@ -12,7 +12,7 @@ from .config import build_column_specs, resolve_missing_columns, validate_config
 from .generation import generate_until_valid
 from .logging_utils import setup_run_logger
 from .metrics import build_quality_report, default_equilibrium_rules
-from .models import GenerateResult, RunConfig
+from .models import GenerateResult, RunConfig, TorchControllerConfig
 from .sample_configs import load_config
 
 
@@ -54,6 +54,16 @@ def _normalize_choice(value: Any, allowed: set[str], fallback: str) -> str:
     if text in allowed:
         return text
     return fallback
+
+
+def _controller_config_payload(value: Any) -> Dict[str, Any]:
+    if value is None:
+        return {}
+    if is_dataclass(value) and not isinstance(value, type):
+        return {item.name: getattr(value, item.name) for item in fields(value)}
+    if isinstance(value, Mapping):
+        return {str(k): v for k, v in value.items()}
+    return {}
 
 
 def _timestamped_output_name() -> str:
@@ -155,14 +165,23 @@ class VorongenSynthesizer:
         runtime_notes = []
 
         torch_available = is_torch_available()
+        controller_backend = "classic"
         if self.run_config.use_torch_controller:
-            if self.run_config.torch_required and not torch_available:
+            if torch_available:
+                controller_backend = "torch"
+            elif self.run_config.torch_required:
                 raise RuntimeError(
                     "Torch controller was requested as required, but torch is not installed"
                 )
-            runtime_notes.append(
-                "Torch controller requested; current optimizer uses built-in penalty controller"
-            )
+            else:
+                runtime_notes.append(
+                    "Torch controller requested but torch is unavailable; falling back to classic controller"
+                )
+
+        controller_config = _controller_config_payload(self.run_config.torch_controller)
+        if controller_backend == "torch" and not controller_config:
+            controller_config = _controller_config_payload(TorchControllerConfig())
+        runtime_notes.append(f"Controller backend: {controller_backend}")
 
         missing_mode = _normalize_choice(
             self.run_config.missing_columns_mode
@@ -258,6 +277,8 @@ class VorongenSynthesizer:
             "weight_conditional": defaults.DEFAULT_WEIGHT_CONDITIONAL,
             "flip_mode": defaults.DEFAULT_FLIP_MODE,
             "proposal_scoring_mode": scoring_mode,
+            "controller_backend": controller_backend,
+            "controller_config": controller_config,
         }
         if advanced_enabled:
             for key in (

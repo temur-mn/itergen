@@ -24,6 +24,7 @@ from .metrics import (
 )
 from .nn_controller import PenaltyController
 from .rng import RNG
+from .torch_controller import TorchPenaltyController
 
 
 def optimize(
@@ -58,6 +59,8 @@ def optimize(
     continuous_edge_guard_frac=0.03,
     max_column_deviation_limit=None,
     proposal_scoring_mode="incremental",
+    controller_backend="classic",
+    controller_config=None,
     log_level="info",
     history=None,
     logger=None,
@@ -104,6 +107,57 @@ def optimize(
                     continue
                 reverse.setdefault(ref, set()).add(col_id)
         return reverse
+
+    def _controller_option(name, default):
+        if isinstance(controller_config, dict):
+            return controller_config.get(name, default)
+        if controller_config is not None and hasattr(controller_config, name):
+            return getattr(controller_config, name)
+        return default
+
+    def _build_controller(column_ids, backend, seed, tolerance):
+        selected_backend = str(backend or "classic").strip().lower()
+        if selected_backend not in ("classic", "torch"):
+            if logger is not None and log_level != "quiet":
+                logger.warning(
+                    f"[CONFIG WARN] controller_backend='{backend}' invalid; using classic"
+                )
+            selected_backend = "classic"
+
+        common_kwargs = {
+            "seed": seed,
+            "lr": _controller_option("lr", 0.001),
+            "min_mult": _controller_option("min_mult", 0.025),
+            "max_mult": _controller_option("max_mult", 0.075),
+            "tolerance": tolerance,
+            "trend_scale": _controller_option("trend_scale", 0.7),
+            "ema_alpha": _controller_option("ema_alpha", 0.6),
+            "base_weight": _controller_option("base_weight", 0.01),
+        }
+
+        if selected_backend == "torch":
+            try:
+                controller = TorchPenaltyController(
+                    column_ids,
+                    weight_decay=_controller_option("weight_decay", 0.0),
+                    hidden_dim=_controller_option("hidden_dim", 48),
+                    device=_controller_option("device", "cpu"),
+                    **common_kwargs,
+                )
+                return controller, selected_backend
+            except RuntimeError as exc:
+                if logger is not None and log_level != "quiet":
+                    logger.warning(
+                        f"[CONTROLLER] torch backend unavailable ({exc}); using classic"
+                    )
+                selected_backend = "classic"
+
+        controller = PenaltyController(
+            column_ids,
+            l2=_controller_option("weight_decay", 0.0),
+            **common_kwargs,
+        )
+        return controller, selected_backend
 
     def _expand_impacted_columns(reverse_deps, changed_columns):
         impacted = set(changed_columns)
@@ -190,11 +244,14 @@ def optimize(
     if target_column_pool_size is not None and target_column_pool_size <= 0:
         target_column_pool_size = None
 
-    controller = PenaltyController(
+    controller, active_backend = _build_controller(
         column_ids,
+        backend=controller_backend,
         seed=seed,
         tolerance=tolerance,
     )
+    if logger is not None and log_level != "quiet":
+        logger.info(f"[CONTROLLER] backend={active_backend}")
     errors = compute_column_errors(
         df, column_specs, min_group_size, small_group_mode=small_group_mode
     )

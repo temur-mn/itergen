@@ -31,6 +31,12 @@ Run generation from a YAML file:
 python -m vorongen --config path/to/config.yaml --rows 1200
 ```
 
+Validate config and feasibility only (no generation):
+
+```bash
+python -m vorongen --config path/to/config.yaml --validate-config
+```
+
 List sample configurations:
 
 ```bash
@@ -40,6 +46,12 @@ python -m vorongen --list-samples
 If no explicit filename is provided, output is written to:
 
 `output/<timestamp>_vorongen.xlsx`
+
+Default controller backend is classic. To opt into torch-backed control:
+
+```bash
+python -m vorongen --sample mixed --use-torch-controller --torch-device auto
+```
 
 ## Quick local smoke run
 

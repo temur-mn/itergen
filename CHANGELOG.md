@@ -14,11 +14,16 @@ Versioning principles.
 - Sphinx docs structure with quickstart, configuration, API, architecture, and
   troubleshooting pages.
 - CI docs gate and repository governance templates/policies.
+- Config-only CLI validation mode (`--validate-config`) with feasibility checks.
+- Torch controller tuning CLI flags (`--torch-lr`, `--torch-hidden-dim`,
+  `--torch-weight-decay`, `--torch-device`).
 
 ### Changed
 
 - Module and console entrypoints now route through `vorongen.cli`.
 - Documentation build setup upgraded to modern Sphinx extensions and theme.
+- Torch-requested runs now use a real torch-backed controller backend when
+  available, with classic fallback when optional.
 
 ## [0.1.0] - 2026-02-10
 

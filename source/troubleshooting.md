@@ -36,6 +36,21 @@ If validation fails with missing parent/column references:
 - run with `missing_columns_mode=error` for deterministic failure
 - start from a built-in sample and incrementally adapt
 
+You can validate config and feasibility without generating data:
+
+`python -m vorongen --config path/to/config.yaml --validate-config`
+
+## Torch controller requested but torch unavailable
+
+If `--use-torch-controller` is set and torch is not installed:
+
+- with `--torch-required`, the run fails fast
+- without `--torch-required`, vorongen falls back to classic controller
+
+Install torch extras when you want strict torch-backed runs:
+
+`pip install -e .[torch]`
+
 ## Slow convergence
 
 - reduce row count during tuning iterations

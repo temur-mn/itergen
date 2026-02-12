@@ -122,6 +122,90 @@ class CliTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn("[ERROR]", err.getvalue())
 
+    def test_validate_config_mode_reports_ok_without_generation(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            config_path = Path(temp_dir) / "config.yaml"
+            config_path.write_text(
+                "\n".join(
+                    [
+                        "metadata: {}",
+                        "columns:",
+                        '  - column_id: "x"',
+                        "    values: { true_value: 1, false_value: 0 }",
+                        "    distribution:",
+                        '      type: "bernoulli"',
+                        "      probabilities: { true_prob: 0.5, false_prob: 0.5 }",
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            out = io.StringIO()
+            with patch("vorongen.cli.VorongenSynthesizer") as synth_cls:
+                with redirect_stdout(out):
+                    code = cli.main(
+                        [
+                            "--config",
+                            str(config_path),
+                            "--validate-config",
+                            "--rows",
+                            "100",
+                        ]
+                    )
+
+        self.assertEqual(code, 0)
+        self.assertIn("[VALIDATION]", out.getvalue())
+        self.assertIn("status=OK", out.getvalue())
+        synth_cls.assert_not_called()
+
+    def test_validate_config_mode_returns_error_for_invalid_config(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            config_path = Path(temp_dir) / "invalid.yaml"
+            config_path.write_text("metadata: {}\n", encoding="utf-8")
+
+            err = io.StringIO()
+            with redirect_stderr(err):
+                code = cli.main(["--config", str(config_path), "--validate-config"])
+
+        self.assertEqual(code, 1)
+        self.assertIn("[ERROR]", err.getvalue())
+
+    def test_torch_controller_options_build_run_config(self):
+        with patch(
+            "vorongen.cli.get_sample_config",
+            return_value={"metadata": {}, "columns": []},
+        ):
+            with patch("vorongen.cli.VorongenSynthesizer") as synth_cls:
+                synth_cls.return_value.generate.return_value = _fake_result()
+                with redirect_stdout(io.StringIO()):
+                    code = cli.main(
+                        [
+                            "--sample",
+                            "mixed",
+                            "--use-torch-controller",
+                            "--torch-lr",
+                            "0.003",
+                            "--torch-hidden-dim",
+                            "64",
+                            "--torch-weight-decay",
+                            "0.01",
+                            "--torch-device",
+                            "auto",
+                        ]
+                    )
+
+        self.assertEqual(code, 0)
+        _config, run_cfg = synth_cls.call_args.args
+        self.assertTrue(run_cfg.use_torch_controller)
+        self.assertIsNotNone(run_cfg.torch_controller)
+        if run_cfg.torch_controller is None:
+            self.fail("Expected torch controller config")
+        self.assertAlmostEqual(run_cfg.torch_controller.lr, 0.003)
+        self.assertEqual(run_cfg.torch_controller.hidden_dim, 64)
+        self.assertAlmostEqual(run_cfg.torch_controller.weight_decay, 0.01)
+        self.assertEqual(run_cfg.torch_controller.device, "auto")
+
 
 if __name__ == "__main__":
     unittest.main()

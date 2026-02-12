@@ -76,6 +76,42 @@ class PublicApiTests(unittest.TestCase):
             self.assertEqual(result.output_path, explicit_path)
             self.assertTrue(result.output_path.exists())
 
+    def test_torch_requested_without_torch_falls_back_when_optional(self):
+        config = get_sample_config("binary")
+        run_cfg = RunConfig(
+            n_rows=40,
+            seed=11,
+            tolerance=0.1,
+            max_attempts=1,
+            log_level="quiet",
+            use_torch_controller=True,
+            torch_required=False,
+        )
+
+        with patch("vorongen.synthesizer.is_torch_available", return_value=False):
+            with patch("pandas.DataFrame.to_excel", new=self._fake_to_excel):
+                result = VorongenSynthesizer(config, run_cfg).generate()
+
+        notes = "\n".join(result.runtime_notes)
+        self.assertIn("falling back to classic controller", notes)
+        self.assertIn("Controller backend: classic", notes)
+
+    def test_torch_required_without_torch_raises(self):
+        config = get_sample_config("binary")
+        run_cfg = RunConfig(
+            n_rows=40,
+            seed=19,
+            tolerance=0.1,
+            max_attempts=1,
+            log_level="quiet",
+            use_torch_controller=True,
+            torch_required=True,
+        )
+
+        with patch("vorongen.synthesizer.is_torch_available", return_value=False):
+            with self.assertRaises(RuntimeError):
+                VorongenSynthesizer(config, run_cfg).generate()
+
 
 if __name__ == "__main__":
     unittest.main()

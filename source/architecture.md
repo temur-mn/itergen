@@ -17,6 +17,7 @@
 - `vorongen.optimizer`: iterative proposal/acceptance process.
 - `vorongen.metrics`: objective, equilibrium, and diagnostics.
 - `vorongen.config`: schema validation and spec construction.
+- Controller backend can be classic (default) or torch-backed when requested.
 
 ## Design notes
 

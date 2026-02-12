@@ -30,8 +30,16 @@ Runtime settings can come from config metadata and/or `RunConfig`:
 - `missing_columns_mode`
 - `proposal_scoring_mode`
 - `small_group_mode`
+- `use_torch_controller`
+- `torch_required`
+- `torch_controller`
 
 CLI flags map to the same runtime controls.
+
+Use CLI validation mode to check config parse, schema, and feasibility without
+running generation:
+
+`python -m vorongen --config path/to/config.yaml --validate-config`
 
 ## Missing dependencies behavior
 

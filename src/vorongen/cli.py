@@ -8,7 +8,13 @@ from pathlib import Path
 from typing import Optional, Sequence
 
 from . import __version__
-from .models import RunConfig
+from .config import (
+    build_column_specs,
+    check_feasibility,
+    resolve_missing_columns,
+    validate_config,
+)
+from .models import RunConfig, TorchControllerConfig
 from .sample_configs import available_sample_configs, get_sample_config, load_config
 from .synthesizer import VorongenSynthesizer
 
@@ -81,6 +87,27 @@ def _build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Print package version and exit",
     )
+    parser.add_argument(
+        "--validate-config",
+        action="store_true",
+        help="Validate config and feasibility only (no generation)",
+    )
+    parser.add_argument("--torch-lr", type=float, help="Torch controller learning rate")
+    parser.add_argument(
+        "--torch-hidden-dim",
+        type=int,
+        help="Torch controller hidden layer size",
+    )
+    parser.add_argument(
+        "--torch-weight-decay",
+        type=float,
+        help="Torch controller weight decay",
+    )
+    parser.add_argument(
+        "--torch-device",
+        type=str,
+        help="Torch controller device (cpu/cuda/auto)",
+    )
     return parser
 
 
@@ -109,6 +136,18 @@ def _load_runtime_config(args: argparse.Namespace):
 
 
 def _build_run_config(args: argparse.Namespace) -> RunConfig:
+    torch_cfg_kwargs = {}
+    if args.torch_lr is not None:
+        torch_cfg_kwargs["lr"] = args.torch_lr
+    if args.torch_hidden_dim is not None:
+        torch_cfg_kwargs["hidden_dim"] = args.torch_hidden_dim
+    if args.torch_weight_decay is not None:
+        torch_cfg_kwargs["weight_decay"] = args.torch_weight_decay
+    if args.torch_device is not None:
+        torch_cfg_kwargs["device"] = args.torch_device
+
+    torch_cfg = TorchControllerConfig(**torch_cfg_kwargs) if torch_cfg_kwargs else None
+
     return RunConfig(
         n_rows=args.rows,
         seed=args.seed,
@@ -123,7 +162,57 @@ def _build_run_config(args: argparse.Namespace) -> RunConfig:
         collect_history=bool(args.collect_history),
         use_torch_controller=bool(args.use_torch_controller),
         torch_required=bool(args.torch_required),
+        torch_controller=torch_cfg,
     )
+
+
+def _column_kind_counts(config: dict) -> dict[str, int]:
+    counts = {"binary": 0, "categorical": 0, "continuous": 0, "other": 0}
+    for col in config.get("columns", []):
+        dist = col.get("distribution", {})
+        dist_type = str(dist.get("type", "")).strip().lower()
+        if dist_type in ("bernoulli", "conditional"):
+            counts["binary"] += 1
+        elif dist_type == "categorical":
+            counts["categorical"] += 1
+        elif dist_type == "continuous":
+            counts["continuous"] += 1
+        else:
+            counts["other"] += 1
+    return counts
+
+
+def _validate_only(config: dict, run_cfg: RunConfig) -> int:
+    metadata = config.get("metadata", {}) if isinstance(config, dict) else {}
+    if not isinstance(metadata, dict):
+        metadata = {}
+
+    missing_mode = run_cfg.missing_columns_mode or metadata.get("missing_columns_mode")
+    if missing_mode is None:
+        missing_mode = "error"
+    resolved = resolve_missing_columns(config, mode=str(missing_mode))
+    warnings = validate_config(resolved)
+    specs = build_column_specs(resolved)
+
+    n_rows = run_cfg.n_rows if run_cfg.n_rows is not None else metadata.get("n_rows")
+    feas_warnings, feas_errors = check_feasibility(resolved, specs, n_rows=n_rows)
+
+    all_warnings = [*warnings, *feas_warnings]
+    counts = _column_kind_counts(resolved)
+    status = "OK" if not feas_errors else "ERROR"
+    print(
+        f"[VALIDATION] status={status} columns={len(resolved.get('columns', []))} "
+        f"binary={counts['binary']} categorical={counts['categorical']} "
+        f"continuous={counts['continuous']} warnings={len(all_warnings)} "
+        f"errors={len(feas_errors)}"
+    )
+
+    for warning in all_warnings:
+        print(f"[WARN] {warning}")
+    for error in feas_errors:
+        print(f"[ERROR] {error}", file=sys.stderr)
+
+    return 0 if not feas_errors else 1
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
@@ -157,6 +246,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     try:
         config = _load_runtime_config(args)
         run_cfg = _build_run_config(args)
+        if args.validate_config:
+            return _validate_only(config, run_cfg)
         result = VorongenSynthesizer(config, run_cfg).generate()
     except Exception as exc:
         print(f"[ERROR] {exc}", file=sys.stderr)

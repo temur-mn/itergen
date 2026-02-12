@@ -55,6 +55,14 @@ To generate data directly from CLI:
 python -m vorongen --list-samples
 python -m vorongen --sample mixed --rows 1200 --log-level quiet
 python -m vorongen --config path/to/config.yaml --rows 1200
+python -m vorongen --config path/to/config.yaml --validate-config
+```
+
+Default controller backend is classic (no torch dependency required).
+Use torch-backed controller when available:
+
+```bash
+python -m vorongen --sample mixed --use-torch-controller --torch-device auto
 ```
 
 If no explicit output filename is provided, generated data is written to
