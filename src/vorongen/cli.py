@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import argparse
 import sys
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Optional, Sequence
 
 from . import __version__
 from .config import (
@@ -215,7 +215,7 @@ def _validate_only(config: dict, run_cfg: RunConfig) -> int:
     return 0 if not feas_errors else 1
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     args_list = list(argv) if argv is not None else sys.argv[1:]
     if not args_list:
         _print_guidance()

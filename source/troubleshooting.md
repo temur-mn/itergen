@@ -9,7 +9,7 @@ If you see:
 Install dependencies:
 
 ```bash
-pip install -e .
+pip install vorongen
 ```
 
 or
@@ -28,17 +28,19 @@ python -m vorongen --config path/to/config.yaml --rows 1000
 python sample_run.py
 ```
 
+## Validate config before generation
+
+Use validate-only mode to surface schema or feasibility issues early:
+
+`python -m vorongen --config path/to/config.yaml --validate-config`
+
 ## Config dependency errors
 
 If validation fails with missing parent/column references:
 
 - verify `depend_on` values match existing `column_id`s
-- run with `missing_columns_mode=error` for deterministic failure
+- run with `--missing-columns-mode error` for deterministic failure
 - start from a built-in sample and incrementally adapt
-
-You can validate config and feasibility without generating data:
-
-`python -m vorongen --config path/to/config.yaml --validate-config`
 
 ## Torch controller requested but torch unavailable
 
@@ -50,6 +52,16 @@ If `--use-torch-controller` is set and torch is not installed:
 Install torch extras when you want strict torch-backed runs:
 
 `pip install -e .[torch]`
+
+## Docs build fails
+
+Install docs extras first:
+
+`pip install -e .[docs]`
+
+Then run:
+
+`python -m sphinx -W -b html source build/html`
 
 ## Slow convergence
 

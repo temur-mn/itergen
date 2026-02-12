@@ -33,7 +33,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/temurmamanazarov/vorongen"
-Documentation = "https://github.com/temurmamanazarov/vorongen/tree/main/source"
+Documentation = "https://github.com/temurmamanazarov/vorongen/blob/main/source/index.rst"
 Source = "https://github.com/temurmamanazarov/vorongen"
 Issues = "https://github.com/temurmamanazarov/vorongen/issues"
 Changelog = "https://github.com/temurmamanazarov/vorongen/blob/main/CHANGELOG.md"
@@ -51,6 +51,7 @@ dev = [
     "pytest-cov>=4.1",
     "ruff>=0.6.4",
     "mypy>=1.11",
+    "types-PyYAML>=6.0.12.20240917",
     "jupyter>=1.0",
 ]
 docs = [
@@ -75,19 +76,25 @@ pythonpath = ["src"]
 [tool.ruff]
 line-length = 88
 target-version = "py39"
-extend-exclude = ["build", "dist"]
+extend-exclude = ["build", "dist", "source/_autosummary"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "N", "W"]
 
+[tool.ruff.lint.per-file-ignores]
+"src/vorongen/config.py" = ["E501"]
+"src/vorongen/sample_configs.py" = ["E501"]
+"src/vorongen/benchmarks/*.py" = ["E501"]
+
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.11"
 warn_unused_configs = true
 pretty = true
 namespace_packages = true
 explicit_package_bases = true
 mypy_path = "src"
 ignore_missing_imports = true
+disable_error_code = ["import-untyped"]
 files = ["src/vorongen"]
 
 [tool.coverage.run]

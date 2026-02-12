@@ -23,7 +23,10 @@ coverage run -m unittest discover -s tests -p "test*.py"
 coverage report --fail-under=85
 python -m sphinx -W -b html source build/html
 python -m build
+python -m twine check dist/*
 ```
+
+Release process is documented in `source/release.md`.
 
 ## Branch and PR guidelines
 

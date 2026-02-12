@@ -3,7 +3,7 @@ Sample YAML configurations stored as strings.
 """
 
 import copy
-from typing import Any, Dict, List
+from typing import Any
 
 import yaml
 
@@ -586,13 +586,13 @@ _SAMPLE_CONFIGS = {
 }
 
 
-def available_sample_configs() -> List[str]:
+def available_sample_configs() -> list[str]:
     """Return sorted names for all built-in sample configurations."""
 
     return sorted(_SAMPLE_CONFIGS.keys())
 
 
-def load_config(config: Any) -> Dict[str, Any]:
+def load_config(config: Any) -> dict[str, Any]:
     """Parse and normalize a config from YAML text or dict input."""
 
     if isinstance(config, dict):
@@ -609,7 +609,7 @@ def load_config(config: Any) -> Dict[str, Any]:
     raise TypeError("Config must be a dict or YAML string")
 
 
-def get_sample_config(name: str) -> Dict[str, Any]:
+def get_sample_config(name: str) -> dict[str, Any]:
     """Load one of the built-in sample configurations by name."""
 
     key = str(name).strip().lower()

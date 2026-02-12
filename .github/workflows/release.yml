@@ -27,6 +27,9 @@ jobs:
       - name: Build distributions
         run: python -m build
 
+      - name: Validate distribution metadata
+        run: python -m twine check dist/*
+
       - name: Upload dist artifacts
         uses: actions/upload-artifact@v4
         with:

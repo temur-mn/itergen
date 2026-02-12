@@ -16,7 +16,6 @@ from .conditions import (
     sample_near_bin_value,
 )
 
-
 _VECTOR_ASSIGN_THRESHOLD = 64
 
 

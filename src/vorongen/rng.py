@@ -9,7 +9,8 @@ import numpy as np
 
 # Seed namespace convention:
 # - Use one base seed for the entire generation run.
-# - Derive per-feature streams with RNG.derive_seed(seed, "<namespace>", column_id, ...).
+# - Derive per-feature streams with
+#   RNG.derive_seed(seed, "<namespace>", column_id, ...).
 # - Reserved namespaces: init, marginal, conditional.
 class RNG:
     def __init__(self, seed=42):

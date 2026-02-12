@@ -16,6 +16,13 @@ Each config typically includes:
 - `columns`: column definitions with distributions and dependencies
 - `advanced` (optional): optimizer tuning overrides
 
+## Distribution types
+
+- `bernoulli`: independent binary column (`true_prob`, `false_prob`)
+- `conditional`: binary column conditional on parent columns
+- `categorical`: finite-category column with marginal/conditional probabilities
+- `continuous`: continuous column with targets and optional conditional targets
+
 ## Runtime overrides
 
 Runtime settings can come from config metadata and/or `RunConfig`:
@@ -34,12 +41,15 @@ Runtime settings can come from config metadata and/or `RunConfig`:
 - `torch_required`
 - `torch_controller`
 
-CLI flags map to the same runtime controls.
+CLI flags map to the same runtime controls, and CLI flags take precedence over
+config metadata.
 
 Use CLI validation mode to check config parse, schema, and feasibility without
 running generation:
 
 `python -m vorongen --config path/to/config.yaml --validate-config`
+
+Validation mode is the recommended first step before long runs and CI jobs.
 
 ## Missing dependencies behavior
 
@@ -50,6 +60,13 @@ running generation:
 - `prompt`: interactive guidance path
 
 For non-interactive environments (CI/scripts), prefer `error`.
+
+## Controller backend behavior
+
+- default backend is `classic`
+- set `--use-torch-controller` to request `torch`
+- set `--torch-required` to fail fast if torch is unavailable
+- when torch is optional and unavailable, the runtime falls back to classic
 
 ## Output behavior
 

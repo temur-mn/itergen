@@ -18,4 +18,10 @@ workflows with binary, categorical, and continuous columns.
    api
    architecture
    troubleshooting
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Operations
+
+   release
    changelog

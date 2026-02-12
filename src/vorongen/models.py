@@ -1,8 +1,10 @@
 """Public runtime models for the import-first API."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import pandas as pd
 
@@ -26,22 +28,22 @@ class TorchControllerConfig:
 class RunConfig:
     """Top-level runtime options for synthetic generation."""
 
-    n_rows: Optional[int] = None
-    seed: Optional[int] = None
-    tolerance: Optional[float] = None
-    max_attempts: Optional[int] = None
-    log_level: Optional[str] = None
-    output_path: Optional[str] = None
-    attempt_workers: Optional[int] = None
-    proposal_scoring_mode: Optional[str] = None
-    missing_columns_mode: Optional[str] = None
-    small_group_mode: Optional[str] = None
+    n_rows: int | None = None
+    seed: int | None = None
+    tolerance: float | None = None
+    max_attempts: int | None = None
+    log_level: str | None = None
+    output_path: str | None = None
+    attempt_workers: int | None = None
+    proposal_scoring_mode: str | None = None
+    missing_columns_mode: str | None = None
+    small_group_mode: str | None = None
     collect_history: bool = False
-    optimize_overrides: Dict[str, Any] = field(default_factory=dict)
-    rules_overrides: Dict[str, Any] = field(default_factory=dict)
+    optimize_overrides: dict[str, Any] = field(default_factory=dict)
+    rules_overrides: dict[str, Any] = field(default_factory=dict)
     use_torch_controller: bool = False
     torch_required: bool = False
-    torch_controller: Optional[TorchControllerConfig] = None
+    torch_controller: TorchControllerConfig | None = None
 
 
 @dataclass
@@ -49,15 +51,15 @@ class GenerateResult:
     """Result payload returned by high-level generation APIs."""
 
     dataframe: pd.DataFrame
-    metrics: Dict[str, Any]
-    quality_report: Dict[str, Any]
+    metrics: dict[str, Any]
+    quality_report: dict[str, Any]
     success: bool
     attempts: int
     output_path: Path
     log_path: Path
-    runtime_notes: List[str] = field(default_factory=list)
-    history: Optional[List[Dict[str, Any]]] = None
-    initial_dataframe: Optional[pd.DataFrame] = None
+    runtime_notes: list[str] = field(default_factory=list)
+    history: list[dict[str, Any]] | None = None
+    initial_dataframe: pd.DataFrame | None = None
 
     def objective(self) -> float:
         """Return the objective score from the final metrics payload."""

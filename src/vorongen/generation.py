@@ -2,8 +2,10 @@
 Generation loop that retries until equilibrium rules are satisfied.
 """
 
+from __future__ import annotations
+
 from concurrent.futures import ProcessPoolExecutor, as_completed
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import pandas as pd
 
@@ -106,13 +108,13 @@ def generate_until_valid(
     collect_history=False,
     logger=None,
     attempt_workers=1,
-) -> Tuple[
-    Optional[pd.DataFrame],
-    Optional[Dict[str, Any]],
+) -> tuple[
+    pd.DataFrame | None,
+    dict[str, Any] | None,
     bool,
     int,
-    Optional[List[Dict[str, Any]]],
-    Optional[pd.DataFrame],
+    list[dict[str, Any]] | None,
+    pd.DataFrame | None,
 ]:
     if optimize_kwargs is None:
         optimize_kwargs = {}
@@ -163,7 +165,8 @@ def generate_until_valid(
 
         if logger is not None and log_level != "quiet":
             logger.info(
-                f"[ATTEMPT MODE] parallel workers={worker_count} total_attempts={total_attempts}"
+                "[ATTEMPT MODE] "
+                f"parallel workers={worker_count} total_attempts={total_attempts}"
             )
 
         try:
@@ -250,7 +253,8 @@ def generate_until_valid(
         except Exception as exc:
             if logger is not None and log_level != "quiet":
                 logger.warning(
-                    f"[ATTEMPT MODE] parallel execution failed ({exc}); falling back to sequential"
+                    "[ATTEMPT MODE] "
+                    f"parallel execution failed ({exc}); falling back to sequential"
                 )
 
     attempt = 0
@@ -275,7 +279,7 @@ def generate_until_valid(
                 logger=logger,
             )
 
-        history = [] if collect_history else None
+        history: list[dict[str, Any]] | None = [] if collect_history else None
 
         df = optimize(
             df,

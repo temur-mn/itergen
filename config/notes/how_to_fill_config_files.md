@@ -1,2 +1,0 @@
-### The configurations files
-Configuration files represent the key feature of this proejct therefore for proper functionality and reliable results we recommend to familirise yourself with the intructions below

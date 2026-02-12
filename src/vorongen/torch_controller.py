@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Mapping
+from collections.abc import Iterable, Mapping
 
 
 def _load_torch():

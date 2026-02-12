@@ -1,11 +1,14 @@
 """High-level import-first runtime API for synthetic dataset generation."""
 
+from __future__ import annotations
+
 import copy
+from collections.abc import Mapping
 from dataclasses import fields, is_dataclass, replace
 from datetime import datetime
 from importlib.util import find_spec
 from pathlib import Path
-from typing import Any, Dict, Mapping, Optional
+from typing import Any
 
 from . import defaults
 from .config import build_column_specs, resolve_missing_columns, validate_config
@@ -14,7 +17,6 @@ from .logging_utils import setup_run_logger
 from .metrics import build_quality_report, default_equilibrium_rules
 from .models import GenerateResult, RunConfig, TorchControllerConfig
 from .sample_configs import load_config
-
 
 _VALID_LOG_LEVELS = {"info", "quiet"}
 _VALID_MISSING_MODES = {"prompt", "skip", "error"}
@@ -27,7 +29,7 @@ def is_torch_available() -> bool:
     return find_spec("torch") is not None
 
 
-def _coerce_int(value: Any, fallback: int, minimum: Optional[int] = None) -> int:
+def _coerce_int(value: Any, fallback: int, minimum: int | None = None) -> int:
     try:
         parsed = int(value)
     except (TypeError, ValueError):
@@ -37,9 +39,7 @@ def _coerce_int(value: Any, fallback: int, minimum: Optional[int] = None) -> int
     return parsed
 
 
-def _coerce_float(
-    value: Any, fallback: float, minimum: Optional[float] = None
-) -> float:
+def _coerce_float(value: Any, fallback: float, minimum: float | None = None) -> float:
     try:
         parsed = float(value)
     except (TypeError, ValueError):
@@ -56,7 +56,7 @@ def _normalize_choice(value: Any, allowed: set[str], fallback: str) -> str:
     return fallback
 
 
-def _controller_config_payload(value: Any) -> Dict[str, Any]:
+def _controller_config_payload(value: Any) -> dict[str, Any]:
     if value is None:
         return {}
     if is_dataclass(value) and not isinstance(value, type):
@@ -71,7 +71,7 @@ def _timestamped_output_name() -> str:
     return f"{stamp}_vorongen.xlsx"
 
 
-def _resolve_output_path(output_path: Optional[str]) -> Path:
+def _resolve_output_path(output_path: str | None) -> Path:
     raw = output_path if output_path is not None else defaults.DEFAULT_OUTPUT_PATH
     text = str(raw).strip()
     if not text:
@@ -90,7 +90,7 @@ def _resolve_output_path(output_path: Optional[str]) -> Path:
 
 
 def _apply_numeric_rule_override(
-    rules: Dict[str, float], target_key: str, label: str, value: Any, logger
+    rules: dict[str, float], target_key: str, label: str, value: Any, logger
 ) -> None:
     if value is None:
         return
@@ -102,7 +102,7 @@ def _apply_numeric_rule_override(
 
 def _build_equilibrium_rules(
     metadata: Mapping[str, Any], tolerance: float, overrides: Mapping[str, Any], logger
-) -> Dict[str, float]:
+) -> dict[str, float]:
     rules = default_equilibrium_rules(tolerance)
     known_keys = (
         "objective_max",
@@ -151,7 +151,7 @@ def _decode_output_dataframe(df, column_specs):
 class VorongenSynthesizer:
     """High-level facade for running config-driven synthetic generation."""
 
-    def __init__(self, config: Any, run_config: Optional[RunConfig] = None):
+    def __init__(self, config: Any, run_config: RunConfig | None = None):
         self._config = load_config(config)
         self.run_config = run_config or RunConfig()
 
@@ -171,11 +171,13 @@ class VorongenSynthesizer:
                 controller_backend = "torch"
             elif self.run_config.torch_required:
                 raise RuntimeError(
-                    "Torch controller was requested as required, but torch is not installed"
+                    "Torch controller was requested as required, "
+                    "but torch is not installed"
                 )
             else:
                 runtime_notes.append(
-                    "Torch controller requested but torch is unavailable; falling back to classic controller"
+                    "Torch controller requested but torch is unavailable; "
+                    "falling back to classic controller"
                 )
 
         controller_config = _controller_config_payload(self.run_config.torch_controller)
@@ -318,7 +320,8 @@ class VorongenSynthesizer:
         except ModuleNotFoundError as exc:
             if getattr(exc, "name", "") == "openpyxl":
                 raise RuntimeError(
-                    "Saving Excel output requires openpyxl. Install with `pip install openpyxl`."
+                    "Saving Excel output requires openpyxl. "
+                    "Install with `pip install openpyxl`."
                 ) from exc
             raise
 
@@ -359,15 +362,15 @@ class VorongenSynthesizer:
         )
 
 
-def generate(config: Any, run_config: Optional[RunConfig] = None) -> GenerateResult:
+def generate(config: Any, run_config: RunConfig | None = None) -> GenerateResult:
     """Convenience function for one-off generation calls."""
 
     return VorongenSynthesizer(config, run_config=run_config).generate()
 
 
 def compare_torch_vs_classic(
-    config: Any, run_config: Optional[RunConfig] = None
-) -> Dict[str, GenerateResult]:
+    config: Any, run_config: RunConfig | None = None
+) -> dict[str, GenerateResult]:
     """Run classic and torch-requested flows for quick side-by-side comparison."""
 
     base_cfg = run_config or RunConfig()

@@ -117,3 +117,6 @@ jobs:
 
       - name: Build package
         run: python -m build
+
+      - name: Validate package metadata
+        run: python -m twine check dist/*

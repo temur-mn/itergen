@@ -9,6 +9,8 @@ Project release notes are tracked in `CHANGELOG.md` at the repository root.
 - Governance and repository maintenance policies/templates.
 - Config-only validation mode in CLI (`--validate-config`).
 - Torch backend now executes a real torch controller path when requested.
+- Unified release checklist for GitHub and PyPI publishing.
+- Draw.io architecture diagram for the runtime pipeline.
 
 ## 0.1.0 (2026-02-10)
 

@@ -3,6 +3,7 @@ import unittest
 import pandas as pd
 
 from vorongen import defaults
+from vorongen.adjustments import build_random_flips
 from vorongen.config import (
     _collect_references,
     build_column_specs,
@@ -10,7 +11,6 @@ from vorongen.config import (
     resolve_missing_columns,
     validate_config,
 )
-from vorongen.adjustments import build_random_flips
 from vorongen.generation import generate_until_valid
 from vorongen.metrics import (
     apply_equilibrium_patch,

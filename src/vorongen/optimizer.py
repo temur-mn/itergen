@@ -120,7 +120,8 @@ def optimize(
         if selected_backend not in ("classic", "torch"):
             if logger is not None and log_level != "quiet":
                 logger.warning(
-                    f"[CONFIG WARN] controller_backend='{backend}' invalid; using classic"
+                    "[CONFIG WARN] "
+                    f"controller_backend='{backend}' invalid; using classic"
                 )
             selected_backend = "classic"
 
@@ -220,7 +221,9 @@ def optimize(
     if scoring_mode not in ("incremental", "full"):
         if logger is not None and log_level != "quiet":
             logger.warning(
-                f"[CONFIG WARN] proposal_scoring_mode='{proposal_scoring_mode}' invalid; using incremental"
+                "[CONFIG WARN] "
+                "proposal_scoring_mode="
+                f"'{proposal_scoring_mode}' invalid; using incremental"
             )
         scoring_mode = "incremental"
 
@@ -513,11 +516,13 @@ def optimize(
             if logger is not None and log_level != "quiet":
                 logger.info(
                     f"[BATCH] iteration={it} batch={batch_id} "
-                    f"temperature={temperature:.4f} accepted={accepted}/{proposals_per_batch}"
+                    "temperature="
+                    f"{temperature:.4f} accepted={accepted}/{proposals_per_batch}"
                 )
                 if best_flips:
                     logger.info(
-                        f"[BEST] iteration={it} batch={batch_id} proposal={best_proposal_id} "
+                        f"[BEST] iteration={it} batch={batch_id} "
+                        f"proposal={best_proposal_id} "
                         f"guided={best_guided} flips={best_flip_count} "
                         f"objective_delta={best_delta:.6f}"
                     )

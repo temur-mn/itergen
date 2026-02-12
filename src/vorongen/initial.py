@@ -5,15 +5,15 @@ Initial binary data generation.
 import numpy as np
 import pandas as pd
 
-from .config import build_column_specs, order_columns_by_dependency
 from .conditions import (
     blend_continuous_bin_probs,
     blend_continuous_targets,
     build_condition_mask_from_data,
-    fallback_continuous_bin_probs,
     continuous_interval_for_label,
+    fallback_continuous_bin_probs,
     normalize_continuous_targets,
 )
+from .config import build_column_specs, order_columns_by_dependency
 from .rng import RNG
 
 
@@ -188,7 +188,6 @@ def generate_initial(n_rows, config, seed=42, column_specs=None):
         categories = spec.get("categories", [])
         if not categories:
             continue
-        depend_on = spec.get("depend_on", [])
         bias_weight = spec.get("bias_weight", 1.0)
         conditional_mode = spec.get("conditional_mode", "soft")
         # Binary init uses the "init" namespace; add new types with distinct namespaces.

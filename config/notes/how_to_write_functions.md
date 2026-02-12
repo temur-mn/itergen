@@ -1,1 +1,0 @@
-The issue which was found in the process of devoloping the configs is how we can manage the functions and complex relationships
