@@ -1,7 +1,5 @@
-import importlib
 import tempfile
 import unittest
-import warnings
 from pathlib import Path
 from unittest.mock import patch
 
@@ -113,21 +111,6 @@ class PublicApiTests(unittest.TestCase):
         with patch("vorongen.api.synthesizer.is_torch_available", return_value=False):
             with self.assertRaises(RuntimeError):
                 VorongenSynthesizer(config, run_cfg).generate()
-
-    def test_legacy_flat_import_emits_deprecation_warning(self):
-        with warnings.catch_warnings(record=True) as caught:
-            warnings.simplefilter("always", DeprecationWarning)
-            module = importlib.import_module("vorongen.config")
-            importlib.reload(module)
-
-        self.assertTrue(
-            any("vorongen.config" in str(item.message) for item in caught),
-            "Expected a deprecation warning for vorongen.config",
-        )
-        self.assertTrue(
-            any("vorongen.schema.config" in str(item.message) for item in caught),
-            "Expected replacement path in deprecation warning",
-        )
 
 
 if __name__ == "__main__":

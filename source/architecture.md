@@ -22,7 +22,9 @@
 - `vorongen.scoring`: condition matching (`conditions`) and equilibrium/objective reporting (`metrics`).
 - `vorongen.controllers`: classic controller (`classic`) and torch-backed controller (`torch`).
 - `vorongen.runtime`: deterministic RNG helpers (`rng`) and run logging (`logging_utils`).
-- Legacy flat-module imports (for example `vorongen.cli`, `vorongen.config`) remain as compatibility wrappers, but now emit `DeprecationWarning` and should be migrated.
+- Legacy flat-module imports (for example `vorongen.cli`, `vorongen.config`) have
+  been removed; import from canonical packages such as `vorongen.api` and
+  `vorongen.schema`.
 
 ## Controller backends
 

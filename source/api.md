@@ -35,5 +35,5 @@ The package root re-exports the most common runtime entry points:
 ```
 
 Legacy flat-module imports (for example `vorongen.models` and
-`vorongen.sample_configs`) are maintained as compatibility wrappers and emit
-`DeprecationWarning`.
+`vorongen.sample_configs`) have been removed. Use canonical module paths such as
+`vorongen.api.models` and `vorongen.schema.samples`.
