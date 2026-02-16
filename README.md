@@ -9,7 +9,7 @@ It supports:
 - dependency-aware conditional distributions
 - quality metrics and best-effort retry loops
 - optional torch-backed controller optimization
-- CLI and import-first Python API
+- import-first Python API
 
 ## Installation
 
@@ -35,22 +35,11 @@ pip install -e .[docs]   # Sphinx docs tooling
 pip install -e .[torch]  # torch controller backend
 ```
 
-## Quick CLI usage
+## Runtime mode
 
-```bash
-python -m vorongen --list-samples
-python -m vorongen --sample mixed --rows 1200 --log-level quiet
-python -m vorongen --config path/to/config.yaml --rows 1200
-python -m vorongen --config path/to/config.yaml --validate-config
-```
+`vorongen` is API-only. No CLI entrypoint is shipped.
 
-Use torch backend when available:
-
-```bash
-python -m vorongen --sample mixed --use-torch-controller --torch-device auto
-```
-
-Default output path is `output/<timestamp>_vorongen.xlsx`.
+Use `python sample_run.py` for a quick local smoke run.
 
 ## Quick Python API usage
 
@@ -70,6 +59,8 @@ result = VorongenSynthesizer(config, run_cfg).generate()
 print(result.success, result.objective())
 print(result.output_path)
 ```
+
+Default output path is `output/<timestamp>_vorongen.xlsx`.
 
 ## Documentation (Sphinx)
 

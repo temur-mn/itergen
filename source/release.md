@@ -7,7 +7,7 @@ This page is the canonical release checklist for both GitHub and PyPI.
 1. Update version in `pyproject.toml`.
 2. Move user-facing notes from `## [Unreleased]` in `CHANGELOG.md` into the new
    version section.
-3. Ensure docs reflect any CLI/API/config behavior changes.
+3. Ensure docs reflect any API/config behavior changes.
 
 ## 2) Run full quality gate
 
@@ -42,5 +42,5 @@ python -m twine upload dist/*
 After publishing, verify:
 
 - package installs from PyPI (`pip install vorongen==<version>`)
-- CLI entrypoint works (`python -m vorongen --version`)
+- import-first runtime works (`python sample_run.py`)
 - docs and changelog links in `pyproject.toml` are correct

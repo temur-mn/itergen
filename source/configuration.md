@@ -4,7 +4,7 @@
 
 - a Python mapping (`dict`)
 - YAML text
-- a YAML file loaded via CLI (`--config`)
+- a YAML file loaded in Python and parsed with `vorongen.load_config(...)`
 
 Use `vorongen.get_sample_config(<name>)` to start from known-good examples.
 
@@ -41,15 +41,19 @@ Runtime settings can come from config metadata and/or `RunConfig`:
 - `torch_required`
 - `torch_controller`
 
-CLI flags map to the same runtime controls, and CLI flags take precedence over
-config metadata.
+When both are present, `RunConfig` values take precedence over config metadata.
 
-Use CLI validation mode to check config parse, schema, and feasibility without
-running generation:
+Use programmatic validation to check schema and feasibility before generation:
 
-`python -m vorongen --config path/to/config.yaml --validate-config`
+```python
+from vorongen.schema.config import build_column_specs, check_feasibility, validate_config
 
-Validation mode is the recommended first step before long runs and CI jobs.
+warnings = validate_config(config)
+specs = build_column_specs(config)
+feas_warnings, feas_errors = check_feasibility(config, specs, n_rows=1000)
+```
+
+Validation is the recommended first step before long runs and CI jobs.
 
 ## Missing dependencies behavior
 
@@ -64,8 +68,8 @@ For non-interactive environments (CI/scripts), prefer `error`.
 ## Controller backend behavior
 
 - default backend is `classic`
-- set `--use-torch-controller` to request `torch`
-- set `--torch-required` to fail fast if torch is unavailable
+- set `RunConfig(use_torch_controller=True)` to request `torch`
+- set `RunConfig(torch_required=True)` to fail fast if torch is unavailable
 - when torch is optional and unavailable, the runtime falls back to classic
 
 ## Output behavior

@@ -22,39 +22,31 @@ pip install -e .[docs]
 pip install -e .[torch]
 ```
 
-## CLI usage
+## Programmatic usage
 
-With no arguments, `python -m vorongen` prints guided next steps instead of
-running generation directly.
+Use built-in sample configs:
 
-Run generation from a built-in sample:
+```python
+from vorongen import RunConfig, VorongenSynthesizer, get_sample_config
 
-```bash
-python -m vorongen --sample mixed --rows 1200 --log-level quiet
+config = get_sample_config("mixed")
+run_cfg = RunConfig(n_rows=1200, seed=101, tolerance=0.04, max_attempts=2)
+
+result = VorongenSynthesizer(config, run_cfg).generate()
+print(result.success, result.output_path)
 ```
 
-Run generation from a YAML file:
+Load from YAML text:
 
-```bash
-python -m vorongen --config path/to/config.yaml --rows 1200
-```
+```python
+from pathlib import Path
 
-Validate config and feasibility only (no generation):
+from vorongen import RunConfig, VorongenSynthesizer, load_config
 
-```bash
-python -m vorongen --config path/to/config.yaml --validate-config
-```
-
-Use torch backend when available:
-
-```bash
-python -m vorongen --sample mixed --use-torch-controller --torch-device auto
-```
-
-List sample configurations:
-
-```bash
-python -m vorongen --list-samples
+yaml_text = Path("path/to/config.yaml").read_text(encoding="utf-8")
+config = load_config(yaml_text)
+result = VorongenSynthesizer(config, RunConfig(n_rows=1200)).generate()
+print(result.metrics["objective"])
 ```
 
 Default output path is `output/<timestamp>_vorongen.xlsx`.
@@ -65,19 +57,6 @@ Use the project helper script:
 
 ```bash
 python sample_run.py
-```
-
-## Programmatic usage
-
-```python
-from vorongen import RunConfig, VorongenSynthesizer, get_sample_config
-
-config = get_sample_config("mixed")
-run_cfg = RunConfig(n_rows=3000, seed=101, tolerance=0.04, max_attempts=2)
-
-result = VorongenSynthesizer(config, run_cfg).generate()
-print(result.success, result.objective())
-print(result.output_path)
 ```
 
 ## Next docs

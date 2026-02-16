@@ -9,21 +9,16 @@ Versioning principles.
 
 ### Added
 
-- Guidance-first CLI entrypoint with explicit sample/config run modes.
 - `sample_run.py` helper for quick local smoke execution.
 - Sphinx docs structure with quickstart, configuration, API, architecture, and
   troubleshooting pages.
 - CI docs gate and repository governance templates/policies.
-- Config-only CLI validation mode (`--validate-config`) with feasibility checks.
-- Torch controller tuning CLI flags (`--torch-lr`, `--torch-hidden-dim`,
-  `--torch-weight-decay`, `--torch-device`).
 - Release guide for synchronized GitHub + PyPI publishing (`source/release.md`).
 - Draw.io architecture diagram (`source/diagrams/vorongen-architecture.drawio`).
 
 ### Changed
 
-- Module and console entrypoints now live under `vorongen.api` (`vorongen.api.cli`,
-  `vorongen.api.synthesizer`).
+- Package runtime is API-only; CLI entrypoints and `vorongen.api.cli` are removed.
 - Removed legacy flat-module imports (for example `vorongen.config`,
   `vorongen.metrics`) in favor of canonical package paths.
 - Documentation build setup upgraded to modern Sphinx extensions and theme.

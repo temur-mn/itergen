@@ -1,1 +1,1 @@
-"""Public API and CLI surfaces for vorongen."""
+"""Public runtime API surfaces for vorongen."""

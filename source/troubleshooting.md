@@ -18,36 +18,50 @@ or
 pip install openpyxl
 ```
 
-## CLI with no arguments does not generate data
+## `python -m vorongen` exits immediately
 
-This is expected. No-arg mode prints guidance only. Use one of:
+This is expected. `vorongen` is API-only and no longer provides a CLI.
+
+Use one of:
 
 ```bash
-python -m vorongen --sample mixed --rows 1000
-python -m vorongen --config path/to/config.yaml --rows 1000
 python sample_run.py
+```
+
+or run from Python:
+
+```python
+from vorongen import RunConfig, VorongenSynthesizer, get_sample_config
+
+result = VorongenSynthesizer(get_sample_config("mixed"), RunConfig(n_rows=1000)).generate()
 ```
 
 ## Validate config before generation
 
-Use validate-only mode to surface schema or feasibility issues early:
+Use programmatic validation to surface schema or feasibility issues early:
 
-`python -m vorongen --config path/to/config.yaml --validate-config`
+```python
+from vorongen.schema.config import build_column_specs, check_feasibility, validate_config
+
+warnings = validate_config(config)
+specs = build_column_specs(config)
+feas_warnings, feas_errors = check_feasibility(config, specs, n_rows=1000)
+```
 
 ## Config dependency errors
 
 If validation fails with missing parent/column references:
 
 - verify `depend_on` values match existing `column_id`s
-- run with `--missing-columns-mode error` for deterministic failure
+- use `missing_columns_mode="error"` for deterministic failure
 - start from a built-in sample and incrementally adapt
 
 ## Torch controller requested but torch unavailable
 
-If `--use-torch-controller` is set and torch is not installed:
+If torch controller mode is requested and torch is not installed:
 
-- with `--torch-required`, the run fails fast
-- without `--torch-required`, vorongen falls back to classic controller
+- with `RunConfig(torch_required=True)`, the run fails fast
+- with `RunConfig(torch_required=False)`, vorongen falls back to classic controller
 
 Install torch extras when you want strict torch-backed runs:
 

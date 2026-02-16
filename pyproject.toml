@@ -38,9 +38,6 @@ Source = "https://github.com/temurmamanazarov/vorongen"
 Issues = "https://github.com/temurmamanazarov/vorongen/issues"
 Changelog = "https://github.com/temurmamanazarov/vorongen/blob/main/CHANGELOG.md"
 
-[project.scripts]
-vorongen = "vorongen.api.cli:main"
-
 [project.optional-dependencies]
 torch = ["torch>=2.1"]
 dev = [
