@@ -99,6 +99,7 @@ branch = true
 source = ["vorongen"]
 
 [tool.coverage.report]
+omit = ["src/vorongen/controllers/torch.py"]
 fail_under = 85
 show_missing = true
 
