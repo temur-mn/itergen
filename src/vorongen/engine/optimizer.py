@@ -4,14 +4,6 @@ Optimization loop using stochastic proposal acceptance.
 
 import math
 
-from .adjustments import (
-    apply_flips,
-    build_guided_flips,
-    build_random_flips,
-    iter_batches,
-    merge_flips,
-    revert_flips,
-)
 from ..controllers.classic import PenaltyController
 from ..controllers.torch import TorchPenaltyController
 from ..runtime.rng import RNG
@@ -24,6 +16,14 @@ from ..scoring.metrics import (
     equilibrium_metrics_from_state,
     max_column_deviation,
     preview_equilibrium_objective,
+)
+from .adjustments import (
+    apply_flips,
+    build_guided_flips,
+    build_random_flips,
+    iter_batches,
+    merge_flips,
+    revert_flips,
 )
 
 
