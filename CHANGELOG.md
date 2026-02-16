@@ -7,17 +7,17 @@ Versioning principles.
 
 ## [Unreleased]
 
+
 ### Added
 
-- none
+-
 
 ### Changed
 
-- adjusted the Github connector to the md files and repo
+-
 
-## [0.1.1] - 2026-02-10
+## [0.1.0] - 2026-02-16
 
 ### Added
 
-- Initial import-first runtime API.
-- Config-driven synthetic generation engine and benchmark scripts.
+-
