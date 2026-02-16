@@ -15,12 +15,12 @@ from vorongen import RunConfig, VorongenSynthesizer, get_sample_config  # noqa: 
 
 def main() -> int:
     try:
-        config = get_sample_config("mixed")
+        config = get_sample_config("mixed_large")
         run_cfg = RunConfig(
-            n_rows=1000,
+            n_rows=10_000,
             seed=42,
-            tolerance=0.02,
-            max_attempts=2,
+            tolerance=0.001,
+            max_attempts=20,
             log_level="info",
         )
         result = VorongenSynthesizer(config, run_cfg).generate()

@@ -196,9 +196,34 @@ def generate_until_valid(
                     for attempt in range(total_attempts)
                 }
 
+                completed_attempts = 0
                 for future in as_completed(future_to_attempt):
+                    completed_attempts += 1
                     result = future.result()
                     attempt = int(result["attempt"])
+
+                    if logger is not None and log_level != "quiet":
+                        metrics = result.get("metrics", {})
+                        objective = metrics.get("objective")
+                        max_error = metrics.get("max_error")
+                        try:
+                            objective_text = f"{float(objective):.6f}"
+                        except (TypeError, ValueError):
+                            objective_text = "n/a"
+                        try:
+                            max_error_text = f"{float(max_error):.6f}"
+                        except (TypeError, ValueError):
+                            max_error_text = "n/a"
+
+                        status_text = "OK" if result.get("ok") else "RETRY"
+                        logger.info(
+                            "[ATTEMPT COMPLETE] "
+                            f"completed={completed_attempts}/{total_attempts} "
+                            f"attempt={attempt + 1}/{total_attempts} "
+                            f"status={status_text} "
+                            f"objective={objective_text} max_error={max_error_text}"
+                        )
+
                     if result["ok"]:
                         if (
                             first_success_attempt is None
