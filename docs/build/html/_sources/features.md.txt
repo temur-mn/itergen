@@ -1,6 +1,6 @@
 # Feature Guide
 
-`vorongen` is a config-driven synthetic tabular data engine with explicit support for
+`itergen` is a config-driven synthetic tabular data engine with explicit support for
 dependency-aware binary, categorical, and continuous generation.
 
 This guide describes each current feature type and how it fits into the runtime.
@@ -60,7 +60,7 @@ This guide describes each current feature type and how it fits into the runtime.
 
 ## 3. Runtime And Execution Features
 
-- Unified high-level API through `VorongenSynthesizer` and `RunConfig`.
+- Unified high-level API through `ItergenSynthesizer` and `RunConfig`.
 - Runtime precedence model: `RunConfig` overrides metadata values.
 - Attempt-based generation with best-effort fallback if strict rules are not met.
 - Parallel attempts via `attempt_workers` for multi-process retries.
@@ -109,11 +109,15 @@ This guide describes each current feature type and how it fits into the runtime.
 
 ## 7. Output, Logs, And Runtime Artifacts
 
-- Output workbook is written to a timestamped path if a filename is not provided.
-- Each run writes a timestamped log file under `src/vorongen/logs/`.
+- Output workbook write can be disabled via `save_output=false`
+  (`metadata.save_output` or `RunConfig.save_output`).
+- When output saving is enabled, workbook is written to a timestamped path if a
+  filename is not provided.
+- Each run writes a timestamped log file under the configured `log_dir`
+  (`metadata.log_dir` or `RunConfig.log_dir`; default `src/itergen/logs/`).
 - `GenerateResult` returns:
   - `dataframe`, `metrics`, `quality_report`
-  - `success`, `attempts`, `output_path`, `log_path`
+  - `success`, `attempts`, `output_path` (or `None`), `log_path`
   - `runtime_notes`, plus optional `history` and `initial_dataframe`
 
 ## 8. Built-In Feature Scenarios

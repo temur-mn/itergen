@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Architecture" href="architecture.html"><link rel="prev" title="Configuration" href="configuration.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>API Reference - vorongen 0.1.0 documentation</title>
+        <title>API Reference - itergen 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">vorongen 0.1.0 documentation</div></a>
+      <a href="index.html"><div class="brand">itergen 0.1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">vorongen 0.1.0 documentation</span>
+  <span class="sidebar-brand-text">itergen 0.1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -193,6 +193,7 @@
   <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Feature Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
@@ -252,19 +253,19 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">RunConfig</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">GenerateResult</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">TorchControllerConfig</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">VorongenSynthesizer</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ItergenSynthesizer</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">generate</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">compare_torch_vs_classic</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">get_sample_config</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">available_sample_configs</span></code></p></li>
 </ul>
 </section>
-<section id="module-vorongen.api.models">
-<span id="runtime-models"></span><h2>Runtime models<a class="headerlink" href="#module-vorongen.api.models" title="Link to this heading">¶</a></h2>
+<section id="module-itergen.api.models">
+<span id="runtime-models"></span><h2>Runtime models<a class="headerlink" href="#module-itergen.api.models" title="Link to this heading">¶</a></h2>
 <p>Public runtime models for the import-first API.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="vorongen.api.models.TorchControllerConfig">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">vorongen.api.models.</span></span><span class="sig-name descname"><span class="pre">TorchControllerConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.002</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">48</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_mult</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.025</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_mult</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.075</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trend_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ema_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vorongen/api/models.html#TorchControllerConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vorongen.api.models.TorchControllerConfig" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="itergen.api.models.TorchControllerConfig">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">itergen.api.models.</span></span><span class="sig-name descname"><span class="pre">TorchControllerConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.002</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">48</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_mult</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.025</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_mult</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.075</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trend_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ema_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/itergen/api/models.html#TorchControllerConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#itergen.api.models.TorchControllerConfig" title="Link to this definition">¶</a></dt>
 <dd><p>Configuration for the torch-backed step-size controller.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -284,8 +285,8 @@
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="vorongen.api.models.RunConfig">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">vorongen.api.models.</span></span><span class="sig-name descname"><span class="pre">RunConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_attempts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attempt_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proposal_scoring_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missing_columns_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">small_group_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collect_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize_overrides</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules_overrides</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_torch_controller</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">torch_required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">torch_controller</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vorongen/api/models.html#RunConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vorongen.api.models.RunConfig" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="itergen.api.models.RunConfig">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">itergen.api.models.</span></span><span class="sig-name descname"><span class="pre">RunConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_attempts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attempt_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proposal_scoring_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missing_columns_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">small_group_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collect_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize_overrides</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules_overrides</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_torch_controller</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">torch_required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">torch_controller</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/itergen/api/models.html#RunConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#itergen.api.models.RunConfig" title="Link to this definition">¶</a></dt>
 <dd><p>Top-level runtime options for synthetic generation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -295,6 +296,8 @@
 <li><p><strong>tolerance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>max_attempts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>log_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>log_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>save_output</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>output_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>attempt_workers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>proposal_scoring_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>)</p></li>
@@ -305,15 +308,15 @@
 <li><p><strong>rules_overrides</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a><em>]</em>)</p></li>
 <li><p><strong>use_torch_controller</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
 <li><p><strong>torch_required</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
-<li><p><strong>torch_controller</strong> (<a class="reference internal" href="#vorongen.api.models.TorchControllerConfig" title="vorongen.api.models.TorchControllerConfig"><em>TorchControllerConfig</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>torch_controller</strong> (<a class="reference internal" href="#itergen.api.models.TorchControllerConfig" title="itergen.api.models.TorchControllerConfig"><em>TorchControllerConfig</em></a><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="vorongen.api.models.GenerateResult">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">vorongen.api.models.</span></span><span class="sig-name descname"><span class="pre">GenerateResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quality_report</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">success</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attempts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runtime_notes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_dataframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vorongen/api/models.html#GenerateResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vorongen.api.models.GenerateResult" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="itergen.api.models.GenerateResult">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">itergen.api.models.</span></span><span class="sig-name descname"><span class="pre">GenerateResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quality_report</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">success</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attempts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runtime_notes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_dataframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/itergen/api/models.html#GenerateResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#itergen.api.models.GenerateResult" title="Link to this definition">¶</a></dt>
 <dd><p>Result payload returned by high-level generation APIs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -323,7 +326,7 @@
 <li><p><strong>quality_report</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a><em>]</em>)</p></li>
 <li><p><strong>success</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
 <li><p><strong>attempts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
-<li><p><strong>output_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><em>Path</em></a>)</p></li>
+<li><p><strong>output_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><em>Path</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>log_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><em>Path</em></a>)</p></li>
 <li><p><strong>runtime_notes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>)</p></li>
 <li><p><strong>history</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
@@ -332,8 +335,8 @@
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="vorongen.api.models.GenerateResult.objective">
-<span class="sig-name descname"><span class="pre">objective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/vorongen/api/models.html#GenerateResult.objective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vorongen.api.models.GenerateResult.objective" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="itergen.api.models.GenerateResult.objective">
+<span class="sig-name descname"><span class="pre">objective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/itergen/api/models.html#GenerateResult.objective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#itergen.api.models.GenerateResult.objective" title="Link to this definition">¶</a></dt>
 <dd><p>Return the objective score from the final metrics payload.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -345,12 +348,12 @@
 </dd></dl>
 
 </section>
-<section id="module-vorongen.api.synthesizer">
-<span id="runtime-orchestration"></span><h2>Runtime orchestration<a class="headerlink" href="#module-vorongen.api.synthesizer" title="Link to this heading">¶</a></h2>
+<section id="module-itergen.api.synthesizer">
+<span id="runtime-orchestration"></span><h2>Runtime orchestration<a class="headerlink" href="#module-itergen.api.synthesizer" title="Link to this heading">¶</a></h2>
 <p>High-level import-first runtime API for synthetic dataset generation.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="vorongen.api.synthesizer.is_torch_available">
-<span class="sig-prename descclassname"><span class="pre">vorongen.api.synthesizer.</span></span><span class="sig-name descname"><span class="pre">is_torch_available</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/vorongen/api/synthesizer.html#is_torch_available"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vorongen.api.synthesizer.is_torch_available" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="itergen.api.synthesizer.is_torch_available">
+<span class="sig-prename descclassname"><span class="pre">itergen.api.synthesizer.</span></span><span class="sig-name descname"><span class="pre">is_torch_available</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/itergen/api/synthesizer.html#is_torch_available"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#itergen.api.synthesizer.is_torch_available" title="Link to this definition">¶</a></dt>
 <dd><p>Return True when <cite>torch</cite> can be imported in the runtime environment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -360,60 +363,60 @@
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="vorongen.api.synthesizer.VorongenSynthesizer">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">vorongen.api.synthesizer.</span></span><span class="sig-name descname"><span class="pre">VorongenSynthesizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vorongen/api/synthesizer.html#VorongenSynthesizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vorongen.api.synthesizer.VorongenSynthesizer" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="itergen.api.synthesizer.ItergenSynthesizer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">itergen.api.synthesizer.</span></span><span class="sig-name descname"><span class="pre">ItergenSynthesizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/itergen/api/synthesizer.html#ItergenSynthesizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#itergen.api.synthesizer.ItergenSynthesizer" title="Link to this definition">¶</a></dt>
 <dd><p>High-level facade for running config-driven synthetic generation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>config</strong> (<em>Any</em>)</p></li>
-<li><p><strong>run_config</strong> (<a class="reference internal" href="#vorongen.api.models.RunConfig" title="vorongen.api.models.RunConfig"><em>RunConfig</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>run_config</strong> (<a class="reference internal" href="#itergen.api.models.RunConfig" title="itergen.api.models.RunConfig"><em>RunConfig</em></a><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="vorongen.api.synthesizer.generate">
-<span class="sig-prename descclassname"><span class="pre">vorongen.api.synthesizer.</span></span><span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vorongen/api/synthesizer.html#generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vorongen.api.synthesizer.generate" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="itergen.api.synthesizer.generate">
+<span class="sig-prename descclassname"><span class="pre">itergen.api.synthesizer.</span></span><span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/itergen/api/synthesizer.html#generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#itergen.api.synthesizer.generate" title="Link to this definition">¶</a></dt>
 <dd><p>Convenience function for one-off generation calls.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
-<li><p><strong>run_config</strong> (<a class="reference internal" href="#vorongen.api.models.RunConfig" title="vorongen.api.models.RunConfig"><em>RunConfig</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>run_config</strong> (<a class="reference internal" href="#itergen.api.models.RunConfig" title="itergen.api.models.RunConfig"><em>RunConfig</em></a><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#vorongen.api.models.GenerateResult" title="vorongen.api.models.GenerateResult"><em>GenerateResult</em></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#itergen.api.models.GenerateResult" title="itergen.api.models.GenerateResult"><em>GenerateResult</em></a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="vorongen.api.synthesizer.compare_torch_vs_classic">
-<span class="sig-prename descclassname"><span class="pre">vorongen.api.synthesizer.</span></span><span class="sig-name descname"><span class="pre">compare_torch_vs_classic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vorongen/api/synthesizer.html#compare_torch_vs_classic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vorongen.api.synthesizer.compare_torch_vs_classic" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="itergen.api.synthesizer.compare_torch_vs_classic">
+<span class="sig-prename descclassname"><span class="pre">itergen.api.synthesizer.</span></span><span class="sig-name descname"><span class="pre">compare_torch_vs_classic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/itergen/api/synthesizer.html#compare_torch_vs_classic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#itergen.api.synthesizer.compare_torch_vs_classic" title="Link to this definition">¶</a></dt>
 <dd><p>Run classic and torch-requested flows for quick side-by-side comparison.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
-<li><p><strong>run_config</strong> (<a class="reference internal" href="#vorongen.api.models.RunConfig" title="vorongen.api.models.RunConfig"><em>RunConfig</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>run_config</strong> (<a class="reference internal" href="#itergen.api.models.RunConfig" title="itergen.api.models.RunConfig"><em>RunConfig</em></a><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference internal" href="#vorongen.api.models.GenerateResult" title="vorongen.api.models.GenerateResult"><em>GenerateResult</em></a>]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference internal" href="#itergen.api.models.GenerateResult" title="itergen.api.models.GenerateResult"><em>GenerateResult</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
 
 </section>
-<section id="module-vorongen.schema.samples">
-<span id="built-in-sample-configs"></span><h2>Built-in sample configs<a class="headerlink" href="#module-vorongen.schema.samples" title="Link to this heading">¶</a></h2>
+<section id="module-itergen.schema.samples">
+<span id="built-in-sample-configs"></span><h2>Built-in sample configs<a class="headerlink" href="#module-itergen.schema.samples" title="Link to this heading">¶</a></h2>
 <p>Sample YAML configurations stored as strings.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="vorongen.schema.samples.available_sample_configs">
-<span class="sig-prename descclassname"><span class="pre">vorongen.schema.samples.</span></span><span class="sig-name descname"><span class="pre">available_sample_configs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/vorongen/schema/samples.html#available_sample_configs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vorongen.schema.samples.available_sample_configs" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="itergen.schema.samples.available_sample_configs">
+<span class="sig-prename descclassname"><span class="pre">itergen.schema.samples.</span></span><span class="sig-name descname"><span class="pre">available_sample_configs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/itergen/schema/samples.html#available_sample_configs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#itergen.schema.samples.available_sample_configs" title="Link to this definition">¶</a></dt>
 <dd><p>Return sorted names for all built-in sample configurations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -423,8 +426,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="vorongen.schema.samples.load_config">
-<span class="sig-prename descclassname"><span class="pre">vorongen.schema.samples.</span></span><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vorongen/schema/samples.html#load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vorongen.schema.samples.load_config" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="itergen.schema.samples.load_config">
+<span class="sig-prename descclassname"><span class="pre">itergen.schema.samples.</span></span><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/itergen/schema/samples.html#load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#itergen.schema.samples.load_config" title="Link to this definition">¶</a></dt>
 <dd><p>Parse and normalize a config from YAML text or dict input.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -437,8 +440,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="vorongen.schema.samples.get_sample_config">
-<span class="sig-prename descclassname"><span class="pre">vorongen.schema.samples.</span></span><span class="sig-name descname"><span class="pre">get_sample_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vorongen/schema/samples.html#get_sample_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vorongen.schema.samples.get_sample_config" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="itergen.schema.samples.get_sample_config">
+<span class="sig-prename descclassname"><span class="pre">itergen.schema.samples.</span></span><span class="sig-name descname"><span class="pre">get_sample_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/itergen/schema/samples.html#get_sample_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#itergen.schema.samples.get_sample_config" title="Link to this definition">¶</a></dt>
 <dd><p>Load one of the built-in sample configurations by name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -450,9 +453,9 @@
 </dl>
 </dd></dl>
 
-<p>Legacy flat-module imports (for example <code class="docutils literal notranslate"><span class="pre">vorongen.models</span></code> and
-<code class="docutils literal notranslate"><span class="pre">vorongen.sample_configs</span></code>) have been removed. Use canonical module paths such as
-<code class="docutils literal notranslate"><span class="pre">vorongen.api.models</span></code> and <code class="docutils literal notranslate"><span class="pre">vorongen.schema.samples</span></code>.</p>
+<p>Legacy flat-module imports (for example <code class="docutils literal notranslate"><span class="pre">itergen.models</span></code> and
+<code class="docutils literal notranslate"><span class="pre">itergen.sample_configs</span></code>) have been removed. Use canonical module paths such as
+<code class="docutils literal notranslate"><span class="pre">itergen.api.models</span></code> and <code class="docutils literal notranslate"><span class="pre">itergen.schema.samples</span></code>.</p>
 </section>
 </section>
 
@@ -485,7 +488,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2026, Vorongen Contributors
+                Copyright &#169; 2026, Itergen Contributors
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -513,26 +516,26 @@
             <ul>
 <li><a class="reference internal" href="#">API Reference</a><ul>
 <li><a class="reference internal" href="#top-level-convenience-imports">Top-level convenience imports</a></li>
-<li><a class="reference internal" href="#module-vorongen.api.models">Runtime models</a><ul>
-<li><a class="reference internal" href="#vorongen.api.models.TorchControllerConfig"><code class="docutils literal notranslate"><span class="pre">TorchControllerConfig</span></code></a></li>
-<li><a class="reference internal" href="#vorongen.api.models.RunConfig"><code class="docutils literal notranslate"><span class="pre">RunConfig</span></code></a></li>
-<li><a class="reference internal" href="#vorongen.api.models.GenerateResult"><code class="docutils literal notranslate"><span class="pre">GenerateResult</span></code></a><ul>
-<li><a class="reference internal" href="#vorongen.api.models.GenerateResult.objective"><code class="docutils literal notranslate"><span class="pre">GenerateResult.objective()</span></code></a></li>
+<li><a class="reference internal" href="#module-itergen.api.models">Runtime models</a><ul>
+<li><a class="reference internal" href="#itergen.api.models.TorchControllerConfig"><code class="docutils literal notranslate"><span class="pre">TorchControllerConfig</span></code></a></li>
+<li><a class="reference internal" href="#itergen.api.models.RunConfig"><code class="docutils literal notranslate"><span class="pre">RunConfig</span></code></a></li>
+<li><a class="reference internal" href="#itergen.api.models.GenerateResult"><code class="docutils literal notranslate"><span class="pre">GenerateResult</span></code></a><ul>
+<li><a class="reference internal" href="#itergen.api.models.GenerateResult.objective"><code class="docutils literal notranslate"><span class="pre">GenerateResult.objective()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-vorongen.api.synthesizer">Runtime orchestration</a><ul>
-<li><a class="reference internal" href="#vorongen.api.synthesizer.is_torch_available"><code class="docutils literal notranslate"><span class="pre">is_torch_available()</span></code></a></li>
-<li><a class="reference internal" href="#vorongen.api.synthesizer.VorongenSynthesizer"><code class="docutils literal notranslate"><span class="pre">VorongenSynthesizer</span></code></a></li>
-<li><a class="reference internal" href="#vorongen.api.synthesizer.generate"><code class="docutils literal notranslate"><span class="pre">generate()</span></code></a></li>
-<li><a class="reference internal" href="#vorongen.api.synthesizer.compare_torch_vs_classic"><code class="docutils literal notranslate"><span class="pre">compare_torch_vs_classic()</span></code></a></li>
+<li><a class="reference internal" href="#module-itergen.api.synthesizer">Runtime orchestration</a><ul>
+<li><a class="reference internal" href="#itergen.api.synthesizer.is_torch_available"><code class="docutils literal notranslate"><span class="pre">is_torch_available()</span></code></a></li>
+<li><a class="reference internal" href="#itergen.api.synthesizer.ItergenSynthesizer"><code class="docutils literal notranslate"><span class="pre">ItergenSynthesizer</span></code></a></li>
+<li><a class="reference internal" href="#itergen.api.synthesizer.generate"><code class="docutils literal notranslate"><span class="pre">generate()</span></code></a></li>
+<li><a class="reference internal" href="#itergen.api.synthesizer.compare_torch_vs_classic"><code class="docutils literal notranslate"><span class="pre">compare_torch_vs_classic()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-vorongen.schema.samples">Built-in sample configs</a><ul>
-<li><a class="reference internal" href="#vorongen.schema.samples.available_sample_configs"><code class="docutils literal notranslate"><span class="pre">available_sample_configs()</span></code></a></li>
-<li><a class="reference internal" href="#vorongen.schema.samples.load_config"><code class="docutils literal notranslate"><span class="pre">load_config()</span></code></a></li>
-<li><a class="reference internal" href="#vorongen.schema.samples.get_sample_config"><code class="docutils literal notranslate"><span class="pre">get_sample_config()</span></code></a></li>
+<li><a class="reference internal" href="#module-itergen.schema.samples">Built-in sample configs</a><ul>
+<li><a class="reference internal" href="#itergen.schema.samples.available_sample_configs"><code class="docutils literal notranslate"><span class="pre">available_sample_configs()</span></code></a></li>
+<li><a class="reference internal" href="#itergen.schema.samples.load_config"><code class="docutils literal notranslate"><span class="pre">load_config()</span></code></a></li>
+<li><a class="reference internal" href="#itergen.schema.samples.get_sample_config"><code class="docutils literal notranslate"><span class="pre">get_sample_config()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -546,7 +549,7 @@
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=01f34227"></script>
+</div><script src="_static/documentation_options.js?v=a58bc63e"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

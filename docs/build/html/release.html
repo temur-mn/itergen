@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Changelog" href="changelog.html"><link rel="prev" title="Troubleshooting" href="troubleshooting.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>Release Guide - vorongen 0.1.0 documentation</title>
+        <title>Release Guide - itergen 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">vorongen 0.1.0 documentation</div></a>
+      <a href="index.html"><div class="brand">itergen 0.1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">vorongen 0.1.0 documentation</span>
+  <span class="sidebar-brand-text">itergen 0.1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -193,6 +193,7 @@
   <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Feature Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
@@ -260,11 +261,11 @@ version section.</p></li>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dev,docs,torch<span class="o">]</span>
 ruff<span class="w"> </span>check<span class="w"> </span>.
 ruff<span class="w"> </span>format<span class="w"> </span>--check<span class="w"> </span>.
-mypy<span class="w"> </span>src/vorongen
+mypy<span class="w"> </span>src/itergen
 <span class="nv">PYTHONPATH</span><span class="o">=</span>src<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>discover<span class="w"> </span>-s<span class="w"> </span>tests<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;test*.py&quot;</span><span class="w"> </span>-q
 coverage<span class="w"> </span>run<span class="w"> </span>-m<span class="w"> </span>unittest<span class="w"> </span>discover<span class="w"> </span>-s<span class="w"> </span>tests<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;test*.py&quot;</span>
 coverage<span class="w"> </span>report<span class="w"> </span>--fail-under<span class="o">=</span><span class="m">85</span>
-python<span class="w"> </span>-m<span class="w"> </span>sphinx<span class="w"> </span>-W<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span><span class="nb">source</span><span class="w"> </span>build/html
+python<span class="w"> </span>-m<span class="w"> </span>sphinx<span class="w"> </span>-W<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span>docs/source<span class="w"> </span>docs/build/html
 python<span class="w"> </span>-m<span class="w"> </span>build
 python<span class="w"> </span>-m<span class="w"> </span>twine<span class="w"> </span>check<span class="w"> </span>dist/*
 </pre></div>
@@ -287,7 +288,7 @@ python<span class="w"> </span>-m<span class="w"> </span>twine<span class="w"> </
 </div>
 <p>After publishing, verify:</p>
 <ul class="simple">
-<li><p>package installs from PyPI (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">vorongen==&lt;version&gt;</span></code>)</p></li>
+<li><p>package installs from PyPI (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">itergen==&lt;version&gt;</span></code>)</p></li>
 <li><p>import-first runtime works (<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">sample_run.py</span></code>)</p></li>
 <li><p>docs and changelog links in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> are correct</p></li>
 </ul>
@@ -323,7 +324,7 @@ python<span class="w"> </span>-m<span class="w"> </span>twine<span class="w"> </
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2026, Vorongen Contributors
+                Copyright &#169; 2026, Itergen Contributors
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -365,7 +366,7 @@ python<span class="w"> </span>-m<span class="w"> </span>twine<span class="w"> </
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=01f34227"></script>
+</div><script src="_static/documentation_options.js?v=a58bc63e"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

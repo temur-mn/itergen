@@ -20,15 +20,15 @@
 
 ## Main packages
 
-- `vorongen.api`: high-level runtime facade (`synthesizer`) and public dataclasses (`models`).
-- `vorongen.schema`: config parsing/validation (`config`), defaults (`defaults`), and built-in samples (`samples`).
-- `vorongen.engine`: initial generation (`initial`), retry loop (`generation`), optimizer (`optimizer`), and proposal helpers (`adjustments`).
-- `vorongen.scoring`: condition matching (`conditions`) and equilibrium/objective reporting (`metrics`).
-- `vorongen.controllers`: classic controller (`classic`) and torch-backed controller (`torch`).
-- `vorongen.runtime`: deterministic RNG helpers (`rng`) and run logging (`logging_utils`).
-- Legacy flat-module imports (for example `vorongen.config`, `vorongen.metrics`)
-  have been removed; import from canonical packages such as `vorongen.api`,
-  `vorongen.schema`, `vorongen.engine`, and `vorongen.scoring`.
+- `itergen.api`: high-level runtime facade (`synthesizer`) and public dataclasses (`models`).
+- `itergen.schema`: config parsing/validation (`config`), defaults (`defaults`), and built-in samples (`samples`).
+- `itergen.engine`: initial generation (`initial`), retry loop (`generation`), optimizer (`optimizer`), and proposal helpers (`adjustments`).
+- `itergen.scoring`: condition matching (`conditions`) and equilibrium/objective reporting (`metrics`).
+- `itergen.controllers`: classic controller (`classic`) and torch-backed controller (`torch`).
+- `itergen.runtime`: deterministic RNG helpers (`rng`) and run logging (`logging_utils`).
+- Legacy flat-module imports (for example `itergen.config`, `itergen.metrics`)
+  have been removed; import from canonical packages such as `itergen.api`,
+  `itergen.schema`, `itergen.engine`, and `itergen.scoring`.
 
 ## Execution modes
 
@@ -47,7 +47,7 @@
 
 ## Output artifacts
 
-- Generated dataset workbook (`output/<timestamp>_vorongen.xlsx` by default).
-- Per-run log file under `src/vorongen/logs/`.
+- Generated dataset workbook (`output/<timestamp>_itergen.xlsx` by default).
+- Per-run log file under configured `log_dir` (default `src/itergen/logs/`).
 - Structured result payload containing metrics, quality report, and optional
   iteration history for diagnostics.

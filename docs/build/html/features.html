@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Configuration" href="configuration.html"><link rel="prev" title="Quickstart" href="quickstart.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>Feature Guide - vorongen 0.1.0 documentation</title>
+        <title>Feature Guide - itergen 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">vorongen 0.1.0 documentation</div></a>
+      <a href="index.html"><div class="brand">itergen 0.1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">vorongen 0.1.0 documentation</span>
+  <span class="sidebar-brand-text">itergen 0.1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -246,7 +246,7 @@
         <article role="main" id="furo-main-content">
           <section id="feature-guide">
 <h1>Feature Guide<a class="headerlink" href="#feature-guide" title="Link to this heading">¶</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">vorongen</span></code> is a config-driven synthetic tabular data engine with explicit support for
+<p><code class="docutils literal notranslate"><span class="pre">itergen</span></code> is a config-driven synthetic tabular data engine with explicit support for
 dependency-aware binary, categorical, and continuous generation.</p>
 <p>This guide describes each current feature type and how it fits into the runtime.</p>
 <section id="feature-types-at-a-glance">
@@ -350,7 +350,7 @@ when <code class="docutils literal notranslate"><span class="pre">min_group_size
 <section id="runtime-and-execution-features">
 <h2>3. Runtime And Execution Features<a class="headerlink" href="#runtime-and-execution-features" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>Unified high-level API through <code class="docutils literal notranslate"><span class="pre">VorongenSynthesizer</span></code> and <code class="docutils literal notranslate"><span class="pre">RunConfig</span></code>.</p></li>
+<li><p>Unified high-level API through <code class="docutils literal notranslate"><span class="pre">ItergenSynthesizer</span></code> and <code class="docutils literal notranslate"><span class="pre">RunConfig</span></code>.</p></li>
 <li><p>Runtime precedence model: <code class="docutils literal notranslate"><span class="pre">RunConfig</span></code> overrides metadata values.</p></li>
 <li><p>Attempt-based generation with best-effort fallback if strict rules are not met.</p></li>
 <li><p>Parallel attempts via <code class="docutils literal notranslate"><span class="pre">attempt_workers</span></code> for multi-process retries.</p></li>
@@ -422,12 +422,16 @@ when <code class="docutils literal notranslate"><span class="pre">min_group_size
 <section id="output-logs-and-runtime-artifacts">
 <h2>7. Output, Logs, And Runtime Artifacts<a class="headerlink" href="#output-logs-and-runtime-artifacts" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>Output workbook is written to a timestamped path if a filename is not provided.</p></li>
-<li><p>Each run writes a timestamped log file under <code class="docutils literal notranslate"><span class="pre">src/vorongen/logs/</span></code>.</p></li>
+<li><p>Output workbook write can be disabled via <code class="docutils literal notranslate"><span class="pre">save_output=false</span></code>
+(<code class="docutils literal notranslate"><span class="pre">metadata.save_output</span></code> or <code class="docutils literal notranslate"><span class="pre">RunConfig.save_output</span></code>).</p></li>
+<li><p>When output saving is enabled, workbook is written to a timestamped path if a
+filename is not provided.</p></li>
+<li><p>Each run writes a timestamped log file under the configured <code class="docutils literal notranslate"><span class="pre">log_dir</span></code>
+(<code class="docutils literal notranslate"><span class="pre">metadata.log_dir</span></code> or <code class="docutils literal notranslate"><span class="pre">RunConfig.log_dir</span></code>; default <code class="docutils literal notranslate"><span class="pre">src/itergen/logs/</span></code>).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">GenerateResult</span></code> returns:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">dataframe</span></code>, <code class="docutils literal notranslate"><span class="pre">metrics</span></code>, <code class="docutils literal notranslate"><span class="pre">quality_report</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">success</span></code>, <code class="docutils literal notranslate"><span class="pre">attempts</span></code>, <code class="docutils literal notranslate"><span class="pre">output_path</span></code>, <code class="docutils literal notranslate"><span class="pre">log_path</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">success</span></code>, <code class="docutils literal notranslate"><span class="pre">attempts</span></code>, <code class="docutils literal notranslate"><span class="pre">output_path</span></code> (or <code class="docutils literal notranslate"><span class="pre">None</span></code>), <code class="docutils literal notranslate"><span class="pre">log_path</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">runtime_notes</span></code>, plus optional <code class="docutils literal notranslate"><span class="pre">history</span></code> and <code class="docutils literal notranslate"><span class="pre">initial_dataframe</span></code></p></li>
 </ul>
 </li>
@@ -484,7 +488,7 @@ load a deep-copy config payload for adaptation.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2026, Vorongen Contributors
+                Copyright &#169; 2026, Itergen Contributors
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -542,7 +546,7 @@ load a deep-copy config payload for adaptation.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=01f34227"></script>
+</div><script src="_static/documentation_options.js?v=a58bc63e"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

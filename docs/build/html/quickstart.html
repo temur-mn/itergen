@@ -3,10 +3,10 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Feature Guide" href="features.html"><link rel="prev" title="vorongen Documentation" href="index.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Feature Guide" href="features.html"><link rel="prev" title="itergen Documentation" href="index.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>Quickstart - vorongen 0.1.0 documentation</title>
+        <title>Quickstart - itergen 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">vorongen 0.1.0 documentation</div></a>
+      <a href="index.html"><div class="brand">itergen 0.1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">vorongen 0.1.0 documentation</span>
+  <span class="sidebar-brand-text">itergen 0.1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -248,12 +248,12 @@
 <h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading">¶</a></h1>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>vorongen
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>itergen
 </pre></div>
 </div>
 <p>From source (development):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>&lt;repo-url&gt;
-<span class="nb">cd</span><span class="w"> </span>vorongen
+<span class="nb">cd</span><span class="w"> </span>itergen
 pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
@@ -267,27 +267,35 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <section id="programmatic-usage">
 <h2>Programmatic usage<a class="headerlink" href="#programmatic-usage" title="Link to this heading">¶</a></h2>
 <p>Use built-in sample configs:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">vorongen</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunConfig</span><span class="p">,</span> <span class="n">VorongenSynthesizer</span><span class="p">,</span> <span class="n">get_sample_config</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">itergen</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunConfig</span><span class="p">,</span> <span class="n">ItergenSynthesizer</span><span class="p">,</span> <span class="n">get_sample_config</span>
 
 <span class="n">config</span> <span class="o">=</span> <span class="n">get_sample_config</span><span class="p">(</span><span class="s2">&quot;mixed&quot;</span><span class="p">)</span>
 <span class="n">run_cfg</span> <span class="o">=</span> <span class="n">RunConfig</span><span class="p">(</span><span class="n">n_rows</span><span class="o">=</span><span class="mi">1200</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">max_attempts</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">VorongenSynthesizer</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">run_cfg</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">ItergenSynthesizer</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">run_cfg</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">success</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">output_path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To run in-memory only (skip workbook write):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">ItergenSynthesizer</span><span class="p">(</span>
+    <span class="n">config</span><span class="p">,</span>
+    <span class="n">RunConfig</span><span class="p">(</span><span class="n">n_rows</span><span class="o">=</span><span class="mi">1200</span><span class="p">,</span> <span class="n">save_output</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+<span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">output_path</span><span class="p">)</span>  <span class="c1"># None</span>
 </pre></div>
 </div>
 <p>Load from YAML text:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">vorongen</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunConfig</span><span class="p">,</span> <span class="n">VorongenSynthesizer</span><span class="p">,</span> <span class="n">load_config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itergen</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunConfig</span><span class="p">,</span> <span class="n">ItergenSynthesizer</span><span class="p">,</span> <span class="n">load_config</span>
 
 <span class="n">yaml_text</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;path/to/config.yaml&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
 <span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span><span class="n">yaml_text</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">VorongenSynthesizer</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">RunConfig</span><span class="p">(</span><span class="n">n_rows</span><span class="o">=</span><span class="mi">1200</span><span class="p">))</span><span class="o">.</span><span class="n">generate</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">ItergenSynthesizer</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">RunConfig</span><span class="p">(</span><span class="n">n_rows</span><span class="o">=</span><span class="mi">1200</span><span class="p">))</span><span class="o">.</span><span class="n">generate</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;objective&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>Default output path is <code class="docutils literal notranslate"><span class="pre">output/&lt;timestamp&gt;_vorongen.xlsx</span></code>.</p>
+<p>Default output path is <code class="docutils literal notranslate"><span class="pre">output/&lt;timestamp&gt;_itergen.xlsx</span></code>.</p>
 </section>
 <section id="quick-local-smoke-run">
 <h2>Quick local smoke run<a class="headerlink" href="#quick-local-smoke-run" title="Link to this heading">¶</a></h2>
@@ -336,7 +344,7 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2026, Vorongen Contributors
+                Copyright &#169; 2026, Itergen Contributors
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -378,7 +386,7 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=01f34227"></script>
+</div><script src="_static/documentation_options.js?v=a58bc63e"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

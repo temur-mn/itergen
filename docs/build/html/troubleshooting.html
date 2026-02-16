@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Release Guide" href="release.html"><link rel="prev" title="Architecture" href="architecture.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>Troubleshooting - vorongen 0.1.0 documentation</title>
+        <title>Troubleshooting - itergen 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">vorongen 0.1.0 documentation</div></a>
+      <a href="index.html"><div class="brand">itergen 0.1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">vorongen 0.1.0 documentation</span>
+  <span class="sidebar-brand-text">itergen 0.1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -251,7 +251,7 @@
 <p>If you see:</p>
 <p><code class="docutils literal notranslate"><span class="pre">Saving</span> <span class="pre">Excel</span> <span class="pre">output</span> <span class="pre">requires</span> <span class="pre">openpyxl.</span></code></p>
 <p>Install dependencies:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>vorongen
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>itergen
 </pre></div>
 </div>
 <p>or</p>
@@ -259,24 +259,24 @@
 </pre></div>
 </div>
 </section>
-<section id="python-m-vorongen-exits-immediately">
-<h2><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">vorongen</span></code> exits immediately<a class="headerlink" href="#python-m-vorongen-exits-immediately" title="Link to this heading">¶</a></h2>
-<p>This is expected. <code class="docutils literal notranslate"><span class="pre">vorongen</span></code> is API-only and no longer provides a CLI.</p>
+<section id="python-m-itergen-exits-immediately">
+<h2><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">itergen</span></code> exits immediately<a class="headerlink" href="#python-m-itergen-exits-immediately" title="Link to this heading">¶</a></h2>
+<p>This is expected. <code class="docutils literal notranslate"><span class="pre">itergen</span></code> is API-only and no longer provides a CLI.</p>
 <p>Use one of:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>sample_run.py
 </pre></div>
 </div>
 <p>or run from Python:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">vorongen</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunConfig</span><span class="p">,</span> <span class="n">VorongenSynthesizer</span><span class="p">,</span> <span class="n">get_sample_config</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">itergen</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunConfig</span><span class="p">,</span> <span class="n">ItergenSynthesizer</span><span class="p">,</span> <span class="n">get_sample_config</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">VorongenSynthesizer</span><span class="p">(</span><span class="n">get_sample_config</span><span class="p">(</span><span class="s2">&quot;mixed&quot;</span><span class="p">),</span> <span class="n">RunConfig</span><span class="p">(</span><span class="n">n_rows</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span><span class="o">.</span><span class="n">generate</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">ItergenSynthesizer</span><span class="p">(</span><span class="n">get_sample_config</span><span class="p">(</span><span class="s2">&quot;mixed&quot;</span><span class="p">),</span> <span class="n">RunConfig</span><span class="p">(</span><span class="n">n_rows</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span><span class="o">.</span><span class="n">generate</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
 <section id="validate-config-before-generation">
 <h2>Validate config before generation<a class="headerlink" href="#validate-config-before-generation" title="Link to this heading">¶</a></h2>
 <p>Use programmatic validation to surface schema or feasibility issues early:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">vorongen.schema.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_column_specs</span><span class="p">,</span> <span class="n">check_feasibility</span><span class="p">,</span> <span class="n">validate_config</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">itergen.schema.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_column_specs</span><span class="p">,</span> <span class="n">check_feasibility</span><span class="p">,</span> <span class="n">validate_config</span>
 
 <span class="n">warnings</span> <span class="o">=</span> <span class="n">validate_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 <span class="n">specs</span> <span class="o">=</span> <span class="n">build_column_specs</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
@@ -298,7 +298,7 @@
 <p>If torch controller mode is requested and torch is not installed:</p>
 <ul class="simple">
 <li><p>with <code class="docutils literal notranslate"><span class="pre">RunConfig(torch_required=True)</span></code>, the run fails fast</p></li>
-<li><p>with <code class="docutils literal notranslate"><span class="pre">RunConfig(torch_required=False)</span></code>, vorongen falls back to classic controller</p></li>
+<li><p>with <code class="docutils literal notranslate"><span class="pre">RunConfig(torch_required=False)</span></code>, itergen falls back to classic controller</p></li>
 </ul>
 <p>Install torch extras when you want strict torch-backed runs:</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.[torch]</span></code></p>
@@ -308,7 +308,7 @@
 <p>Install docs extras first:</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.[docs]</span></code></p>
 <p>Then run:</p>
-<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">sphinx</span> <span class="pre">-W</span> <span class="pre">-b</span> <span class="pre">html</span> <span class="pre">source</span> <span class="pre">build/html</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">sphinx</span> <span class="pre">-W</span> <span class="pre">-b</span> <span class="pre">html</span> <span class="pre">docs/source</span> <span class="pre">docs/build/html</span></code></p>
 </section>
 <section id="run-looks-stalled-on-large-configs">
 <h2>Run looks stalled on large configs<a class="headerlink" href="#run-looks-stalled-on-large-configs" title="Link to this heading">¶</a></h2>
@@ -324,7 +324,8 @@ best-effort dataset</p></li>
 </ul>
 <p>What to check:</p>
 <ul class="simple">
-<li><p>run log under <code class="docutils literal notranslate"><span class="pre">src/vorongen/logs/</span></code> for <code class="docutils literal notranslate"><span class="pre">[ATTEMPT</span> <span class="pre">COMPLETE]</span></code> and
+<li><p>run log under your configured <code class="docutils literal notranslate"><span class="pre">log_dir</span></code> (<code class="docutils literal notranslate"><span class="pre">metadata.log_dir</span></code> or
+<code class="docutils literal notranslate"><span class="pre">RunConfig.log_dir</span></code>; default <code class="docutils literal notranslate"><span class="pre">src/itergen/logs/</span></code>) for <code class="docutils literal notranslate"><span class="pre">[ATTEMPT</span> <span class="pre">COMPLETE]</span></code> and
 <code class="docutils literal notranslate"><span class="pre">[FINAL</span> <span class="pre">METRICS]</span></code> entries</p></li>
 <li><p>final status in <code class="docutils literal notranslate"><span class="pre">GenerateResult.success</span></code> (<code class="docutils literal notranslate"><span class="pre">False</span></code> means best-effort)</p></li>
 </ul>
@@ -375,7 +376,7 @@ best-effort dataset</p></li>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2026, Vorongen Contributors
+                Copyright &#169; 2026, Itergen Contributors
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -403,7 +404,7 @@ best-effort dataset</p></li>
             <ul>
 <li><a class="reference internal" href="#">Troubleshooting</a><ul>
 <li><a class="reference internal" href="#openpyxl-missing-when-saving-output"><code class="docutils literal notranslate"><span class="pre">openpyxl</span></code> missing when saving output</a></li>
-<li><a class="reference internal" href="#python-m-vorongen-exits-immediately"><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">vorongen</span></code> exits immediately</a></li>
+<li><a class="reference internal" href="#python-m-itergen-exits-immediately"><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">itergen</span></code> exits immediately</a></li>
 <li><a class="reference internal" href="#validate-config-before-generation">Validate config before generation</a></li>
 <li><a class="reference internal" href="#config-dependency-errors">Config dependency errors</a></li>
 <li><a class="reference internal" href="#torch-controller-requested-but-torch-unavailable">Torch controller requested but torch unavailable</a></li>
@@ -421,7 +422,7 @@ best-effort dataset</p></li>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=01f34227"></script>
+</div><script src="_static/documentation_options.js?v=a58bc63e"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

@@ -1,6 +1,6 @@
 # Configuration
 
-`vorongen` accepts configuration as:
+`itergen` accepts configuration as:
 
 - a Python mapping (`dict`)
 - YAML text
@@ -51,6 +51,8 @@ Core sections:
 | `max_attempts` | Attempt retry budget |
 | `attempt_workers` | Process-level parallel attempt workers |
 | `log_level` | `info` or `quiet` |
+| `log_dir` | Directory for per-run log files |
+| `save_output` | Whether to write the output workbook (`true` or `false`) |
 | `output_path` | Output file path or directory hint |
 | `proposal_scoring_mode` | `incremental` or `full` proposal scoring |
 | `missing_columns_mode` | `prompt`, `skip`, or `error` |
@@ -183,7 +185,7 @@ clear error explaining how to switch modes.
 Before expensive runs, validate config and check feasibility:
 
 ```python
-from vorongen.schema.config import build_column_specs, check_feasibility, validate_config
+from itergen.schema.config import build_column_specs, check_feasibility, validate_config
 
 warnings = validate_config(config)
 specs = build_column_specs(config)
