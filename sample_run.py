@@ -10,7 +10,7 @@ SRC_PATH = PROJECT_ROOT / "src"
 if SRC_PATH.exists() and str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
 
-from itergen import RunConfig, ItergenSynthesizer, get_sample_config  # noqa: E402
+from itergen import ItergenSynthesizer, RunConfig, get_sample_config  # noqa: E402
 
 
 def main() -> int:

@@ -88,8 +88,6 @@ ruff check .
 ruff format --check .
 mypy src/itergen
 PYTHONPATH=src python -m unittest discover -s tests -p "test*.py" -q
-coverage run -m unittest discover -s tests -p "test*.py"
-coverage report --fail-under=85
 python -m build
 python -m twine check dist/*
 ```

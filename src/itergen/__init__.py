@@ -4,7 +4,7 @@ from importlib.metadata import PackageNotFoundError, version
 
 from .api.models import GenerateResult, RunConfig, TorchControllerConfig
 from .api.synthesizer import (
-    VorongenSynthesizer,
+    ItergenSynthesizer,
     compare_torch_vs_classic,
     generate,
     is_torch_available,
