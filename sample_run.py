@@ -18,10 +18,10 @@ def main() -> int:
         config = get_sample_config("mixed")
         run_cfg = RunConfig(
             n_rows=1000,
-            seed=101,
-            tolerance=0.04,
+            seed=42,
+            tolerance=0.02,
             max_attempts=2,
-            log_level="quiet",
+            log_level="info",
         )
         result = VorongenSynthesizer(config, run_cfg).generate()
     except Exception as exc:
