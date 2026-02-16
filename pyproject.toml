@@ -3,13 +3,13 @@ requires = ["setuptools>=69", "wheel", "tomli>=2.0.1; python_version < '3.11'"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "vorongen"
+name = "itergen"
 version = "0.1.0"
 description = "Synthetic data generation engine for dependency-driven tabular datasets"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"
-authors = [{ name = "Vorongen Contributors" }]
+authors = [{ name = "Itergen Contributors" }]
 keywords = ["synthetic-data", "tabular-data", "data-generation", "simulation"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -32,11 +32,11 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/temur-mn/vorongen"
-Documentation = "https://github.com/temur-mn/vorongen/blob/main/source/index.rst"
-Source = "https://github.com/temur-mn/vorongen"
-Issues = "https://github.com/temur-mn/vorongen/issues"
-Changelog = "https://github.com/temur-mn/vorongen/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/temur-mn/itergen"
+Documentation = "https://github.com/temur-mn/itergen/blob/main/source/index.rst"
+Source = "https://github.com/temur-mn/itergen"
+Issues = "https://github.com/temur-mn/itergen/issues"
+Changelog = "https://github.com/temur-mn/itergen/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 torch = ["torch>=2.1"]
@@ -62,8 +62,8 @@ include-package-data = false
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["vorongen*"]
-exclude = ["vorongen.tests*", "vorongen.benchmarks*"]
+include = ["itergen*"]
+exclude = ["itergen.tests*", "itergen.benchmarks*"]
 namespaces = false
 
 [tool.pytest.ini_options]
@@ -79,9 +79,9 @@ extend-exclude = ["build", "dist", "source/_autosummary"]
 select = ["E", "F", "I", "B", "UP", "N", "W"]
 
 [tool.ruff.lint.per-file-ignores]
-"src/vorongen/schema/config.py" = ["E501"]
-"src/vorongen/schema/samples.py" = ["E501"]
-"src/vorongen/benchmarks/*.py" = ["E501"]
+"src/itergen/schema/config.py" = ["E501"]
+"src/itergen/schema/samples.py" = ["E501"]
+"src/itergen/benchmarks/*.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.11"
@@ -92,14 +92,14 @@ explicit_package_bases = true
 mypy_path = "src"
 ignore_missing_imports = true
 disable_error_code = ["import-untyped"]
-files = ["src/vorongen"]
+files = ["src/itergen"]
 
 [tool.coverage.run]
 branch = true
-source = ["vorongen"]
+source = ["itergen"]
 
 [tool.coverage.report]
-omit = ["src/vorongen/controllers/torch.py"]
+omit = ["src/itergen/controllers/torch.py"]
 fail_under = 50
 show_missing = true
 

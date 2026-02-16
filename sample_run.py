@@ -1,4 +1,4 @@
-"""Quick local sample run for vorongen."""
+"""Quick local sample run for itergen."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ SRC_PATH = PROJECT_ROOT / "src"
 if SRC_PATH.exists() and str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))
 
-from vorongen import RunConfig, VorongenSynthesizer, get_sample_config  # noqa: E402
+from itergen import RunConfig, ItergenSynthesizer, get_sample_config  # noqa: E402
 
 
 def main() -> int:
@@ -23,7 +23,7 @@ def main() -> int:
             max_attempts=20,
             log_level="info",
         )
-        result = VorongenSynthesizer(config, run_cfg).generate()
+        result = ItergenSynthesizer(config, run_cfg).generate()
     except Exception as exc:
         print(f"[SAMPLE RUN ERROR] {exc}", file=sys.stderr)
         print("Tip: install dependencies with `pip install -e .`", file=sys.stderr)

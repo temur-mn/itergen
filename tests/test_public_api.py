@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from vorongen import (
+from itergen import (
     RunConfig,
     VorongenSynthesizer,
     available_sample_configs,

@@ -68,7 +68,7 @@ def _controller_config_payload(value: Any) -> dict[str, Any]:
 
 def _timestamped_output_name() -> str:
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-    return f"{stamp}_vorongen.xlsx"
+    return f"{stamp}_itergen.xlsx"
 
 
 def _resolve_output_path(output_path: str | None) -> Path:
@@ -148,7 +148,7 @@ def _decode_output_dataframe(df, column_specs):
     return display_df
 
 
-class VorongenSynthesizer:
+class ItergenSynthesizer:
     """High-level facade for running config-driven synthetic generation."""
 
     def __init__(self, config: Any, run_config: RunConfig | None = None):
@@ -161,7 +161,7 @@ class VorongenSynthesizer:
         if not isinstance(metadata, dict):
             metadata = {}
 
-        logger, log_path = setup_run_logger(name="vorongen")
+        logger, log_path = setup_run_logger(name="itergen")
         runtime_notes = []
 
         torch_available = is_torch_available()
@@ -365,7 +365,7 @@ class VorongenSynthesizer:
 def generate(config: Any, run_config: RunConfig | None = None) -> GenerateResult:
     """Convenience function for one-off generation calls."""
 
-    return VorongenSynthesizer(config, run_config=run_config).generate()
+    return ItergenSynthesizer(config, run_config=run_config).generate()
 
 
 def compare_torch_vs_classic(

@@ -7,7 +7,7 @@ import sys
 
 def main() -> int:
     print(
-        "vorongen no longer provides a CLI. "
+        "itergen no longer provides a CLI. "
         "Use the Python API (see README) or run sample_run.py.",
         file=sys.stderr,
     )

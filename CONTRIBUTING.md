@@ -1,4 +1,4 @@
-# Contributing to vorongen
+# Contributing to itergen
 
 Thanks for contributing.
 
@@ -6,7 +6,7 @@ Thanks for contributing.
 
 ```bash
 git clone <repo-url>
-cd vorongen
+cd itergen
 pip install -e .[dev,docs]
 ```
 
@@ -17,7 +17,7 @@ Run these before opening a PR:
 ```bash
 ruff check .
 ruff format --check .
-mypy src/vorongen
+mypy src/itergen
 PYTHONPATH=src python -m unittest discover -s tests -p "test*.py" -q
 coverage run -m unittest discover -s tests -p "test*.py"
 coverage report --fail-under=85

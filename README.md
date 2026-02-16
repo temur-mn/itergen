@@ -1,6 +1,6 @@
-# vorongen
+# itergen
 
-`vorongen` is a config-driven synthetic tabular data generator for dependency-aware
+`itergen` is a config-driven synthetic tabular data generator for dependency-aware
 workflows with binary, categorical, and continuous columns.
 
 It supports:
@@ -16,14 +16,14 @@ It supports:
 From PyPI:
 
 ```bash
-pip install vorongen
+pip install itergen
 ```
 
 From source:
 
 ```bash
 git clone <repo-url>
-cd vorongen
+cd itergen
 pip install -e .
 ```
 
@@ -37,14 +37,14 @@ pip install -e .[torch]  # torch controller backend
 
 ## Runtime mode
 
-`vorongen` is API-only. No CLI entrypoint is shipped.
+`itergen` is API-only. No CLI entrypoint is shipped.
 
 Use `python sample_run.py` for a quick local smoke run.
 
 ## Quick Python API usage
 
 ```python
-from vorongen import RunConfig, VorongenSynthesizer, get_sample_config
+from itergen import RunConfig, ItergenSynthesizer, get_sample_config
 
 config = get_sample_config("mixed")
 run_cfg = RunConfig(
@@ -55,12 +55,12 @@ run_cfg = RunConfig(
     log_level="quiet",
 )
 
-result = VorongenSynthesizer(config, run_cfg).generate()
+result = ItergenSynthesizer(config, run_cfg).generate()
 print(result.success, result.objective())
 print(result.output_path)
 ```
 
-Default output path is `output/<timestamp>_vorongen.xlsx`.
+Default output path is `output/<timestamp>_itergen.xlsx`.
 
 ## Documentation (Sphinx)
 
@@ -71,7 +71,7 @@ Primary docs are maintained in Sphinx under `source/`.
 - Configuration: `source/configuration.md`
 - API reference: `source/api.md`
 - Architecture: `source/architecture.md`
-- Editable architecture diagram: `source/diagrams/vorongen-architecture.drawio`
+- Editable architecture diagram: `source/diagrams/itergen-architecture.drawio`
 - Troubleshooting: `source/troubleshooting.md`
 - Release guide (Git + PyPI): `source/release.md`
 
@@ -86,7 +86,7 @@ python -m sphinx -W -b html source build/html
 ```bash
 ruff check .
 ruff format --check .
-mypy src/vorongen
+mypy src/itergen
 PYTHONPATH=src python -m unittest discover -s tests -p "test*.py" -q
 coverage run -m unittest discover -s tests -p "test*.py"
 coverage report --fail-under=85

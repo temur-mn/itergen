@@ -24,7 +24,7 @@ draft.zip
 draft_1.xlsx
 /logs/
 /output/
-/src/vorongen/logs/
+/src/itergen/logs/
 
 # Local workspace folders
 .backlog/

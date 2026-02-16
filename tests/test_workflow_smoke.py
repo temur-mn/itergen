@@ -2,18 +2,18 @@ import unittest
 
 import pandas as pd
 
-from vorongen.engine.adjustments import build_random_flips
-from vorongen.engine.generation import generate_until_valid
-from vorongen.runtime.rng import RNG
-from vorongen.schema import defaults
-from vorongen.schema.config import (
+from itergen.engine.adjustments import build_random_flips
+from itergen.engine.generation import generate_until_valid
+from itergen.runtime.rng import RNG
+from itergen.schema import defaults
+from itergen.schema.config import (
     _collect_references,
     build_column_specs,
     check_feasibility,
     resolve_missing_columns,
     validate_config,
 )
-from vorongen.scoring.metrics import (
+from itergen.scoring.metrics import (
     apply_equilibrium_patch,
     build_equilibrium_state,
     build_quality_report,
