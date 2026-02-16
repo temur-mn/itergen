@@ -89,6 +89,13 @@ def _resolve_output_path(output_path: str | None) -> Path:
     return path
 
 
+def _resolve_log_dir(log_dir: Any) -> str | None:
+    if log_dir is None:
+        return None
+    text = str(log_dir).strip()
+    return text or None
+
+
 def _apply_numeric_rule_override(
     rules: dict[str, float], target_key: str, label: str, value: Any, logger
 ) -> None:
@@ -161,7 +168,12 @@ class ItergenSynthesizer:
         if not isinstance(metadata, dict):
             metadata = {}
 
-        logger, log_path = setup_run_logger(name="itergen")
+        log_dir = _resolve_log_dir(
+            self.run_config.log_dir
+            if self.run_config.log_dir is not None
+            else metadata.get("log_dir")
+        )
+        logger, log_path = setup_run_logger(log_dir=log_dir, name="itergen")
         runtime_notes = []
 
         torch_available = is_torch_available()

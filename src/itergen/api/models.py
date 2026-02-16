@@ -33,6 +33,7 @@ class RunConfig:
     tolerance: float | None = None
     max_attempts: int | None = None
     log_level: str | None = None
+    log_dir: str | None = None
     output_path: str | None = None
     attempt_workers: int | None = None
     proposal_scoring_mode: str | None = None

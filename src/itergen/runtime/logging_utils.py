@@ -3,19 +3,24 @@ Run logging helpers.
 """
 
 import logging
-import os
 from datetime import datetime
 from pathlib import Path
 
 
 def setup_run_logger(log_dir=None, name="generator"):
+    package_dir = Path(__file__).resolve().parents[1]
+    default_log_dir = package_dir / "logs"
+
     if log_dir is None:
-        package_dir = Path(__file__).resolve().parents[1]
-        log_dir = str(package_dir / "logs")
-    os.makedirs(log_dir, exist_ok=True)
+        resolved_log_dir = default_log_dir
+    else:
+        text = str(log_dir).strip()
+        resolved_log_dir = Path(text).expanduser() if text else default_log_dir
+
+    resolved_log_dir.mkdir(parents=True, exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_path = os.path.join(log_dir, f"run_{timestamp}.log")
+    log_path = resolved_log_dir / f"run_{timestamp}.log"
 
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)
@@ -41,4 +46,4 @@ def setup_run_logger(log_dir=None, name="generator"):
     stream_handler.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
     logger.addHandler(stream_handler)
 
-    return logger, log_path
+    return logger, str(log_path)

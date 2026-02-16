@@ -1,7 +1,11 @@
+import tempfile
 import unittest
+from pathlib import Path
+from unittest.mock import patch
 
 import pandas as pd
 
+from itergen import ItergenSynthesizer, RunConfig, get_sample_config
 from itergen.engine.adjustments import build_random_flips
 from itergen.engine.generation import generate_until_valid
 from itergen.runtime.rng import RNG
@@ -27,6 +31,10 @@ from itergen.scoring.metrics import (
 
 
 class WorkflowSmokeTests(unittest.TestCase):
+    @staticmethod
+    def _fake_to_excel(_df, excel_writer, *args, **kwargs):
+        Path(excel_writer).write_text("mock excel payload")
+
     def test_skip_prunes_transitively_and_preserves_integrity(self):
         config = {
             "metadata": {},
@@ -767,6 +775,50 @@ class WorkflowSmokeTests(unittest.TestCase):
         self.assertEqual(len(df), n_rows)
         self.assertGreaterEqual(attempts, 1)
         self.assertLessEqual(attempts, 2)
+
+    def test_metadata_log_dir_controls_log_file_directory(self):
+        config = get_sample_config("binary")
+
+        with tempfile.TemporaryDirectory() as log_dir:
+            with tempfile.TemporaryDirectory() as output_dir:
+                config.setdefault("metadata", {})["log_dir"] = log_dir
+                run_cfg = RunConfig(
+                    n_rows=40,
+                    seed=7,
+                    tolerance=0.1,
+                    max_attempts=1,
+                    log_level="quiet",
+                    output_path=output_dir,
+                )
+
+                with patch("pandas.DataFrame.to_excel", new=self._fake_to_excel):
+                    result = ItergenSynthesizer(config, run_cfg).generate()
+
+                self.assertEqual(result.log_path.parent, Path(log_dir))
+                self.assertTrue(result.log_path.exists())
+
+    def test_run_config_log_dir_overrides_metadata_log_dir(self):
+        config = get_sample_config("binary")
+
+        with tempfile.TemporaryDirectory() as metadata_log_dir:
+            with tempfile.TemporaryDirectory() as run_log_dir:
+                with tempfile.TemporaryDirectory() as output_dir:
+                    config.setdefault("metadata", {})["log_dir"] = metadata_log_dir
+                    run_cfg = RunConfig(
+                        n_rows=40,
+                        seed=7,
+                        tolerance=0.1,
+                        max_attempts=1,
+                        log_level="quiet",
+                        log_dir=run_log_dir,
+                        output_path=output_dir,
+                    )
+
+                    with patch("pandas.DataFrame.to_excel", new=self._fake_to_excel):
+                        result = ItergenSynthesizer(config, run_cfg).generate()
+
+                    self.assertEqual(result.log_path.parent, Path(run_log_dir))
+                    self.assertTrue(result.log_path.exists())
 
 
 if __name__ == "__main__":

@@ -440,6 +440,10 @@ def validate_config(config):
     if log_level is not None and log_level not in ("info", "quiet"):
         warnings.append("metadata.log_level must be info or quiet")
 
+    log_dir = metadata.get("log_dir")
+    if log_dir is not None and (not isinstance(log_dir, str) or not log_dir.strip()):
+        warnings.append("metadata.log_dir must be a non-empty string")
+
     proposal_scoring_mode = metadata.get("proposal_scoring_mode")
     if proposal_scoring_mode is not None and proposal_scoring_mode not in (
         "incremental",

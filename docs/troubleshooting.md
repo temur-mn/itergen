@@ -92,7 +92,8 @@ Why this happens:
 
 What to check:
 
-- run log under `src/vorongen/logs/` for `[ATTEMPT COMPLETE]` and
+- run log under your configured `log_dir` (`metadata.log_dir` or
+  `RunConfig.log_dir`; default `src/itergen/logs/`) for `[ATTEMPT COMPLETE]` and
   `[FINAL METRICS]` entries
 - final status in `GenerateResult.success` (`False` means best-effort)
 

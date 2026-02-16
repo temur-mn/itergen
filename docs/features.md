@@ -110,7 +110,8 @@ This guide describes each current feature type and how it fits into the runtime.
 ## 7. Output, Logs, And Runtime Artifacts
 
 - Output workbook is written to a timestamped path if a filename is not provided.
-- Each run writes a timestamped log file under `src/vorongen/logs/`.
+- Each run writes a timestamped log file under the configured `log_dir`
+  (`metadata.log_dir` or `RunConfig.log_dir`; default `src/itergen/logs/`).
 - `GenerateResult` returns:
   - `dataframe`, `metrics`, `quality_report`
   - `success`, `attempts`, `output_path`, `log_path`
