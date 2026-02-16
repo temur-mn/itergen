@@ -33,7 +33,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/temur-mn/itergen"
-Documentation = "https://github.com/temur-mn/itergen/blob/main/source/index.rst"
+Documentation = "https://github.com/temur-mn/itergen/blob/main/docs/source/index.rst"
 Source = "https://github.com/temur-mn/itergen"
 Issues = "https://github.com/temur-mn/itergen/issues"
 Changelog = "https://github.com/temur-mn/itergen/blob/main/CHANGELOG.md"

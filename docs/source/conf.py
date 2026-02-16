@@ -1,4 +1,4 @@
-"""Sphinx configuration for vorongen documentation."""
+"""Sphinx configuration for itergen documentation."""
 
 from __future__ import annotations
 
@@ -7,17 +7,18 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-SRC = ROOT / "src"
+DOCS_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = DOCS_ROOT.parent
+SRC = REPO_ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-_pyproject_text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+_pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
 _version_match = re.search(r'^version\s*=\s*"([^"]+)"', _pyproject_text, re.MULTILINE)
 _release = _version_match.group(1) if _version_match else "0.0.0"
 
-project = "vorongen"
-author = "Vorongen Contributors"
+project = "itergen"
+author = "Itergen Contributors"
 copyright = f"{datetime.now().year}, {author}"
 release = _release
 

@@ -7,7 +7,7 @@ The package root re-exports the most common runtime entry points:
 - `RunConfig`
 - `GenerateResult`
 - `TorchControllerConfig`
-- `VorongenSynthesizer`
+- `ItergenSynthesizer`
 - `generate`
 - `compare_torch_vs_classic`
 - `get_sample_config`
@@ -16,24 +16,24 @@ The package root re-exports the most common runtime entry points:
 ## Runtime models
 
 ```{eval-rst}
-.. automodule:: vorongen.api.models
+.. automodule:: itergen.api.models
    :members:
 ```
 
 ## Runtime orchestration
 
 ```{eval-rst}
-.. automodule:: vorongen.api.synthesizer
+.. automodule:: itergen.api.synthesizer
    :members:
 ```
 
 ## Built-in sample configs
 
 ```{eval-rst}
-.. automodule:: vorongen.schema.samples
+.. automodule:: itergen.schema.samples
    :members:
 ```
 
-Legacy flat-module imports (for example `vorongen.models` and
-`vorongen.sample_configs`) have been removed. Use canonical module paths such as
-`vorongen.api.models` and `vorongen.schema.samples`.
+Legacy flat-module imports (for example `itergen.models` and
+`itergen.sample_configs`) have been removed. Use canonical module paths such as
+`itergen.api.models` and `itergen.schema.samples`.

@@ -15,11 +15,11 @@ This page is the canonical release checklist for both GitHub and PyPI.
 pip install -e .[dev,docs,torch]
 ruff check .
 ruff format --check .
-mypy src/vorongen
+mypy src/itergen
 PYTHONPATH=src python -m unittest discover -s tests -p "test*.py" -q
 coverage run -m unittest discover -s tests -p "test*.py"
 coverage report --fail-under=85
-python -m sphinx -W -b html source build/html
+python -m sphinx -W -b html docs/source docs/build/html
 python -m build
 python -m twine check dist/*
 ```
@@ -41,6 +41,6 @@ python -m twine upload dist/*
 
 After publishing, verify:
 
-- package installs from PyPI (`pip install vorongen==<version>`)
+- package installs from PyPI (`pip install itergen==<version>`)
 - import-first runtime works (`python sample_run.py`)
 - docs and changelog links in `pyproject.toml` are correct

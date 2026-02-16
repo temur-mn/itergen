@@ -1,7 +1,7 @@
-vorongen Documentation
-======================
+itergen Documentation
+=====================
 
-``vorongen`` is a synthetic tabular data generation package for dependency-driven
+``itergen`` is a synthetic tabular data generation package for dependency-driven
 workflows with binary, categorical, and continuous columns.
 
 .. toctree::

@@ -71,21 +71,20 @@ Default output path is `output/<timestamp>_itergen.xlsx`.
 
 ## Documentation (Sphinx)
 
-Primary docs are maintained in Sphinx under `source/`.
+Primary docs are maintained in Sphinx under `docs/source/`.
 
-- Quickstart: `source/quickstart.md`
-- Feature guide: `source/features.md`
-- Configuration: `source/configuration.md`
-- API reference: `source/api.md`
-- Architecture: `source/architecture.md`
-- Editable architecture diagram: `source/diagrams/itergen-architecture.drawio`
-- Troubleshooting: `source/troubleshooting.md`
-- Release guide (Git + PyPI): `source/release.md`
+- Quickstart: `docs/source/quickstart.md`
+- Feature guide: `docs/source/features.md`
+- Configuration: `docs/source/configuration.md`
+- API reference: `docs/source/api.md`
+- Architecture: `docs/source/architecture.md`
+- Troubleshooting: `docs/source/troubleshooting.md`
+- Release guide (Git + PyPI): `docs/source/release.md`
 
 Build docs locally:
 
 ```bash
-python -m sphinx -W -b html source build/html
+python -m sphinx -W -b html docs/source docs/build/html
 ```
 
 ## Quality gate

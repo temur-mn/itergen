@@ -1,6 +1,6 @@
 # Configuration
 
-`vorongen` accepts configuration as:
+`itergen` accepts configuration as:
 
 - a Python mapping (`dict`)
 - YAML text
@@ -185,7 +185,7 @@ clear error explaining how to switch modes.
 Before expensive runs, validate config and check feasibility:
 
 ```python
-from vorongen.schema.config import build_column_specs, check_feasibility, validate_config
+from itergen.schema.config import build_column_specs, check_feasibility, validate_config
 
 warnings = validate_config(config)
 specs = build_column_specs(config)

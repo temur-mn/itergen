@@ -9,7 +9,7 @@ If you see:
 Install dependencies:
 
 ```bash
-pip install vorongen
+pip install itergen
 ```
 
 or
@@ -18,9 +18,9 @@ or
 pip install openpyxl
 ```
 
-## `python -m vorongen` exits immediately
+## `python -m itergen` exits immediately
 
-This is expected. `vorongen` is API-only and no longer provides a CLI.
+This is expected. `itergen` is API-only and no longer provides a CLI.
 
 Use one of:
 
@@ -31,9 +31,9 @@ python sample_run.py
 or run from Python:
 
 ```python
-from vorongen import RunConfig, VorongenSynthesizer, get_sample_config
+from itergen import RunConfig, ItergenSynthesizer, get_sample_config
 
-result = VorongenSynthesizer(get_sample_config("mixed"), RunConfig(n_rows=1000)).generate()
+result = ItergenSynthesizer(get_sample_config("mixed"), RunConfig(n_rows=1000)).generate()
 ```
 
 ## Validate config before generation
@@ -41,7 +41,7 @@ result = VorongenSynthesizer(get_sample_config("mixed"), RunConfig(n_rows=1000))
 Use programmatic validation to surface schema or feasibility issues early:
 
 ```python
-from vorongen.schema.config import build_column_specs, check_feasibility, validate_config
+from itergen.schema.config import build_column_specs, check_feasibility, validate_config
 
 warnings = validate_config(config)
 specs = build_column_specs(config)
@@ -61,7 +61,7 @@ If validation fails with missing parent/column references:
 If torch controller mode is requested and torch is not installed:
 
 - with `RunConfig(torch_required=True)`, the run fails fast
-- with `RunConfig(torch_required=False)`, vorongen falls back to classic controller
+- with `RunConfig(torch_required=False)`, itergen falls back to classic controller
 
 Install torch extras when you want strict torch-backed runs:
 
@@ -75,7 +75,7 @@ Install docs extras first:
 
 Then run:
 
-`python -m sphinx -W -b html source build/html`
+`python -m sphinx -W -b html docs/source docs/build/html`
 
 ## Run looks stalled on large configs
 

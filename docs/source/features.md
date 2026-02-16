@@ -1,6 +1,6 @@
 # Feature Guide
 
-`vorongen` is a config-driven synthetic tabular data engine with explicit support for
+`itergen` is a config-driven synthetic tabular data engine with explicit support for
 dependency-aware binary, categorical, and continuous generation.
 
 This guide describes each current feature type and how it fits into the runtime.
@@ -60,7 +60,7 @@ This guide describes each current feature type and how it fits into the runtime.
 
 ## 3. Runtime And Execution Features
 
-- Unified high-level API through `VorongenSynthesizer` and `RunConfig`.
+- Unified high-level API through `ItergenSynthesizer` and `RunConfig`.
 - Runtime precedence model: `RunConfig` overrides metadata values.
 - Attempt-based generation with best-effort fallback if strict rules are not met.
 - Parallel attempts via `attempt_workers` for multi-process retries.
