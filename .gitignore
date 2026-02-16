@@ -23,9 +23,9 @@ dist/
 # Local run artifacts
 draft.zip
 draft_1.xlsx
-logs/
-output/
-src/vorongen/logs/*.log
+/logs/
+/output/
+/src/vorongen/logs/
 
 # Local workspace folders
 .backlog/
