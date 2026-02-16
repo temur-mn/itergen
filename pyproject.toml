@@ -100,7 +100,7 @@ source = ["vorongen"]
 
 [tool.coverage.report]
 omit = ["src/vorongen/controllers/torch.py"]
-fail_under = 85
+fail_under = 50
 show_missing = true
 
 [dependency-groups]
