@@ -67,6 +67,7 @@ Default output path is `output/<timestamp>_vorongen.xlsx`.
 Primary docs are maintained in Sphinx under `source/`.
 
 - Quickstart: `source/quickstart.md`
+- Feature guide: `source/features.md`
 - Configuration: `source/configuration.md`
 - API reference: `source/api.md`
 - Architecture: `source/architecture.md`

@@ -9,6 +9,7 @@ workflows with binary, categorical, and continuous columns.
    :caption: Getting Started
 
    quickstart
+   features
    configuration
 
 .. toctree::

@@ -193,6 +193,7 @@
   <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Feature Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
@@ -257,13 +258,28 @@ workflows with binary, categorical, and continuous columns.</p>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#next-docs">Next docs</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Feature Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="features.html#feature-types-at-a-glance">Feature Types At A Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#schema-and-distribution-features">1. Schema And Distribution Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#dependency-and-integrity-features">2. Dependency And Integrity Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#runtime-and-execution-features">3. Runtime And Execution Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#optimization-features">4. Optimization Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#controller-features">5. Controller Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#quality-rules-and-diagnostics">6. Quality, Rules, And Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#output-logs-and-runtime-artifacts">7. Output, Logs, And Runtime Artifacts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#built-in-feature-scenarios">8. Built-In Feature Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html#related-docs">Related Docs</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="configuration.html#core-sections">Core sections</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration.html#distribution-types">Distribution types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration.html#runtime-overrides">Runtime overrides</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration.html#missing-dependencies-behavior">Missing dependencies behavior</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration.html#controller-backend-behavior">Controller backend behavior</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration.html#output-behavior">Output behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#configuration-shape">Configuration Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#runtime-metadata-reference">Runtime Metadata Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#column-feature-types">Column Feature Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#advanced-optimizer-features">Advanced Optimizer Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#precedence-runconfig-vs-metadata">Precedence: <code class="docutils literal notranslate"><span class="pre">RunConfig</span></code> Vs Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#missing-dependency-handling">Missing Dependency Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#validation-and-feasibility-workflow">Validation And Feasibility Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#practical-tuning-sequence">Practical Tuning Sequence</a></li>
 </ul>
 </li>
 </ul>
@@ -280,8 +296,11 @@ workflows with binary, categorical, and continuous columns.</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="architecture.html#runtime-flow">Runtime flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#feature-lanes">Feature lanes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="architecture.html#main-packages">Main packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#execution-modes">Execution modes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="architecture.html#controller-backends">Controller backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#output-artifacts">Output artifacts</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a><ul>
@@ -291,6 +310,7 @@ workflows with binary, categorical, and continuous columns.</p>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#config-dependency-errors">Config dependency errors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#torch-controller-requested-but-torch-unavailable">Torch controller requested but torch unavailable</a></li>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#docs-build-fails">Docs build fails</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#run-looks-stalled-on-large-configs">Run looks stalled on large configs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html#slow-convergence">Slow convergence</a></li>
 </ul>
 </li>

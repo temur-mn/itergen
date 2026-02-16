@@ -193,6 +193,7 @@
   <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Feature Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
@@ -309,6 +310,32 @@
 <p>Then run:</p>
 <p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">sphinx</span> <span class="pre">-W</span> <span class="pre">-b</span> <span class="pre">html</span> <span class="pre">source</span> <span class="pre">build/html</span></code></p>
 </section>
+<section id="run-looks-stalled-on-large-configs">
+<h2>Run looks stalled on large configs<a class="headerlink" href="#run-looks-stalled-on-large-configs" title="Link to this heading">¶</a></h2>
+<p>Large configs (for example <code class="docutils literal notranslate"><span class="pre">mixed_large</span></code>) can appear idle for long periods when
+attempt-level parallelism is enabled.</p>
+<p>Why this happens:</p>
+<ul class="simple">
+<li><p>each worker runs a full optimization attempt before returning</p></li>
+<li><p>heavy settings (<code class="docutils literal notranslate"><span class="pre">max_iters</span></code>, large row counts, strict rule thresholds) can make
+each attempt expensive</p></li>
+<li><p>if all attempts miss rule thresholds, runtime still completes and returns the
+best-effort dataset</p></li>
+</ul>
+<p>What to check:</p>
+<ul class="simple">
+<li><p>run log under <code class="docutils literal notranslate"><span class="pre">src/vorongen/logs/</span></code> for <code class="docutils literal notranslate"><span class="pre">[ATTEMPT</span> <span class="pre">COMPLETE]</span></code> and
+<code class="docutils literal notranslate"><span class="pre">[FINAL</span> <span class="pre">METRICS]</span></code> entries</p></li>
+<li><p>final status in <code class="docutils literal notranslate"><span class="pre">GenerateResult.success</span></code> (<code class="docutils literal notranslate"><span class="pre">False</span></code> means best-effort)</p></li>
+</ul>
+<p>How to shorten local iteration loops:</p>
+<ul class="simple">
+<li><p>reduce <code class="docutils literal notranslate"><span class="pre">n_rows</span></code> while tuning</p></li>
+<li><p>lower <code class="docutils literal notranslate"><span class="pre">max_attempts</span></code> temporarily</p></li>
+<li><p>reduce <code class="docutils literal notranslate"><span class="pre">attempt_workers</span></code> if your machine is memory constrained</p></li>
+<li><p>relax strict rule caps only after reviewing <code class="docutils literal notranslate"><span class="pre">quality_report</span></code></p></li>
+</ul>
+</section>
 <section id="slow-convergence">
 <h2>Slow convergence<a class="headerlink" href="#slow-convergence" title="Link to this heading">¶</a></h2>
 <ul class="simple">
@@ -381,6 +408,7 @@
 <li><a class="reference internal" href="#config-dependency-errors">Config dependency errors</a></li>
 <li><a class="reference internal" href="#torch-controller-requested-but-torch-unavailable">Torch controller requested but torch unavailable</a></li>
 <li><a class="reference internal" href="#docs-build-fails">Docs build fails</a></li>
+<li><a class="reference internal" href="#run-looks-stalled-on-large-configs">Run looks stalled on large configs</a></li>
 <li><a class="reference internal" href="#slow-convergence">Slow convergence</a></li>
 </ul>
 </li>

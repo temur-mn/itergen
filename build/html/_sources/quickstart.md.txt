@@ -61,6 +61,7 @@ python sample_run.py
 
 ## Next docs
 
+- Feature guide: `features.md`
 - Configuration details: `configuration.md`
 - API reference: `api.md`
 - Troubleshooting: `troubleshooting.md`
