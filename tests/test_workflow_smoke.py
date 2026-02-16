@@ -2,17 +2,18 @@ import unittest
 
 import pandas as pd
 
-from vorongen import defaults
-from vorongen.adjustments import build_random_flips
-from vorongen.config import (
+from vorongen.engine.adjustments import build_random_flips
+from vorongen.engine.generation import generate_until_valid
+from vorongen.runtime.rng import RNG
+from vorongen.schema import defaults
+from vorongen.schema.config import (
     _collect_references,
     build_column_specs,
     check_feasibility,
     resolve_missing_columns,
     validate_config,
 )
-from vorongen.generation import generate_until_valid
-from vorongen.metrics import (
+from vorongen.scoring.metrics import (
     apply_equilibrium_patch,
     build_equilibrium_state,
     build_quality_report,
@@ -23,7 +24,6 @@ from vorongen.metrics import (
     equilibrium_metrics_from_state,
     preview_equilibrium_objective,
 )
-from vorongen.rng import RNG
 
 
 class WorkflowSmokeTests(unittest.TestCase):

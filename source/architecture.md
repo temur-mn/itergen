@@ -14,14 +14,15 @@
 6. Evaluate equilibrium rules and retry attempts when needed.
 7. Save output, metrics, and quality report.
 
-## Main modules
+## Main packages
 
-- `vorongen.cli`: CLI argument parsing, validate-only mode, and run orchestration.
-- `vorongen.synthesizer`: high-level runtime facade used by CLI and API.
-- `vorongen.config`: config validation, dependency resolution, and column specs.
-- `vorongen.generation`: attempt loop (`generate_until_valid`) with retry workers.
-- `vorongen.optimizer`: proposal/acceptance loop and controller integration.
-- `vorongen.metrics`: objective/error computation and quality report output.
+- `vorongen.api`: CLI entrypoints (`cli`) plus high-level runtime facade (`synthesizer`) and public dataclasses (`models`).
+- `vorongen.schema`: config parsing/validation (`config`), defaults (`defaults`), and built-in samples (`samples`).
+- `vorongen.engine`: initial generation (`initial`), retry loop (`generation`), optimizer (`optimizer`), and proposal helpers (`adjustments`).
+- `vorongen.scoring`: condition matching (`conditions`) and equilibrium/objective reporting (`metrics`).
+- `vorongen.controllers`: classic controller (`classic`) and torch-backed controller (`torch`).
+- `vorongen.runtime`: deterministic RNG helpers (`rng`) and run logging (`logging_utils`).
+- Legacy flat-module imports (for example `vorongen.cli`, `vorongen.config`) remain as compatibility wrappers.
 
 ## Controller backends
 

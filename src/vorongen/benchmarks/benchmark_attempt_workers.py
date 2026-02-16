@@ -22,10 +22,10 @@ import time
 
 import yaml
 
-from vorongen import defaults
-from vorongen.config import resolve_missing_columns, validate_config
-from vorongen.generation import generate_until_valid
-from vorongen.sample_configs import CONFIG_MIXED_LARGE
+from vorongen.engine.generation import generate_until_valid
+from vorongen.schema import defaults
+from vorongen.schema.config import resolve_missing_columns, validate_config
+from vorongen.schema.samples import CONFIG_MIXED_LARGE
 
 
 def _env_int(name, default):

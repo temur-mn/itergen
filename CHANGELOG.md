@@ -22,7 +22,8 @@ Versioning principles.
 
 ### Changed
 
-- Module and console entrypoints now route through `vorongen.cli`.
+- Module and console entrypoints now live under `vorongen.api` (`vorongen.api.cli`,
+  `vorongen.api.synthesizer`) with compatibility wrappers kept for legacy imports.
 - Documentation build setup upgraded to modern Sphinx extensions and theme.
 - Torch-requested runs now use a real torch-backed controller backend when
   available, with classic fallback when optional.

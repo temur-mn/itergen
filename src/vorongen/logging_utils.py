@@ -1,43 +1,6 @@
-"""
-Run logging helpers.
-"""
+"""Backward-compatible wrapper for ``vorongen.runtime.logging_utils``."""
 
-import logging
-import os
-from datetime import datetime
+from .runtime import logging_utils as _impl
 
-
-def setup_run_logger(log_dir=None, name="generator"):
-    if log_dir is None:
-        base_dir = os.path.dirname(__file__)
-        log_dir = os.path.join(base_dir, "logs")
-    os.makedirs(log_dir, exist_ok=True)
-
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_path = os.path.join(log_dir, f"run_{timestamp}.log")
-
-    logger = logging.getLogger(name)
-    logger.setLevel(logging.INFO)
-    logger.propagate = False
-
-    if logger.handlers:
-        for handler in list(logger.handlers):
-            logger.removeHandler(handler)
-            try:
-                handler.close()
-            except Exception:
-                pass
-
-    file_handler = logging.FileHandler(log_path)
-    file_handler.setLevel(logging.INFO)
-    file_handler.setFormatter(
-        logging.Formatter("%(asctime)s %(levelname)s %(message)s")
-    )
-    logger.addHandler(file_handler)
-
-    stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.WARNING)
-    stream_handler.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
-    logger.addHandler(stream_handler)
-
-    return logger, log_path
+__all__ = [name for name in dir(_impl) if not name.startswith("__")]
+globals().update({name: getattr(_impl, name) for name in __all__})

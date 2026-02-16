@@ -16,20 +16,23 @@ The package root re-exports the most common runtime entry points:
 ## Runtime models
 
 ```{eval-rst}
-.. automodule:: vorongen.models
+.. automodule:: vorongen.api.models
    :members:
 ```
 
 ## Runtime orchestration
 
 ```{eval-rst}
-.. automodule:: vorongen.synthesizer
+.. automodule:: vorongen.api.synthesizer
    :members:
 ```
 
 ## Built-in sample configs
 
 ```{eval-rst}
-.. automodule:: vorongen.sample_configs
+.. automodule:: vorongen.schema.samples
    :members:
 ```
+
+Legacy flat-module imports (for example `vorongen.models` and
+`vorongen.sample_configs`) are maintained as compatibility wrappers.
