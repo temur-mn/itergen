@@ -1,6 +1,6 @@
 """Legacy wrapper for historical `vorongen.main:main` entrypoint."""
 
-from .cli import main as cli_main
+from .api.cli import main as cli_main
 
 
 def main() -> int:

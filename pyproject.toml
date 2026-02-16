@@ -39,7 +39,7 @@ Issues = "https://github.com/temurmamanazarov/vorongen/issues"
 Changelog = "https://github.com/temurmamanazarov/vorongen/blob/main/CHANGELOG.md"
 
 [project.scripts]
-vorongen = "vorongen.cli:main"
+vorongen = "vorongen.api.cli:main"
 
 [project.optional-dependencies]
 torch = ["torch>=2.1"]
@@ -82,8 +82,8 @@ extend-exclude = ["build", "dist", "source/_autosummary"]
 select = ["E", "F", "I", "B", "UP", "N", "W"]
 
 [tool.ruff.lint.per-file-ignores]
-"src/vorongen/config.py" = ["E501"]
-"src/vorongen/sample_configs.py" = ["E501"]
+"src/vorongen/schema/config.py" = ["E501"]
+"src/vorongen/schema/samples.py" = ["E501"]
 "src/vorongen/benchmarks/*.py" = ["E501"]
 
 [tool.mypy]

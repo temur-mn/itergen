@@ -1,6 +1,9 @@
 """Backward-compatible wrapper for ``vorongen.api.synthesizer``."""
 
+from ._deprecation import warn_flat_module
 from .api import synthesizer as _impl
+
+warn_flat_module("vorongen.synthesizer", "vorongen.api.synthesizer")
 
 _ORIGINAL_IS_TORCH_AVAILABLE = _impl.is_torch_available
 _SKIP_NAMES = {

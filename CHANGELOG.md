@@ -24,6 +24,8 @@ Versioning principles.
 
 - Module and console entrypoints now live under `vorongen.api` (`vorongen.api.cli`,
   `vorongen.api.synthesizer`) with compatibility wrappers kept for legacy imports.
+- Legacy flat-module imports (for example `vorongen.config`, `vorongen.metrics`)
+  now emit `DeprecationWarning` with replacement paths.
 - Documentation build setup upgraded to modern Sphinx extensions and theme.
 - Torch-requested runs now use a real torch-backed controller backend when
   available, with classic fallback when optional.

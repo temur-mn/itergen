@@ -2,17 +2,17 @@
 
 from importlib.metadata import PackageNotFoundError, version
 
-from .models import GenerateResult, RunConfig, TorchControllerConfig
-from .sample_configs import (
-    available_sample_configs,
-    get_sample_config,
-    load_config,
-)
-from .synthesizer import (
+from .api.models import GenerateResult, RunConfig, TorchControllerConfig
+from .api.synthesizer import (
     VorongenSynthesizer,
     compare_torch_vs_classic,
     generate,
     is_torch_available,
+)
+from .schema.samples import (
+    available_sample_configs,
+    get_sample_config,
+    load_config,
 )
 
 try:

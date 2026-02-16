@@ -1,6 +1,9 @@
 """Backward-compatible wrapper for ``vorongen.api.cli``."""
 
+from ._deprecation import warn_flat_module
 from .api import cli as _impl
+
+warn_flat_module("vorongen.cli", "vorongen.api.cli")
 
 _SKIP_NAMES = {"main"}
 for _name in dir(_impl):

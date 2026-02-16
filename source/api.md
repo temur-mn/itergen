@@ -35,4 +35,5 @@ The package root re-exports the most common runtime entry points:
 ```
 
 Legacy flat-module imports (for example `vorongen.models` and
-`vorongen.sample_configs`) are maintained as compatibility wrappers.
+`vorongen.sample_configs`) are maintained as compatibility wrappers and emit
+`DeprecationWarning`.

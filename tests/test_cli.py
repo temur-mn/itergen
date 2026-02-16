@@ -6,7 +6,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
-import vorongen.cli as cli
+import vorongen.api.cli as cli
 from vorongen import __version__
 
 
@@ -61,10 +61,10 @@ class CliTests(unittest.TestCase):
     def test_sample_run_builds_expected_run_config(self):
         out = io.StringIO()
         with patch(
-            "vorongen.cli.get_sample_config",
+            "vorongen.api.cli.get_sample_config",
             return_value={"metadata": {}, "columns": []},
         ) as get_cfg:
-            with patch("vorongen.cli.VorongenSynthesizer") as synth_cls:
+            with patch("vorongen.api.cli.VorongenSynthesizer") as synth_cls:
                 synth_cls.return_value.generate.return_value = _fake_result()
                 with redirect_stdout(out):
                     code = cli.main(
@@ -103,7 +103,7 @@ class CliTests(unittest.TestCase):
             config_path = Path(temp_dir) / "config.yaml"
             config_path.write_text("metadata: {}\ncolumns: []\n", encoding="utf-8")
 
-            with patch("vorongen.cli.VorongenSynthesizer") as synth_cls:
+            with patch("vorongen.api.cli.VorongenSynthesizer") as synth_cls:
                 synth_cls.return_value.generate.return_value = _fake_result()
                 with redirect_stdout(io.StringIO()):
                     code = cli.main(["--config", str(config_path)])
@@ -115,7 +115,9 @@ class CliTests(unittest.TestCase):
 
     def test_runtime_failure_returns_nonzero(self):
         err = io.StringIO()
-        with patch("vorongen.cli.get_sample_config", side_effect=ValueError("boom")):
+        with patch(
+            "vorongen.api.cli.get_sample_config", side_effect=ValueError("boom")
+        ):
             with redirect_stderr(err):
                 code = cli.main(["--sample", "mixed"])
 
@@ -142,7 +144,7 @@ class CliTests(unittest.TestCase):
             )
 
             out = io.StringIO()
-            with patch("vorongen.cli.VorongenSynthesizer") as synth_cls:
+            with patch("vorongen.api.cli.VorongenSynthesizer") as synth_cls:
                 with redirect_stdout(out):
                     code = cli.main(
                         [
@@ -173,10 +175,10 @@ class CliTests(unittest.TestCase):
 
     def test_torch_controller_options_build_run_config(self):
         with patch(
-            "vorongen.cli.get_sample_config",
+            "vorongen.api.cli.get_sample_config",
             return_value={"metadata": {}, "columns": []},
         ):
-            with patch("vorongen.cli.VorongenSynthesizer") as synth_cls:
+            with patch("vorongen.api.cli.VorongenSynthesizer") as synth_cls:
                 synth_cls.return_value.generate.return_value = _fake_result()
                 with redirect_stdout(io.StringIO()):
                     code = cli.main(
