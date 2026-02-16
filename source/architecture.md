@@ -1,9 +1,5 @@
 # Architecture
 
-## Editable diagram
-
-- Draw.io source: [vorongen-architecture.drawio](diagrams/vorongen-architecture.drawio)
-
 ## Runtime flow
 
 1. Load config (`dict`, YAML text, or YAML file).
