@@ -109,12 +109,15 @@ This guide describes each current feature type and how it fits into the runtime.
 
 ## 7. Output, Logs, And Runtime Artifacts
 
-- Output workbook is written to a timestamped path if a filename is not provided.
+- Output workbook write can be disabled via `save_output=false`
+  (`metadata.save_output` or `RunConfig.save_output`).
+- When output saving is enabled, workbook is written to a timestamped path if a
+  filename is not provided.
 - Each run writes a timestamped log file under the configured `log_dir`
   (`metadata.log_dir` or `RunConfig.log_dir`; default `src/itergen/logs/`).
 - `GenerateResult` returns:
   - `dataframe`, `metrics`, `quality_report`
-  - `success`, `attempts`, `output_path`, `log_path`
+  - `success`, `attempts`, `output_path` (or `None`), `log_path`
   - `runtime_notes`, plus optional `history` and `initial_dataframe`
 
 ## 8. Built-In Feature Scenarios

@@ -36,6 +36,13 @@ result = VorongenSynthesizer(config, run_cfg).generate()
 print(result.success, result.output_path)
 ```
 
+To run in-memory only (skip workbook write):
+
+```python
+result = VorongenSynthesizer(config, RunConfig(n_rows=1200, save_output=False)).generate()
+print(result.output_path)  # None
+```
+
 Load from YAML text:
 
 ```python

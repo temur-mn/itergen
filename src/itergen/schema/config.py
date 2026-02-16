@@ -444,6 +444,10 @@ def validate_config(config):
     if log_dir is not None and (not isinstance(log_dir, str) or not log_dir.strip()):
         warnings.append("metadata.log_dir must be a non-empty string")
 
+    save_output = metadata.get("save_output")
+    if save_output is not None and not isinstance(save_output, bool):
+        warnings.append("metadata.save_output must be a boolean")
+
     proposal_scoring_mode = metadata.get("proposal_scoring_mode")
     if proposal_scoring_mode is not None and proposal_scoring_mode not in (
         "incremental",

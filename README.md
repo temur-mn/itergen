@@ -60,6 +60,13 @@ print(result.success, result.objective())
 print(result.output_path)
 ```
 
+For in-memory only runs (no Excel write), set `save_output=False`:
+
+```python
+result = ItergenSynthesizer(config, RunConfig(n_rows=3000, save_output=False)).generate()
+print(result.dataframe.shape, result.output_path)  # output_path is None
+```
+
 Default output path is `output/<timestamp>_itergen.xlsx`.
 
 ## Documentation (Sphinx)

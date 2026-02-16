@@ -820,6 +820,83 @@ class WorkflowSmokeTests(unittest.TestCase):
                     self.assertEqual(result.log_path.parent, Path(run_log_dir))
                     self.assertTrue(result.log_path.exists())
 
+    def test_run_config_save_output_false_skips_excel_write(self):
+        config = get_sample_config("binary")
+
+        with tempfile.TemporaryDirectory() as output_dir:
+            run_cfg = RunConfig(
+                n_rows=40,
+                seed=7,
+                tolerance=0.1,
+                max_attempts=1,
+                log_level="quiet",
+                save_output=False,
+                output_path=output_dir,
+            )
+
+            with patch(
+                "pandas.DataFrame.to_excel",
+                side_effect=AssertionError("to_excel should not be called"),
+            ):
+                result = ItergenSynthesizer(config, run_cfg).generate()
+
+        self.assertIsNone(result.output_path)
+        self.assertEqual(len(result.dataframe), 40)
+
+    def test_metadata_save_output_false_skips_excel_write(self):
+        config = get_sample_config("binary")
+        config.setdefault("metadata", {})["save_output"] = False
+
+        with tempfile.TemporaryDirectory() as output_dir:
+            run_cfg = RunConfig(
+                n_rows=40,
+                seed=7,
+                tolerance=0.1,
+                max_attempts=1,
+                log_level="quiet",
+                output_path=output_dir,
+            )
+
+            with patch(
+                "pandas.DataFrame.to_excel",
+                side_effect=AssertionError("to_excel should not be called"),
+            ):
+                result = ItergenSynthesizer(config, run_cfg).generate()
+
+        self.assertIsNone(result.output_path)
+
+    def test_run_config_save_output_overrides_metadata(self):
+        config = get_sample_config("binary")
+        config.setdefault("metadata", {})["save_output"] = False
+
+        with tempfile.TemporaryDirectory() as output_dir:
+            run_cfg = RunConfig(
+                n_rows=40,
+                seed=7,
+                tolerance=0.1,
+                max_attempts=1,
+                log_level="quiet",
+                save_output=True,
+                output_path=output_dir,
+            )
+
+            with patch("pandas.DataFrame.to_excel", new=self._fake_to_excel):
+                result = ItergenSynthesizer(config, run_cfg).generate()
+
+            output_path = result.output_path
+            self.assertIsNotNone(output_path)
+            if output_path is None:
+                self.fail("Expected output path when save_output=True")
+            self.assertTrue(output_path.exists())
+
+    def test_validate_config_warns_on_non_bool_save_output(self):
+        config = get_sample_config("binary")
+        config.setdefault("metadata", {})["save_output"] = "false"
+
+        warnings = validate_config(config)
+
+        self.assertIn("metadata.save_output must be a boolean", warnings)
+
 
 if __name__ == "__main__":
     unittest.main()

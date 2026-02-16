@@ -49,6 +49,22 @@ def _coerce_float(value: Any, fallback: float, minimum: float | None = None) -> 
     return parsed
 
 
+def _coerce_bool(value: Any, fallback: bool) -> bool:
+    if isinstance(value, bool):
+        return value
+    if value is None:
+        return bool(fallback)
+    if isinstance(value, (int, float)):
+        return bool(value)
+
+    text = str(value).strip().lower()
+    if text in {"1", "true", "yes", "y", "on"}:
+        return True
+    if text in {"0", "false", "no", "n", "off"}:
+        return False
+    return bool(fallback)
+
+
 def _normalize_choice(value: Any, allowed: set[str], fallback: str) -> str:
     text = str(value).strip().lower() if value is not None else ""
     if text in allowed:
@@ -220,6 +236,12 @@ class ItergenSynthesizer:
             _VALID_SCORING_MODES,
             "incremental",
         )
+        save_output = _coerce_bool(
+            self.run_config.save_output
+            if self.run_config.save_output is not None
+            else metadata.get("save_output"),
+            True,
+        )
 
         n_rows = _coerce_int(
             self.run_config.n_rows,
@@ -241,12 +263,14 @@ class ItergenSynthesizer:
             minimum=1,
         )
 
-        output_raw = (
-            self.run_config.output_path
-            if self.run_config.output_path is not None
-            else metadata.get("output_path", defaults.DEFAULT_OUTPUT_PATH)
-        )
-        output_file = _resolve_output_path(output_raw)
+        output_file: Path | None = None
+        if save_output:
+            output_raw = (
+                self.run_config.output_path
+                if self.run_config.output_path is not None
+                else metadata.get("output_path", defaults.DEFAULT_OUTPUT_PATH)
+            )
+            output_file = _resolve_output_path(output_raw)
 
         config = resolve_missing_columns(config, mode=missing_mode)
         warnings = validate_config(config)
@@ -326,16 +350,17 @@ class ItergenSynthesizer:
         column_specs = build_column_specs(config)
         display_df = _decode_output_dataframe(df, column_specs)
 
-        output_file.parent.mkdir(parents=True, exist_ok=True)
-        try:
-            display_df.to_excel(output_file)
-        except ModuleNotFoundError as exc:
-            if getattr(exc, "name", "") == "openpyxl":
-                raise RuntimeError(
-                    "Saving Excel output requires openpyxl. "
-                    "Install with `pip install openpyxl`."
-                ) from exc
-            raise
+        if output_file is not None:
+            output_file.parent.mkdir(parents=True, exist_ok=True)
+            try:
+                display_df.to_excel(output_file)
+            except ModuleNotFoundError as exc:
+                if getattr(exc, "name", "") == "openpyxl":
+                    raise RuntimeError(
+                        "Saving Excel output requires openpyxl. "
+                        "Install with `pip install openpyxl`."
+                    ) from exc
+                raise
 
         quality = build_quality_report(
             df,
@@ -354,10 +379,11 @@ class ItergenSynthesizer:
 
         if log_level != "quiet":
             status = "OK" if ok else "BEST_EFFORT"
+            output_text = str(output_file) if output_file is not None else "not_saved"
             logger.info(
                 f"[FINAL METRICS] status={status} attempts={attempts} "
                 f"objective={metrics['objective']:.6f} "
-                f"max_error={metrics['max_error']:.6f} output={output_file}"
+                f"max_error={metrics['max_error']:.6f} output={output_text}"
             )
 
         return GenerateResult(

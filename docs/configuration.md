@@ -52,6 +52,7 @@ Core sections:
 | `attempt_workers` | Process-level parallel attempt workers |
 | `log_level` | `info` or `quiet` |
 | `log_dir` | Directory for per-run log files |
+| `save_output` | Whether to write the output workbook (`true` or `false`) |
 | `output_path` | Output file path or directory hint |
 | `proposal_scoring_mode` | `incremental` or `full` proposal scoring |
 | `missing_columns_mode` | `prompt`, `skip`, or `error` |

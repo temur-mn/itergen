@@ -34,6 +34,7 @@ class RunConfig:
     max_attempts: int | None = None
     log_level: str | None = None
     log_dir: str | None = None
+    save_output: bool | None = None
     output_path: str | None = None
     attempt_workers: int | None = None
     proposal_scoring_mode: str | None = None
@@ -56,7 +57,7 @@ class GenerateResult:
     quality_report: dict[str, Any]
     success: bool
     attempts: int
-    output_path: Path
+    output_path: Path | None
     log_path: Path
     runtime_notes: list[str] = field(default_factory=list)
     history: list[dict[str, Any]] | None = None
