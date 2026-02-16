@@ -32,11 +32,11 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/temurmamanazarov/vorongen"
-Documentation = "https://github.com/temurmamanazarov/vorongen/blob/main/source/index.rst"
-Source = "https://github.com/temurmamanazarov/vorongen"
-Issues = "https://github.com/temurmamanazarov/vorongen/issues"
-Changelog = "https://github.com/temurmamanazarov/vorongen/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/temur-mn/vorongen"
+Documentation = "https://github.com/temur-mn/vorongen/blob/main/source/index.rst"
+Source = "https://github.com/temur-mn/vorongen"
+Issues = "https://github.com/temur-mn/vorongen/issues"
+Changelog = "https://github.com/temur-mn/vorongen/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 torch = ["torch>=2.1"]
