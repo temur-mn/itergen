@@ -29,7 +29,7 @@ jobs:
         run: ruff format --check .
 
       - name: Mypy
-        run: mypy src/vorongen
+        run: mypy src/itergen
 
   tests:
     runs-on: ubuntu-latest
@@ -96,7 +96,7 @@ jobs:
           pip install -e .[docs]
 
       - name: Build docs (warnings as errors)
-        run: python -m sphinx -W -b html source build/html
+        run: python -m sphinx -W -b html docs/source docs/build/html
 
   build:
     runs-on: ubuntu-latest
