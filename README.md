@@ -73,7 +73,7 @@ Default output path is `output/<timestamp>_itergen.xlsx`.
 
 ## Documentation
 
-The documentation can be accessed using the link: [See]('https://temur-mn.github.io/itergen/')
+The documentation can be accessed using the link: https://temur-mn.github.io/itergen/
 
 ## Quality gate
 
