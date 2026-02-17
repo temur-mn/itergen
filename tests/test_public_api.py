@@ -4,10 +4,10 @@ from pathlib import Path
 from unittest.mock import patch
 
 from itergen import (
-    RunConfig,
     ItergenSynthesizer,
+    RunConfig,
     available_sample_configs,
-    get_sample_config
+    get_sample_config,
 )
 
 
