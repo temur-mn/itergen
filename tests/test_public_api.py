@@ -7,7 +7,7 @@ from itergen import (
     RunConfig,
     ItergenSynthesizer,
     available_sample_configs,
-    get_sample_config,
+    get_sample_config
 )
 
 
