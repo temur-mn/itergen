@@ -71,23 +71,9 @@ print(result.dataframe.shape, result.output_path)  # output_path is None
 
 Default output path is `output/<timestamp>_itergen.xlsx`.
 
-## Documentation (Sphinx)
+## Documentation
 
-Primary docs are maintained in Sphinx under `docs/source/`.
-
-- Quickstart: `docs/source/quickstart.md`
-- Feature guide: `docs/source/features.md`
-- Configuration: `docs/source/configuration.md`
-- API reference: `docs/source/api.md`
-- Architecture: `docs/source/architecture.md`
-- Troubleshooting: `docs/source/troubleshooting.md`
-- Release guide (Git + PyPI): `docs/source/release.md`
-
-Build docs locally:
-
-```bash
-python -m sphinx -W -b html docs/source docs/build/html
-```
+The documentation can be accessed using the link: [See]('https://temur-mn.github.io/itergen/')
 
 ## Quality gate
 
