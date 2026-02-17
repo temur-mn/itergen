@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 from itergen import (
     RunConfig,
-    VorongenSynthesizer,
+    ItergenSynthesizer,
     available_sample_configs,
     get_sample_config,
 )
@@ -34,9 +34,9 @@ class PublicApiTests(unittest.TestCase):
         )
 
         with patch("pandas.DataFrame.to_excel", new=self._fake_to_excel):
-            result = VorongenSynthesizer(config, run_cfg).generate()
+            result = ItergenSynthesizer(config, run_cfg).generate()
         self.assertEqual(result.output_path.parent.name, "output")
-        self.assertTrue(result.output_path.name.endswith("_vorongen.xlsx"))
+        self.assertTrue(result.output_path.name.endswith("_itergen.xlsx"))
         self.assertTrue(result.output_path.exists())
         self.assertEqual(len(result.dataframe), 60)
 
@@ -54,9 +54,9 @@ class PublicApiTests(unittest.TestCase):
                 output_path=temp_dir,
             )
             with patch("pandas.DataFrame.to_excel", new=self._fake_to_excel):
-                result = VorongenSynthesizer(config, run_cfg).generate()
+                result = ItergenSynthesizer(config, run_cfg).generate()
             self.assertEqual(result.output_path.parent, Path(temp_dir))
-            self.assertTrue(result.output_path.name.endswith("_vorongen.xlsx"))
+            self.assertTrue(result.output_path.name.endswith("_itergen.xlsx"))
             self.assertTrue(result.output_path.exists())
 
     def test_explicit_output_filename_is_honored(self):
@@ -72,7 +72,7 @@ class PublicApiTests(unittest.TestCase):
                 output_path=str(explicit_path),
             )
             with patch("pandas.DataFrame.to_excel", new=self._fake_to_excel):
-                result = VorongenSynthesizer(config, run_cfg).generate()
+                result = ItergenSynthesizer(config, run_cfg).generate()
             self.assertEqual(result.output_path, explicit_path)
             self.assertTrue(result.output_path.exists())
 
@@ -88,9 +88,9 @@ class PublicApiTests(unittest.TestCase):
             torch_required=False,
         )
 
-        with patch("vorongen.api.synthesizer.is_torch_available", return_value=False):
+        with patch("itergen.api.synthesizer.is_torch_available", return_value=False):
             with patch("pandas.DataFrame.to_excel", new=self._fake_to_excel):
-                result = VorongenSynthesizer(config, run_cfg).generate()
+                result = ItergenSynthesizer(config, run_cfg).generate()
 
         notes = "\n".join(result.runtime_notes)
         self.assertIn("falling back to classic controller", notes)
@@ -108,9 +108,9 @@ class PublicApiTests(unittest.TestCase):
             torch_required=True,
         )
 
-        with patch("vorongen.api.synthesizer.is_torch_available", return_value=False):
+        with patch("itergen.api.synthesizer.is_torch_available", return_value=False):
             with self.assertRaises(RuntimeError):
-                VorongenSynthesizer(config, run_cfg).generate()
+                ItergenSynthesizer(config, run_cfg).generate()
 
 
 if __name__ == "__main__":
