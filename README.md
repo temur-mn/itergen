@@ -1,6 +1,13 @@
 # itergen
 
-![itergen logo](./logo/logo.svg)
+<div align="center">
+  <img src="./logo/logo.svg" alt="itergen logo" width="200">
+</div>
+
+<p align="center">
+  <b>Documentation</b>:
+  <a href="https://temur-mn.github.io/itergen/">See</a>
+</p>
 
 `itergen` is a config-driven synthetic tabular data generator for dependency-aware
 workflows with `binary`, `categorical`, and `continuous` columns.
@@ -71,9 +78,6 @@ print(result.dataframe.shape, result.output_path)  # output_path is None
 
 Default output path is `output/<timestamp>_itergen.xlsx`.
 
-## Documentation
-
-The documentation can be accessed using the link: https://temur-mn.github.io/itergen/
 
 ## Quality gate
 
