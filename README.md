@@ -1,7 +1,9 @@
 # itergen
 
+![itergen logo](./logo/logo.svg)
+
 `itergen` is a config-driven synthetic tabular data generator for dependency-aware
-workflows with binary, categorical, and continuous columns.
+workflows with `binary`, `categorical`, and `continuous` columns.
 
 It supports:
 
