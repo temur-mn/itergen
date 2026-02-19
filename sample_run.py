@@ -17,9 +17,9 @@ def main() -> int:
     try:
         config = get_sample_config("mixed_large")
         run_cfg = RunConfig(
-            n_rows=10_000,
+            n_rows=12_000,
             seed=42,
-            tolerance=0.001,
+            tolerance=0.01,
             max_attempts=20,
             log_level="info",
         )

@@ -20,6 +20,8 @@ Versioning principles.
 - Standardized project references and quality-gate commands around `itergen` (`src/itergen`, `docs/source`).
 - Aligned CI/docs workflow build paths and docs deployment output for GitHub Actions.
 - Refined README presentation with project logo and documentation link.
+- Improved attempt-worker scheduling with bounded in-flight submission while preserving deterministic attempt-order selection.
+- Clarified worker/parallelism behavior in configuration, features, and troubleshooting docs.
 
 ### Fixed
 

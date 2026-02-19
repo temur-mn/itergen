@@ -63,7 +63,7 @@ This guide describes each current feature type and how it fits into the runtime.
 - Unified high-level API through `ItergenSynthesizer` and `RunConfig`.
 - Runtime precedence model: `RunConfig` overrides metadata values.
 - Attempt-based generation with best-effort fallback if strict rules are not met.
-- Parallel attempts via `attempt_workers` for multi-process retries.
+- Parallel full attempts via `attempt_workers` (process-level), with deterministic attempt-order selection.
 - Deterministic randomness via seed derivation for reproducibility.
 
 ## 4. Optimization Features

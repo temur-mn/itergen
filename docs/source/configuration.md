@@ -49,7 +49,7 @@ Core sections:
 | `seed` | Base deterministic seed |
 | `tolerance` | Default objective target level |
 | `max_attempts` | Attempt retry budget |
-| `attempt_workers` | Process-level parallel attempt workers |
+| `attempt_workers` | Process-level workers for full attempts (deterministic attempt-order result selection) |
 | `log_level` | `info` or `quiet` |
 | `log_dir` | Directory for per-run log files |
 | `save_output` | Whether to write the output workbook (`true` or `false`) |
@@ -70,6 +70,12 @@ Rule-threshold keys (optional) are also read from metadata:
 - `continuous_violation_rate_max`
 - `continuous_mean_violation_max`
 - `continuous_max_violation_max`
+
+`attempt_workers` behavior notes:
+
+- each worker executes one full attempt (initialize, optimize, and score)
+- result selection remains deterministic by attempt index (same order as sequential retries)
+- parallel mode uses bounded in-flight submission rather than launching every attempt at once
 
 ## Column Feature Types
 

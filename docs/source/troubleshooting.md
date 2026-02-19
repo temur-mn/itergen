@@ -84,11 +84,15 @@ attempt-level parallelism is enabled.
 
 Why this happens:
 
-- each worker runs a full optimization attempt before returning
+- each worker executes a full attempt (initialize, optimize, and score) before reporting
 - heavy settings (`max_iters`, large row counts, strict rule thresholds) can make
   each attempt expensive
 - if all attempts miss rule thresholds, runtime still completes and returns the
   best-effort dataset
+
+Parallel attempts keep deterministic attempt-order result selection. The scheduler
+uses bounded in-flight submissions, so it avoids launching the full retry budget
+upfront.
 
 What to check:
 

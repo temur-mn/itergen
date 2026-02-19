@@ -776,6 +776,131 @@ class WorkflowSmokeTests(unittest.TestCase):
         self.assertGreaterEqual(attempts, 1)
         self.assertLessEqual(attempts, 2)
 
+    def test_parallel_attempt_workers_keep_deterministic_order_and_bound_work(self):
+        config = {
+            "metadata": {
+                "name": "tiny_demo",
+                "version": "1.0",
+                "missing_columns_mode": "error",
+                "log_level": "quiet",
+            },
+            "columns": [
+                {
+                    "column_id": "loyalty",
+                    "values": {"true_value": 1, "false_value": 0},
+                    "distribution": {
+                        "type": "bernoulli",
+                        "probabilities": {"true_prob": 0.4, "false_prob": 0.6},
+                    },
+                },
+                {
+                    "column_id": "discount",
+                    "values": {"true_value": 1, "false_value": 0},
+                    "distribution": {
+                        "type": "conditional",
+                        "depend_on": ["loyalty"],
+                        "conditional_probs": {
+                            "loyalty=1": {"true_prob": 0.65, "false_prob": 0.35},
+                            "loyalty=0": {"true_prob": 0.25, "false_prob": 0.75},
+                        },
+                    },
+                },
+            ],
+        }
+
+        def _result(attempt, ok, objective):
+            frame = pd.DataFrame({"loyalty": [1, 0], "discount": [1, 0]})
+            return {
+                "attempt": int(attempt),
+                "attempt_seed": 100 + int(attempt),
+                "df": frame,
+                "metrics": {"objective": float(objective), "max_error": 0.1},
+                "ok": bool(ok),
+                "violations": [] if ok else [f"attempt_{attempt}_rule"],
+                "history": None,
+                "initial_df": frame.copy(),
+            }
+
+        attempt_results = {
+            0: _result(0, False, 0.40),
+            1: _result(1, True, 0.30),
+            2: _result(2, True, 0.10),
+            3: _result(3, False, 0.20),
+            4: _result(4, False, 0.20),
+            5: _result(5, False, 0.20),
+        }
+
+        completion_order = [0, 2, 1]
+        submitted_attempts = []
+        cancelled_attempts = []
+
+        class FakeFuture:
+            def __init__(self, attempt):
+                self.attempt = int(attempt)
+
+            def result(self):
+                return attempt_results[self.attempt]
+
+            def cancel(self):
+                cancelled_attempts.append(self.attempt)
+                return True
+
+        class FakeExecutor:
+            def __init__(self, max_workers):
+                self.max_workers = max_workers
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, tb):
+                return False
+
+            def submit(self, _fn, *args, **_kwargs):
+                attempt = int(args[0])
+                submitted_attempts.append(attempt)
+                return FakeFuture(attempt)
+
+        def fake_as_completed(futures):
+            candidates = list(futures)
+            chosen = None
+            for target in list(completion_order):
+                match = next((f for f in candidates if f.attempt == target), None)
+                if match is not None:
+                    chosen = match
+                    completion_order.remove(target)
+                    break
+            if chosen is None:
+                chosen = candidates[0]
+            yield chosen
+
+        with patch("itergen.engine.generation.ProcessPoolExecutor", FakeExecutor):
+            with patch("itergen.engine.generation.as_completed", fake_as_completed):
+                _df, metrics, ok, attempts, _history, _initial_df = (
+                    generate_until_valid(
+                        config,
+                        n_rows=120,
+                        base_seed=7,
+                        max_attempts=6,
+                        attempt_workers=2,
+                        tolerance=0.05,
+                        optimize_kwargs={"min_group_size": 10},
+                        log_level="quiet",
+                        collect_history=False,
+                        logger=None,
+                    )
+                )
+
+        self.assertTrue(ok)
+        self.assertEqual(attempts, 2)
+        self.assertIsNotNone(metrics)
+        if metrics is None:
+            self.fail("Expected metrics result")
+        self.assertEqual(float(metrics["objective"]), 0.30)
+
+        self.assertEqual(submitted_attempts, [0, 1, 2, 3])
+        self.assertLess(len(submitted_attempts), 6)
+        self.assertIn(3, cancelled_attempts)
+
     def test_metadata_log_dir_controls_log_file_directory(self):
         config = get_sample_config("binary")
 

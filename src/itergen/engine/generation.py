@@ -166,7 +166,8 @@ def generate_until_valid(
         if logger is not None and log_level != "quiet":
             logger.info(
                 "[ATTEMPT MODE] "
-                f"parallel workers={worker_count} total_attempts={total_attempts}"
+                f"parallel workers={worker_count} total_attempts={total_attempts} "
+                "selection=deterministic_attempt_order"
             )
 
         try:
@@ -174,12 +175,17 @@ def generate_until_valid(
             first_success_result = None
             best_failure_result = None
             failed_violations = {}
+            next_to_resolve = 0
+            next_to_submit = 0
+            pending_results = {}
 
             with ProcessPoolExecutor(max_workers=worker_count) as executor:
-                future_to_attempt = {
-                    executor.submit(
+                future_to_attempt = {}
+
+                def _submit_attempt(attempt_index):
+                    future = executor.submit(
                         _run_single_attempt,
-                        attempt,
+                        attempt_index,
                         config,
                         column_specs,
                         n_rows,
@@ -192,15 +198,24 @@ def generate_until_valid(
                         weight_conditional,
                         small_group_mode,
                         collect_history,
-                    ): attempt
-                    for attempt in range(total_attempts)
-                }
+                    )
+                    future_to_attempt[future] = attempt_index
+
+                while (
+                    len(future_to_attempt) < worker_count
+                    and next_to_submit < total_attempts
+                ):
+                    _submit_attempt(next_to_submit)
+                    next_to_submit += 1
 
                 completed_attempts = 0
-                for future in as_completed(future_to_attempt):
+                while future_to_attempt:
+                    future = next(as_completed(tuple(future_to_attempt)))
+                    future_to_attempt.pop(future)
                     completed_attempts += 1
                     result = future.result()
                     attempt = int(result["attempt"])
+                    pending_results[attempt] = result
 
                     if logger is not None and log_level != "quiet":
                         metrics = result.get("metrics", {})
@@ -224,21 +239,35 @@ def generate_until_valid(
                             f"objective={objective_text} max_error={max_error_text}"
                         )
 
-                    if result["ok"]:
-                        if (
-                            first_success_attempt is None
-                            or attempt < first_success_attempt
-                        ):
-                            first_success_attempt = attempt
-                            first_success_result = result
-                    else:
-                        failed_violations[attempt] = list(result.get("violations", []))
+                    while next_to_resolve in pending_results:
+                        ordered = pending_results.pop(next_to_resolve)
+                        if ordered["ok"]:
+                            first_success_attempt = next_to_resolve
+                            first_success_result = ordered
+                            break
+
+                        failed_violations[next_to_resolve] = list(
+                            ordered.get("violations", [])
+                        )
                         if (
                             best_failure_result is None
-                            or result["metrics"]["objective"]
+                            or ordered["metrics"]["objective"]
                             < best_failure_result["metrics"]["objective"]
                         ):
-                            best_failure_result = result
+                            best_failure_result = ordered
+                        next_to_resolve += 1
+
+                    if first_success_result is not None:
+                        for pending_future in tuple(future_to_attempt):
+                            pending_future.cancel()
+                        break
+
+                    while (
+                        len(future_to_attempt) < worker_count
+                        and next_to_submit < total_attempts
+                    ):
+                        _submit_attempt(next_to_submit)
+                        next_to_submit += 1
 
             if first_success_result is not None and first_success_attempt is not None:
                 attempts_used = first_success_attempt + 1
