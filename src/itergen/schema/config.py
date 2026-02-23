@@ -304,6 +304,67 @@ def canonical_condition_key(cond_map, order=None):
     return ", ".join(f"{k}={_format_condition_value(cond_map[k])}" for k in keys)
 
 
+def collect_references(config):
+    """Collect all column references in the configuration.
+
+    This function finds all columns that are referenced as dependencies
+    in the configuration. It's useful for validation and dependency analysis.
+
+    Args:
+        config: The configuration dictionary
+
+    Returns:
+        Tuple of (referenced_set, sources_dict) where:
+        - referenced_set: Set of column IDs that are referenced
+        - sources_dict: Dict mapping column ID to set of sources that reference it
+    """
+    referenced = set()
+    sources = {}
+    for col in config.get("columns", []):
+        col_id = col.get("column_id")
+        dist = col.get("distribution", {})
+        depend_on = dist.get("depend_on", [])
+        if isinstance(depend_on, list):
+            for dep in depend_on:
+                referenced.add(dep)
+                sources.setdefault(dep, set()).add(f"{col_id}:depend_on")
+        cond_probs = dist.get("conditional_probs", {})
+        if isinstance(cond_probs, dict):
+            for cond_key in cond_probs.keys():
+                try:
+                    cond_map = parse_condition(cond_key)
+                except ValueError:
+                    continue
+                for dep in cond_map.keys():
+                    referenced.add(dep)
+                    sources.setdefault(dep, set()).add(f"{col_id}:condition")
+        cond_targets = dist.get("conditional_targets", {})
+        if isinstance(cond_targets, dict):
+            for cond_key in cond_targets.keys():
+                try:
+                    cond_map = parse_condition(cond_key)
+                except ValueError:
+                    continue
+                for dep in cond_map.keys():
+                    referenced.add(dep)
+                    sources.setdefault(dep, set()).add(f"{col_id}:condition")
+        cond_bin_probs = dist.get("conditional_bin_probs", {})
+        if isinstance(cond_bin_probs, dict):
+            for cond_key in cond_bin_probs.keys():
+                try:
+                    cond_map = parse_condition(cond_key)
+                except ValueError:
+                    continue
+                for dep in cond_map.keys():
+                    referenced.add(dep)
+                    sources.setdefault(dep, set()).add(f"{col_id}:condition")
+    return referenced, sources
+
+
+# Keep private alias for backward compatibility
+_collect_references = collect_references
+
+
 def _column_domain(col):
     dist = col.get("distribution", {})
     dist_type = dist.get("type")
@@ -411,151 +472,53 @@ def _normalize_probabilities_by_map(prob_map, cat_to_code, codes):
 
 
 def validate_config(config):
+    """Validate a configuration dictionary.
+
+    This is the main entry point that orchestrates all validation steps.
+
+    Args:
+        config: The configuration dictionary to validate
+
+    Returns:
+        List of warning messages
+
+    Raises:
+        ValueError: If there are critical validation errors
+    """
+    from .validation import (
+        validate_metadata,
+        validate_advanced_settings,
+        validate_column_structure,
+        validate_dependencies,
+    )
+
     warnings = []
     errors = []
 
+    # Validate metadata section
+    metadata = config.get("metadata", {})
+    warnings.extend(validate_metadata(metadata))
+
+    # Validate advanced settings
     advanced = config.get("advanced", {})
     advanced_enabled = bool(advanced.get("enabled"))
-    metadata = config.get("metadata", {})
-    bin_conflict_mode = _resolve_continuous_bin_conflict_mode(
-        metadata.get("continuous_bin_conflict_mode")
-    )
-    global_conditional_mode = metadata.get("conditional_mode")
-    if global_conditional_mode is not None and global_conditional_mode not in (
-        "hard",
-        "soft",
-        "fallback",
-    ):
-        warnings.append("metadata.conditional_mode must be hard, soft, or fallback")
+    warnings.extend(validate_advanced_settings(advanced, advanced_enabled))
 
-    missing_columns_mode = metadata.get("missing_columns_mode")
-    if missing_columns_mode is not None and missing_columns_mode not in (
-        "prompt",
-        "skip",
-        "error",
-    ):
-        warnings.append("metadata.missing_columns_mode must be prompt, skip, or error")
+    # Validate basic column structure
+    columns = config.get("columns", [])
+    struct_warnings, struct_errors = validate_column_structure(columns)
+    warnings.extend(struct_warnings)
+    errors.extend(struct_errors)
 
-    log_level = metadata.get("log_level")
-    if log_level is not None and log_level not in ("info", "quiet"):
-        warnings.append("metadata.log_level must be info or quiet")
-
-    log_dir = metadata.get("log_dir")
-    if log_dir is not None and (not isinstance(log_dir, str) or not log_dir.strip()):
-        warnings.append("metadata.log_dir must be a non-empty string")
-
-    save_output = metadata.get("save_output")
-    if save_output is not None and not isinstance(save_output, bool):
-        warnings.append("metadata.save_output must be a boolean")
-
-    proposal_scoring_mode = metadata.get("proposal_scoring_mode")
-    if proposal_scoring_mode is not None and proposal_scoring_mode not in (
-        "incremental",
-        "full",
-    ):
-        warnings.append("metadata.proposal_scoring_mode must be incremental or full")
-
-    attempt_workers = metadata.get("attempt_workers")
-    if attempt_workers is not None:
-        try:
-            parsed_workers = int(attempt_workers)
-            if parsed_workers < 1:
-                warnings.append("metadata.attempt_workers must be >= 1")
-        except (TypeError, ValueError):
-            warnings.append("metadata.attempt_workers must be an integer")
-
-    conflict_mode = metadata.get("continuous_bin_conflict_mode")
-    if (
-        conflict_mode is not None
-        and _resolve_continuous_bin_conflict_mode(conflict_mode)
-        != str(conflict_mode).strip().lower()
-    ):
-        warnings.append(
-            "metadata.continuous_bin_conflict_mode must be infer, warn, or error"
-        )
-
-    output_path = metadata.get("output_path")
-    if output_path is not None and (
-        not isinstance(output_path, str) or not output_path.strip()
-    ):
-        warnings.append("metadata.output_path must be a non-empty string")
-
-    for key in (
-        "objective_max",
-        "max_error_max",
-        "max_column_deviation_max",
-        "continuous_bin_mean_error_max",
-        "continuous_bin_max_error_max",
-        "continuous_violation_rate_max",
-        "continuous_mean_violation_max",
-        "continuous_max_violation_max",
-    ):
-        value = metadata.get(key)
-        if value is None:
-            continue
-        try:
-            numeric = float(value)
-        except (TypeError, ValueError):
-            warnings.append(f"metadata.{key} must be numeric")
-            continue
-        if numeric < 0:
-            warnings.append(f"metadata.{key} should be >= 0")
-
-    if advanced_enabled:
-        allowed_advanced = {
-            "enabled",
-            "step_size_marginal",
-            "step_size_conditional",
-            "step_size_continuous_marginal",
-            "step_size_continuous_conditional",
-            "max_flip_frac",
-            "random_flip_frac",
-            "temperature_init",
-            "temperature_decay",
-            "proposals_per_batch",
-            "min_group_size",
-            "large_category_threshold",
-            "patience",
-            "max_iters",
-            "batch_size",
-            "attempt_workers",
-            "weight_marginal",
-            "weight_conditional",
-            "flip_mode",
-            "small_group_mode",
-            "continuous_dependency_gain",
-            "continuous_magnifier_min",
-            "continuous_magnifier_max",
-            "continuous_noise_frac",
-            "continuous_edge_guard_frac",
-            "target_column_pool_size",
-        }
-        deprecated_advanced = {"hybrid_ratio", "weight_max"}
-        extras = sorted(
-            [
-                key
-                for key in advanced.keys()
-                if key not in allowed_advanced and key not in deprecated_advanced
-            ]
-        )
-        if extras:
-            warnings.append(f"advanced contains unknown keys: {extras[:5]}")
-        for key in sorted(deprecated_advanced.intersection(advanced.keys())):
-            warnings.append(f"advanced.{key} is deprecated and ignored")
-
-    columns = config.get("columns")
-    if not isinstance(columns, list):
-        raise ValueError("Config must include a 'columns' list")
-
+    # Build helper data structures
     column_ids = [col.get("column_id") for col in columns if col.get("column_id")]
-    duplicates = sorted({x for x in column_ids if column_ids.count(x) > 1})
-    if duplicates:
-        errors.append(f"Duplicate column_id values: {duplicates}")
 
     column_set = set(column_ids)
     domains = build_column_domains(config)
     id_to_col = {col.get("column_id"): col for col in columns if col.get("column_id")}
-    referenced, _sources = _collect_references(config)
+    referenced, _sources = collect_references(config)  # Use public function
+
+    # Parse continuous bins
     continuous_bins_by_col = {}
     for col in columns:
         col_id = col.get("column_id")
@@ -574,22 +537,30 @@ def validate_config(config):
             errors.append(str(exc))
             continuous_bins_by_col[col_id] = None
 
+    # Validate dependencies
+    dep_warnings, dep_errors = validate_dependencies(
+        columns, column_set, domains, continuous_bins_by_col
+    )
+    warnings.extend(dep_warnings)
+    errors.extend(dep_errors)
+
+    # Get bin conflict mode for probability validation
+    bin_conflict_mode = _resolve_continuous_bin_conflict_mode(
+        metadata.get("continuous_bin_conflict_mode")
+    )
+
+    # Now validate each column in detail
     for col in columns:
         col_id = col.get("column_id")
         if not col_id:
-            errors.append("Column missing 'column_id'")
             continue
 
         dist = col.get("distribution")
         if not isinstance(dist, dict):
-            errors.append(f"Column '{col_id}' missing distribution")
             continue
 
         dist_type = dist.get("type")
         if dist_type not in ("bernoulli", "conditional", "categorical", "continuous"):
-            errors.append(
-                f"Column '{col_id}' has unsupported distribution type '{dist_type}'"
-            )
             continue
 
         if dist_type == "bernoulli":
@@ -1171,50 +1142,6 @@ def order_columns_by_dependency(config):
     if len(order) != len(id_to_col):
         return columns
     return [id_to_col[cid] for cid in order]
-
-
-def _collect_references(config):
-    referenced = set()
-    sources = {}
-    for col in config.get("columns", []):
-        col_id = col.get("column_id")
-        dist = col.get("distribution", {})
-        depend_on = dist.get("depend_on", [])
-        if isinstance(depend_on, list):
-            for dep in depend_on:
-                referenced.add(dep)
-                sources.setdefault(dep, set()).add(f"{col_id}:depend_on")
-        cond_probs = dist.get("conditional_probs", {})
-        if isinstance(cond_probs, dict):
-            for cond_key in cond_probs.keys():
-                try:
-                    cond_map = parse_condition(cond_key)
-                except ValueError:
-                    continue
-                for dep in cond_map.keys():
-                    referenced.add(dep)
-                    sources.setdefault(dep, set()).add(f"{col_id}:condition")
-        cond_targets = dist.get("conditional_targets", {})
-        if isinstance(cond_targets, dict):
-            for cond_key in cond_targets.keys():
-                try:
-                    cond_map = parse_condition(cond_key)
-                except ValueError:
-                    continue
-                for dep in cond_map.keys():
-                    referenced.add(dep)
-                    sources.setdefault(dep, set()).add(f"{col_id}:condition")
-        cond_bin_probs = dist.get("conditional_bin_probs", {})
-        if isinstance(cond_bin_probs, dict):
-            for cond_key in cond_bin_probs.keys():
-                try:
-                    cond_map = parse_condition(cond_key)
-                except ValueError:
-                    continue
-                for dep in cond_map.keys():
-                    referenced.add(dep)
-                    sources.setdefault(dep, set()).add(f"{col_id}:condition")
-    return referenced, sources
 
 
 def _build_reverse_dependency_map(config):
