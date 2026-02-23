@@ -73,7 +73,7 @@ pythonpath = ["src"]
 [tool.ruff]
 line-length = 88
 target-version = "py39"
-extend-exclude = ["build", "dist", "source/_autosummary"]
+extend-exclude = ["build", "dist", "docs/source/_autosummary"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "N", "W"]

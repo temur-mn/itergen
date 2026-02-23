@@ -32,7 +32,7 @@ draft_1.xlsx
 /notes-to-read/
 
 # Sphinx generated helper files
-source/_autosummary/
+docs/source/_autosummary/
 
 # OS metadata
 .DS_Store
