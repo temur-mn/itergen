@@ -1,25 +1,41 @@
 {
   "overall": {
+    "exp_var_diff": 0.09314209887326609,
+    "comp_angle_diff": 0.08677134498500044,
+    "qMSE": 0.002973333333333333,
     "mean_abs_mean_delta": 0.05662177090088011,
     "mean_abs_std_delta": 0.03676773689471516,
     "species_max_abs_delta": 0.05333333333333329
   },
+  "utility_metrics": {
+    "exp_var_diff": 0.09314209887326609,
+    "comp_angle_diff": 0.08677134498500044,
+    "qMSE": 0.002973333333333333
+  },
   "per_column": {
-    "sepal_length": {
-      "mean_abs_delta": 0.04842154165763812,
-      "std_abs_delta": 0.03621611119857859
+    "moment_deltas": {
+      "sepal_length": {
+        "mean_abs_delta": 0.04842154165763812,
+        "std_abs_delta": 0.03621611119857859
+      },
+      "sepal_width": {
+        "mean_abs_delta": 0.001004450870285556,
+        "std_abs_delta": 0.006878011982930032
+      },
+      "petal_length": {
+        "mean_abs_delta": 0.12162019671386659,
+        "std_abs_delta": 0.0695438877149166
+      },
+      "petal_width": {
+        "mean_abs_delta": 0.055440894361730164,
+        "std_abs_delta": 0.03443293668243541
+      }
     },
-    "sepal_width": {
-      "mean_abs_delta": 0.001004450870285556,
-      "std_abs_delta": 0.006878011982930032
-    },
-    "petal_length": {
-      "mean_abs_delta": 0.12162019671386659,
-      "std_abs_delta": 0.0695438877149166
-    },
-    "petal_width": {
-      "mean_abs_delta": 0.055440894361730164,
-      "std_abs_delta": 0.03443293668243541
+    "qMSE_by_column": {
+      "sepal_length": 0.0031111111111111105,
+      "sepal_width": 0.0010370370370370368,
+      "petal_length": 0.0021155555555555554,
+      "petal_width": 0.00562962962962963
     }
   },
   "species_distribution": {

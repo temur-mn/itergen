@@ -9,6 +9,7 @@ from io import StringIO
 from pathlib import Path
 from urllib.request import urlopen
 
+import numpy as np
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -150,6 +151,119 @@ def compare(real_df: pd.DataFrame, synth_df: pd.DataFrame) -> dict:
         mean_deltas.append(mean_delta)
         std_deltas.append(std_delta)
 
+    def _numeric_frame(df: pd.DataFrame) -> pd.DataFrame:
+        out = pd.DataFrame(
+            {
+                column: pd.to_numeric(df[column], errors="coerce")
+                for column in NUMERIC_COLUMNS
+            }
+        )
+        out = out.dropna(subset=NUMERIC_COLUMNS)
+        return out.loc[:, NUMERIC_COLUMNS].copy()
+
+    def _pca_vectors_and_ratio(frame: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
+        x = frame.to_numpy(dtype=float)
+        d = int(x.shape[1])
+        if d == 0:
+            return np.zeros((0, 0), dtype=float), np.zeros(0, dtype=float)
+        if int(x.shape[0]) == 0:
+            return np.eye(d, dtype=float), np.full(d, 1.0 / d, dtype=float)
+
+        means = np.mean(x, axis=0)
+        stds = np.std(x, axis=0)
+        stds = np.where(stds <= 1e-12, 1.0, stds)
+        z = (x - means) / stds
+        z = np.nan_to_num(z, nan=0.0, posinf=0.0, neginf=0.0)
+
+        cov = np.cov(z, rowvar=False, bias=True)
+        if np.ndim(cov) == 0:
+            cov = np.array([[float(cov)]], dtype=float)
+        eigvals, eigvecs = np.linalg.eigh(cov)
+        order = np.argsort(eigvals)[::-1]
+        eigvals = np.clip(eigvals[order], 0.0, None)
+        eigvecs = eigvecs[:, order]
+        total = float(np.sum(eigvals))
+        if total <= 1e-12:
+            ratio = np.full(d, 1.0 / d, dtype=float)
+        else:
+            ratio = eigvals / total
+        return eigvecs, ratio
+
+    def _exp_var_diff(real_ratio: np.ndarray, synth_ratio: np.ndarray) -> float:
+        d = int(min(real_ratio.size, synth_ratio.size))
+        if d <= 1:
+            return 0.0
+        scale = d / (2.0 * (d - 1.0))
+        value = scale * float(np.sum(np.abs(real_ratio[:d] - synth_ratio[:d])))
+        return float(np.clip(value, 0.0, 1.0))
+
+    def _comp_angle_diff(real_vecs: np.ndarray, synth_vecs: np.ndarray) -> float:
+        if real_vecs.size == 0 or synth_vecs.size == 0:
+            return 0.0
+        a = real_vecs[:, 0]
+        b = synth_vecs[:, 0]
+        denom = float(np.linalg.norm(a) * np.linalg.norm(b))
+        if denom <= 1e-12:
+            return 0.0
+        dot = float(np.dot(a, b) / denom)
+        dot = float(np.clip(abs(dot), -1.0, 1.0))
+        return float((2.0 / math.pi) * math.acos(dot))
+
+    def _quantile_mse(
+        real_frame: pd.DataFrame,
+        synth_frame: pd.DataFrame,
+        n_quantiles: int = 10,
+    ) -> tuple[float, dict[str, float]]:
+        by_col: dict[str, float] = {}
+        scores: list[float] = []
+        q_grid = np.linspace(0.0, 1.0, n_quantiles + 1)
+
+        for column in NUMERIC_COLUMNS:
+            real_vals = np.asarray(_to_floats(real_frame.loc[:, column]), dtype=float)
+            synth_vals = np.asarray(_to_floats(synth_frame.loc[:, column]), dtype=float)
+            if real_vals.size == 0 or synth_vals.size == 0:
+                by_col[column] = 0.0
+                scores.append(0.0)
+                continue
+
+            edges = np.quantile(real_vals, q_grid)
+            edges = np.unique(edges)
+            if edges.size < 2:
+                by_col[column] = 0.0
+                scores.append(0.0)
+                continue
+
+            counts, _ = np.histogram(synth_vals, bins=edges)
+            n_bins = int(counts.size)
+            if n_bins == 0:
+                by_col[column] = 0.0
+                scores.append(0.0)
+                continue
+
+            total = float(np.sum(counts))
+            if total <= 0.0:
+                by_col[column] = 0.0
+                scores.append(0.0)
+                continue
+
+            target = 1.0 / float(n_bins)
+            obs = counts.astype(float) / total
+            score = float(np.mean((obs - target) ** 2))
+            by_col[column] = score
+            scores.append(score)
+
+        mean_score = float(np.mean(scores)) if scores else 0.0
+        return mean_score, by_col
+
+    real_numeric = _numeric_frame(real_df)
+    synth_numeric = _numeric_frame(synth_df)
+    real_vecs, real_ratio = _pca_vectors_and_ratio(real_numeric)
+    synth_vecs, synth_ratio = _pca_vectors_and_ratio(synth_numeric)
+
+    exp_var_diff = _exp_var_diff(real_ratio, synth_ratio)
+    comp_angle_diff = _comp_angle_diff(real_vecs, synth_vecs)
+    quantile_mse, quantile_mse_by_col = _quantile_mse(real_numeric, synth_numeric)
+
     species = sorted(real_df["species"].unique().tolist())
     real_species = (
         real_df["species"].value_counts(normalize=True).reindex(species, fill_value=0.0)
@@ -163,11 +277,22 @@ def compare(real_df: pd.DataFrame, synth_df: pd.DataFrame) -> dict:
 
     return {
         "overall": {
+            "exp_var_diff": exp_var_diff,
+            "comp_angle_diff": comp_angle_diff,
+            "qMSE": quantile_mse,
             "mean_abs_mean_delta": float(sum(mean_deltas) / len(mean_deltas)),
             "mean_abs_std_delta": float(sum(std_deltas) / len(std_deltas)),
             "species_max_abs_delta": species_max_abs_delta,
         },
-        "per_column": per_col,
+        "utility_metrics": {
+            "exp_var_diff": exp_var_diff,
+            "comp_angle_diff": comp_angle_diff,
+            "qMSE": quantile_mse,
+        },
+        "per_column": {
+            "moment_deltas": per_col,
+            "qMSE_by_column": quantile_mse_by_col,
+        },
         "species_distribution": {
             "real": {k: float(v) for k, v in real_species.items()},
             "synthetic": {k: float(v) for k, v in synth_species.items()},
@@ -228,6 +353,12 @@ def main() -> int:
         "[IRIS MWP] "
         f"success={result.success} attempts={result.attempts} "
         f"objective={float(result.metrics.get('objective', 0.0)):.6f}"
+    )
+    print(
+        "[IRIS MWP] "
+        f"exp_var_diff={overall['exp_var_diff']:.6f} "
+        f"comp_angle_diff={overall['comp_angle_diff']:.6f} "
+        f"qMSE={overall['qMSE']:.6f}"
     )
     print(
         "[IRIS MWP] "

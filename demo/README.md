@@ -4,7 +4,7 @@ Minimal workflow:
 
 1. Scrape Iris from UCI (cached locally).
 2. Build a small config from real statistics.
-3. Generate synthetic data and compare simple quality metrics.
+3. Generate synthetic data and report utility-style metrics (`exp_var_diff`, `comp_angle_diff`, `qMSE`) plus basic moment/species deltas.
 
 Run:
 
