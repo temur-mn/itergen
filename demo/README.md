@@ -1,26 +1,14 @@
-# Iris MWP
+# Iris Minimal Demo
 
-Minimal workflow:
+This demo only does generation with `itergen` using fixed parameters in YAML.
 
-1. Scrape Iris from UCI (cached locally).
-2. Build a small config from real statistics.
-3. Generate synthetic data and report utility-style metrics (`exp_var_diff`, `comp_angle_diff`, `qMSE`) plus basic moment/species deltas.
+- Config with extracted parameters: `demo/iris_params.yaml`
+- Script: `demo/iris_synthesis.py`
 
 Run:
 
 ```bash
+pip install -e .
 python demo/iris_synthesis.py
 ```
 
-Outputs in `demo/output/`:
-
-- `iris_real.csv`
-- `iris_synthetic.csv`
-- `iris_config.json`
-- `summary.json`
-
-Run logs are written to `demo/logs/`.
-
-Cached source:
-
-- `demo/data/iris.data`
