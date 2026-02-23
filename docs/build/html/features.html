@@ -353,7 +353,7 @@ when <code class="docutils literal notranslate"><span class="pre">min_group_size
 <li><p>Unified high-level API through <code class="docutils literal notranslate"><span class="pre">ItergenSynthesizer</span></code> and <code class="docutils literal notranslate"><span class="pre">RunConfig</span></code>.</p></li>
 <li><p>Runtime precedence model: <code class="docutils literal notranslate"><span class="pre">RunConfig</span></code> overrides metadata values.</p></li>
 <li><p>Attempt-based generation with best-effort fallback if strict rules are not met.</p></li>
-<li><p>Parallel attempts via <code class="docutils literal notranslate"><span class="pre">attempt_workers</span></code> for multi-process retries.</p></li>
+<li><p>Parallel full attempts via <code class="docutils literal notranslate"><span class="pre">attempt_workers</span></code> (process-level), with deterministic attempt-order selection.</p></li>
 <li><p>Deterministic randomness via seed derivation for reproducibility.</p></li>
 </ul>
 </section>
@@ -427,7 +427,7 @@ when <code class="docutils literal notranslate"><span class="pre">min_group_size
 <li><p>When output saving is enabled, workbook is written to a timestamped path if a
 filename is not provided.</p></li>
 <li><p>Each run writes a timestamped log file under the configured <code class="docutils literal notranslate"><span class="pre">log_dir</span></code>
-(<code class="docutils literal notranslate"><span class="pre">metadata.log_dir</span></code> or <code class="docutils literal notranslate"><span class="pre">RunConfig.log_dir</span></code>; default <code class="docutils literal notranslate"><span class="pre">src/itergen/logs/</span></code>).</p></li>
+(<code class="docutils literal notranslate"><span class="pre">metadata.log_dir</span></code> or <code class="docutils literal notranslate"><span class="pre">RunConfig.log_dir</span></code>; default <code class="docutils literal notranslate"><span class="pre">./logs/</span></code>).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">GenerateResult</span></code> returns:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">dataframe</span></code>, <code class="docutils literal notranslate"><span class="pre">metrics</span></code>, <code class="docutils literal notranslate"><span class="pre">quality_report</span></code></p></li>

@@ -22,7 +22,6 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering",
-    "Topic :: Software Development :: Testing",
 ]
 dependencies = [
     "numpy>=1.23",
@@ -42,10 +41,7 @@ Changelog = "https://github.com/temur-mn/itergen/blob/main/CHANGELOG.md"
 torch = ["torch>=2.1"]
 dev = [
     "build>=1.2.2",
-    "coverage>=7.6",
     "twine>=5.1.1",
-    "pytest>=7.4",
-    "pytest-cov>=4.1",
     "ruff>=0.6.4",
     "mypy>=1.11",
     "types-PyYAML>=6.0.12.20240917",
@@ -63,12 +59,8 @@ include-package-data = false
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["itergen*"]
-exclude = ["itergen.tests*", "itergen.benchmarks*"]
+exclude = ["itergen.benchmarks*"]
 namespaces = false
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-pythonpath = ["src"]
 
 [tool.ruff]
 line-length = 88
@@ -93,15 +85,6 @@ mypy_path = "src"
 ignore_missing_imports = true
 disable_error_code = ["import-untyped"]
 files = ["src/itergen"]
-
-[tool.coverage.run]
-branch = true
-source = ["itergen"]
-
-[tool.coverage.report]
-omit = ["src/itergen/controllers/torch.py"]
-fail_under = 85
-show_missing = true
 
 [dependency-groups]
 dev = [

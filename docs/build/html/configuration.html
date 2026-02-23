@@ -307,7 +307,7 @@
 <td><p>Attempt retry budget</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">attempt_workers</span></code></p></td>
-<td><p>Process-level parallel attempt workers</p></td>
+<td><p>Process-level workers for full attempts (deterministic attempt-order result selection)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">log_level</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">info</span></code> or <code class="docutils literal notranslate"><span class="pre">quiet</span></code></p></td>
@@ -349,6 +349,12 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">continuous_violation_rate_max</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">continuous_mean_violation_max</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">continuous_max_violation_max</span></code></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">attempt_workers</span></code> behavior notes:</p>
+<ul class="simple">
+<li><p>each worker executes one full attempt (initialize, optimize, and score)</p></li>
+<li><p>result selection remains deterministic by attempt index (same order as sequential retries)</p></li>
+<li><p>parallel mode uses bounded in-flight submission rather than launching every attempt at once</p></li>
 </ul>
 </section>
 <section id="column-feature-types">

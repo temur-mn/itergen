@@ -316,16 +316,19 @@
 attempt-level parallelism is enabled.</p>
 <p>Why this happens:</p>
 <ul class="simple">
-<li><p>each worker runs a full optimization attempt before returning</p></li>
+<li><p>each worker executes a full attempt (initialize, optimize, and score) before reporting</p></li>
 <li><p>heavy settings (<code class="docutils literal notranslate"><span class="pre">max_iters</span></code>, large row counts, strict rule thresholds) can make
 each attempt expensive</p></li>
 <li><p>if all attempts miss rule thresholds, runtime still completes and returns the
 best-effort dataset</p></li>
 </ul>
+<p>Parallel attempts keep deterministic attempt-order result selection. The scheduler
+uses bounded in-flight submissions, so it avoids launching the full retry budget
+upfront.</p>
 <p>What to check:</p>
 <ul class="simple">
 <li><p>run log under your configured <code class="docutils literal notranslate"><span class="pre">log_dir</span></code> (<code class="docutils literal notranslate"><span class="pre">metadata.log_dir</span></code> or
-<code class="docutils literal notranslate"><span class="pre">RunConfig.log_dir</span></code>; default <code class="docutils literal notranslate"><span class="pre">src/itergen/logs/</span></code>) for <code class="docutils literal notranslate"><span class="pre">[ATTEMPT</span> <span class="pre">COMPLETE]</span></code> and
+<code class="docutils literal notranslate"><span class="pre">RunConfig.log_dir</span></code>; default <code class="docutils literal notranslate"><span class="pre">./logs/</span></code>) for <code class="docutils literal notranslate"><span class="pre">[ATTEMPT</span> <span class="pre">COMPLETE]</span></code> and
 <code class="docutils literal notranslate"><span class="pre">[FINAL</span> <span class="pre">METRICS]</span></code> entries</p></li>
 <li><p>final status in <code class="docutils literal notranslate"><span class="pre">GenerateResult.success</span></code> (<code class="docutils literal notranslate"><span class="pre">False</span></code> means best-effort)</p></li>
 </ul>

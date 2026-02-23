@@ -39,7 +39,7 @@ pip install -e .
 Optional source extras:
 
 ```bash
-pip install -e .[dev]    # lint, type-checking, tests
+pip install -e .[dev]    # lint, type-checking, packaging tools
 pip install -e .[docs]   # Sphinx docs tooling
 pip install -e .[torch]  # torch controller backend
 ```
@@ -85,7 +85,6 @@ Default output path is `output/<timestamp>_itergen.xlsx`.
 ruff check .
 ruff format --check .
 mypy src/itergen
-PYTHONPATH=src python -m unittest discover -s tests -p "test*.py" -q
 python -m build
 python -m twine check dist/*
 ```
