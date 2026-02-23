@@ -1,0 +1,169 @@
+{
+  "metadata": {
+    "n_rows": 150,
+    "tolerance": 0.04,
+    "max_attempts": 10,
+    "log_level": "quiet",
+    "missing_columns_mode": "error"
+  },
+  "columns": [
+    {
+      "column_id": "species",
+      "values": {
+        "categories": [
+          "Iris-setosa",
+          "Iris-versicolor",
+          "Iris-virginica"
+        ]
+      },
+      "distribution": {
+        "type": "categorical",
+        "probabilities": {
+          "Iris-setosa": 0.3333333333333333,
+          "Iris-versicolor": 0.3333333333333333,
+          "Iris-virginica": 0.3333333333333333
+        }
+      }
+    },
+    {
+      "column_id": "sepal_length",
+      "distribution": {
+        "type": "continuous",
+        "depend_on": [
+          "species"
+        ],
+        "targets": {
+          "mean": 5.843333333333335,
+          "std": 0.8253012917851409,
+          "min": 4.3,
+          "max": 7.9
+        },
+        "conditional_targets": {
+          "species='Iris-setosa'": {
+            "mean": 5.005999999999999,
+            "std": 0.348946987377739,
+            "min": 4.3,
+            "max": 5.8
+          },
+          "species='Iris-versicolor'": {
+            "mean": 5.936,
+            "std": 0.5109833656783752,
+            "min": 4.9,
+            "max": 7.0
+          },
+          "species='Iris-virginica'": {
+            "mean": 6.587999999999998,
+            "std": 0.6294886813914925,
+            "min": 4.9,
+            "max": 7.9
+          }
+        }
+      }
+    },
+    {
+      "column_id": "sepal_width",
+      "distribution": {
+        "type": "continuous",
+        "depend_on": [
+          "species"
+        ],
+        "targets": {
+          "mean": 3.0540000000000007,
+          "std": 0.4321465800705435,
+          "min": 2.0,
+          "max": 4.4
+        },
+        "conditional_targets": {
+          "species='Iris-setosa'": {
+            "mean": 3.4180000000000006,
+            "std": 0.37719490982779713,
+            "min": 2.3,
+            "max": 4.4
+          },
+          "species='Iris-versicolor'": {
+            "mean": 2.7700000000000005,
+            "std": 0.31064449134018135,
+            "min": 2.0,
+            "max": 3.4
+          },
+          "species='Iris-virginica'": {
+            "mean": 2.9739999999999998,
+            "std": 0.319255383666431,
+            "min": 2.2,
+            "max": 3.8
+          }
+        }
+      }
+    },
+    {
+      "column_id": "petal_length",
+      "distribution": {
+        "type": "continuous",
+        "depend_on": [
+          "species"
+        ],
+        "targets": {
+          "mean": 3.7586666666666693,
+          "std": 1.7585291834055201,
+          "min": 1.0,
+          "max": 6.9
+        },
+        "conditional_targets": {
+          "species='Iris-setosa'": {
+            "mean": 1.464,
+            "std": 0.17176728442867115,
+            "min": 1.0,
+            "max": 1.9
+          },
+          "species='Iris-versicolor'": {
+            "mean": 4.26,
+            "std": 0.4651881339845204,
+            "min": 3.0,
+            "max": 5.1
+          },
+          "species='Iris-virginica'": {
+            "mean": 5.552,
+            "std": 0.5463478745268441,
+            "min": 4.5,
+            "max": 6.9
+          }
+        }
+      }
+    },
+    {
+      "column_id": "petal_width",
+      "distribution": {
+        "type": "continuous",
+        "depend_on": [
+          "species"
+        ],
+        "targets": {
+          "mean": 1.1986666666666672,
+          "std": 0.760612618588172,
+          "min": 0.1,
+          "max": 2.5
+        },
+        "conditional_targets": {
+          "species='Iris-setosa'": {
+            "mean": 0.2439999999999999,
+            "std": 0.10613199329137278,
+            "min": 0.1,
+            "max": 0.6
+          },
+          "species='Iris-versicolor'": {
+            "mean": 1.3259999999999998,
+            "std": 0.19576516544063702,
+            "min": 1.0,
+            "max": 1.8
+          },
+          "species='Iris-virginica'": {
+            "mean": 2.026,
+            "std": 0.2718896835115301,
+            "min": 1.4,
+            "max": 2.5
+          }
+        }
+      }
+    }
+  ]
+}

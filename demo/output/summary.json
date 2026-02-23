@@ -1,0 +1,37 @@
+{
+  "overall": {
+    "mean_abs_mean_delta": 0.017154863090675043,
+    "mean_abs_std_delta": 0.0392288874109329,
+    "species_max_abs_delta": 0.06666666666666671
+  },
+  "per_column": {
+    "sepal_length": {
+      "mean_abs_delta": 0.018217452547535373,
+      "std_abs_delta": 0.025976935698855397
+    },
+    "sepal_width": {
+      "mean_abs_delta": 0.017801685378357135,
+      "std_abs_delta": 0.009384451524625803
+    },
+    "petal_length": {
+      "mean_abs_delta": 0.016255954342541123,
+      "std_abs_delta": 0.08254811705457987
+    },
+    "petal_width": {
+      "mean_abs_delta": 0.01634436009426654,
+      "std_abs_delta": 0.03900604536567054
+    }
+  },
+  "species_distribution": {
+    "real": {
+      "Iris-setosa": 0.3333333333333333,
+      "Iris-versicolor": 0.3333333333333333,
+      "Iris-virginica": 0.3333333333333333
+    },
+    "synthetic": {
+      "Iris-setosa": 0.31333333333333335,
+      "Iris-versicolor": 0.4,
+      "Iris-virginica": 0.2866666666666667
+    }
+  }
+}
