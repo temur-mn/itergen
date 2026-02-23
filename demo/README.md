@@ -19,6 +19,8 @@ Outputs in `demo/output/`:
 - `iris_config.json`
 - `summary.json`
 
+Run logs are written to `demo/logs/`.
+
 Cached source:
 
 - `demo/data/iris.data`

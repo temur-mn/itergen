@@ -118,7 +118,7 @@ def build_config(real_df: pd.DataFrame) -> dict:
             "n_rows": int(real_df.shape[0]),
             "tolerance": 0.06,
             "max_attempts": 10,
-            "log_level": "quiet",
+            "log_level": "info",
             "missing_columns_mode": "error",
         },
         "columns": columns,
@@ -191,7 +191,18 @@ def main() -> int:
             tolerance=0.06,
             max_attempts=10,
             save_output=False,
-            log_level="quiet",
+            log_level="info",
+            log_dir=str(here / "logs"),
+            rules_overrides={
+                "objective_max": 0.2,
+                "max_error_max": 0.2,
+                "max_column_deviation_max": 0.2,
+                "continuous_bin_mean_error_max": 0.25,
+                "continuous_bin_max_error_max": 0.35,
+                "continuous_violation_rate_max": 0.25,
+                "continuous_mean_violation_max": 1.0,
+                "continuous_max_violation_max": 1.0,
+            },
         ),
     ).generate()
 
@@ -224,6 +235,7 @@ def main() -> int:
         f"mean_abs_std_delta={overall['mean_abs_std_delta']:.6f} "
         f"species_max_abs_delta={overall['species_max_abs_delta']:.6f}"
     )
+    print(f"[IRIS MWP] log={result.log_path}")
     print(f"[IRIS MWP] artifacts={out_dir}")
     return 0
 

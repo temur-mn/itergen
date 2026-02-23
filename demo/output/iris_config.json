@@ -1,9 +1,9 @@
 {
   "metadata": {
     "n_rows": 150,
-    "tolerance": 0.04,
+    "tolerance": 0.06,
     "max_attempts": 10,
-    "log_level": "quiet",
+    "log_level": "info",
     "missing_columns_mode": "error"
   },
   "columns": [
