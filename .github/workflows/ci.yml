@@ -76,7 +76,7 @@ jobs:
         run: coverage run -m unittest discover -s tests -p "test*.py"
 
       - name: Coverage report
-        run: coverage report --fail-under=50
+        run: coverage report --fail-under=85
 
   docs:
     runs-on: ubuntu-latest

@@ -21,12 +21,12 @@ mypy src/itergen
 PYTHONPATH=src python -m unittest discover -s tests -p "test*.py" -q
 coverage run -m unittest discover -s tests -p "test*.py"
 coverage report --fail-under=85
-python -m sphinx -W -b html source build/html
+python -m sphinx -W -b html docs/source docs/build/html
 python -m build
 python -m twine check dist/*
 ```
 
-Release process is documented in `source/release.md`.
+Release process is documented in `docs/source/release.md`.
 
 ## Branch and PR guidelines
 

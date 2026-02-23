@@ -8,4 +8,4 @@ include SECURITY.md
 include CODE_OF_CONDUCT.md
 
 recursive-include config/templates *.yaml
-recursive-include source *.rst *.md *.py *.drawio
+recursive-include docs/source *.rst *.md *.py

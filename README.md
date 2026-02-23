@@ -1,7 +1,7 @@
 # itergen
 
 <div align="center">
-  <img src="./logo/logo.svg" alt="itergen logo" width="200">
+  <img src="https://raw.githubusercontent.com/temur-mn/itergen/main/logo/logo.svg" alt="itergen logo" width="200">
 </div>
 
 <p align="center">

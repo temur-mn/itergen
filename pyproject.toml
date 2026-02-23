@@ -33,7 +33,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/temur-mn/itergen"
-Documentation = "https://github.com/temur-mn/itergen/blob/main/docs/source/index.rst"
+Documentation = "https://temur-mn.github.io/itergen/"
 Source = "https://github.com/temur-mn/itergen"
 Issues = "https://github.com/temur-mn/itergen/issues"
 Changelog = "https://github.com/temur-mn/itergen/blob/main/CHANGELOG.md"
@@ -100,7 +100,7 @@ source = ["itergen"]
 
 [tool.coverage.report]
 omit = ["src/itergen/controllers/torch.py"]
-fail_under = 50
+fail_under = 85
 show_missing = true
 
 [dependency-groups]

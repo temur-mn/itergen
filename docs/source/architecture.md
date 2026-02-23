@@ -48,6 +48,6 @@
 ## Output artifacts
 
 - Generated dataset workbook (`output/<timestamp>_itergen.xlsx` by default).
-- Per-run log file under configured `log_dir` (default `src/itergen/logs/`).
+- Per-run log file under configured `log_dir` (default `./logs/`).
 - Structured result payload containing metrics, quality report, and optional
   iteration history for diagnostics.

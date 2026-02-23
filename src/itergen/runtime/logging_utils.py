@@ -8,8 +8,7 @@ from pathlib import Path
 
 
 def setup_run_logger(log_dir=None, name="generator"):
-    package_dir = Path(__file__).resolve().parents[1]
-    default_log_dir = package_dir / "logs"
+    default_log_dir = Path.cwd() / "logs"
 
     if log_dir is None:
         resolved_log_dir = default_log_dir

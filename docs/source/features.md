@@ -114,7 +114,7 @@ This guide describes each current feature type and how it fits into the runtime.
 - When output saving is enabled, workbook is written to a timestamped path if a
   filename is not provided.
 - Each run writes a timestamped log file under the configured `log_dir`
-  (`metadata.log_dir` or `RunConfig.log_dir`; default `src/itergen/logs/`).
+  (`metadata.log_dir` or `RunConfig.log_dir`; default `./logs/`).
 - `GenerateResult` returns:
   - `dataframe`, `metrics`, `quality_report`
   - `success`, `attempts`, `output_path` (or `None`), `log_path`
