@@ -28,7 +28,6 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.intersphinx",
-    "sphinx_rtd_theme",
     "sphinx.ext.viewcode",
 ]
 
@@ -50,5 +49,5 @@ intersphinx_mapping = {
 }
 
 
-html_theme = "sphinx_rtd_theme"
+html_theme = "furo"
 html_static_path = []

@@ -1,0 +1,226 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Troubleshooting &mdash; itergen 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Release Guide" href="release.html" />
+    <link rel="prev" title="Architecture" href="architecture.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            itergen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Feature Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#openpyxl-missing-when-saving-output"><code class="docutils literal notranslate"><span class="pre">openpyxl</span></code> missing when saving output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-m-itergen-exits-immediately"><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">itergen</span></code> exits immediately</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#validate-config-before-generation">Validate config before generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#config-dependency-errors">Config dependency errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#torch-controller-requested-but-torch-unavailable">Torch controller requested but torch unavailable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-looks-stalled-on-large-configs">Run looks stalled on large configs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#slow-convergence">Slow convergence</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">itergen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Troubleshooting</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/troubleshooting.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="troubleshooting">
+<h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h1>
+<section id="openpyxl-missing-when-saving-output">
+<h2><code class="docutils literal notranslate"><span class="pre">openpyxl</span></code> missing when saving output<a class="headerlink" href="#openpyxl-missing-when-saving-output" title="Link to this heading"></a></h2>
+<p>If you see:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Saving</span> <span class="pre">Excel</span> <span class="pre">output</span> <span class="pre">requires</span> <span class="pre">openpyxl.</span></code></p>
+<p>Install dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>itergen
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>openpyxl
+</pre></div>
+</div>
+</section>
+<section id="python-m-itergen-exits-immediately">
+<h2><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">itergen</span></code> exits immediately<a class="headerlink" href="#python-m-itergen-exits-immediately" title="Link to this heading"></a></h2>
+<p>This is expected. <code class="docutils literal notranslate"><span class="pre">itergen</span></code> is API-only and no longer provides a CLI.</p>
+<p>Use one of:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>sample_run.py
+</pre></div>
+</div>
+<p>or run from Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">itergen</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunConfig</span><span class="p">,</span> <span class="n">ItergenSynthesizer</span><span class="p">,</span> <span class="n">get_sample_config</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">ItergenSynthesizer</span><span class="p">(</span><span class="n">get_sample_config</span><span class="p">(</span><span class="s2">&quot;mixed&quot;</span><span class="p">),</span> <span class="n">RunConfig</span><span class="p">(</span><span class="n">n_rows</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span><span class="o">.</span><span class="n">generate</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="validate-config-before-generation">
+<h2>Validate config before generation<a class="headerlink" href="#validate-config-before-generation" title="Link to this heading"></a></h2>
+<p>Use programmatic validation to surface schema or feasibility issues early:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">itergen.schema.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_column_specs</span><span class="p">,</span> <span class="n">check_feasibility</span><span class="p">,</span> <span class="n">validate_config</span>
+
+<span class="n">warnings</span> <span class="o">=</span> <span class="n">validate_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="n">specs</span> <span class="o">=</span> <span class="n">build_column_specs</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="n">feas_warnings</span><span class="p">,</span> <span class="n">feas_errors</span> <span class="o">=</span> <span class="n">check_feasibility</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">specs</span><span class="p">,</span> <span class="n">n_rows</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="config-dependency-errors">
+<h2>Config dependency errors<a class="headerlink" href="#config-dependency-errors" title="Link to this heading"></a></h2>
+<p>If validation fails with missing parent/column references:</p>
+<ul class="simple">
+<li><p>verify <code class="docutils literal notranslate"><span class="pre">depend_on</span></code> values match existing <code class="docutils literal notranslate"><span class="pre">column_id</span></code>s</p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">missing_columns_mode=&quot;error&quot;</span></code> for deterministic failure</p></li>
+<li><p>start from a built-in sample and incrementally adapt</p></li>
+</ul>
+</section>
+<section id="torch-controller-requested-but-torch-unavailable">
+<h2>Torch controller requested but torch unavailable<a class="headerlink" href="#torch-controller-requested-but-torch-unavailable" title="Link to this heading"></a></h2>
+<p>If torch controller mode is requested and torch is not installed:</p>
+<ul class="simple">
+<li><p>with <code class="docutils literal notranslate"><span class="pre">RunConfig(torch_required=True)</span></code>, the run fails fast</p></li>
+<li><p>with <code class="docutils literal notranslate"><span class="pre">RunConfig(torch_required=False)</span></code>, itergen falls back to classic controller</p></li>
+</ul>
+<p>Install torch extras when you want strict torch-backed runs:</p>
+<p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.[torch]</span></code></p>
+</section>
+<section id="run-looks-stalled-on-large-configs">
+<h2>Run looks stalled on large configs<a class="headerlink" href="#run-looks-stalled-on-large-configs" title="Link to this heading"></a></h2>
+<p>Large configs (for example <code class="docutils literal notranslate"><span class="pre">mixed_large</span></code>) can appear idle for long periods when
+attempt-level parallelism is enabled.</p>
+<p>Why this happens:</p>
+<ul class="simple">
+<li><p>each worker executes a full attempt (initialize, optimize, and score) before reporting</p></li>
+<li><p>heavy settings (<code class="docutils literal notranslate"><span class="pre">max_iters</span></code>, large row counts, strict rule thresholds) can make
+each attempt expensive</p></li>
+<li><p>if all attempts miss rule thresholds, runtime still completes and returns the
+best-effort dataset</p></li>
+</ul>
+<p>Parallel attempts keep deterministic attempt-order result selection. The scheduler
+uses bounded in-flight submissions, so it avoids launching the full retry budget
+upfront.</p>
+<p>What to check:</p>
+<ul class="simple">
+<li><p>run log under your configured <code class="docutils literal notranslate"><span class="pre">log_dir</span></code> (<code class="docutils literal notranslate"><span class="pre">metadata.log_dir</span></code> or
+<code class="docutils literal notranslate"><span class="pre">RunConfig.log_dir</span></code>; default <code class="docutils literal notranslate"><span class="pre">./logs/</span></code>) for <code class="docutils literal notranslate"><span class="pre">[ATTEMPT</span> <span class="pre">COMPLETE]</span></code> and
+<code class="docutils literal notranslate"><span class="pre">[FINAL</span> <span class="pre">METRICS]</span></code> entries</p></li>
+<li><p>final status in <code class="docutils literal notranslate"><span class="pre">GenerateResult.success</span></code> (<code class="docutils literal notranslate"><span class="pre">False</span></code> means best-effort)</p></li>
+</ul>
+<p>How to shorten local iteration loops:</p>
+<ul class="simple">
+<li><p>reduce <code class="docutils literal notranslate"><span class="pre">n_rows</span></code> while tuning</p></li>
+<li><p>lower <code class="docutils literal notranslate"><span class="pre">max_attempts</span></code> temporarily</p></li>
+<li><p>reduce <code class="docutils literal notranslate"><span class="pre">attempt_workers</span></code> if your machine is memory constrained</p></li>
+<li><p>relax strict rule caps only after reviewing <code class="docutils literal notranslate"><span class="pre">quality_report</span></code></p></li>
+</ul>
+</section>
+<section id="slow-convergence">
+<h2>Slow convergence<a class="headerlink" href="#slow-convergence" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>reduce row count during tuning iterations</p></li>
+<li><p>simplify conditional branches first, then add complexity</p></li>
+<li><p>inspect <code class="docutils literal notranslate"><span class="pre">quality_report</span></code> and focus on worst columns/conditions</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="architecture.html" class="btn btn-neutral float-left" title="Architecture" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="release.html" class="btn btn-neutral float-right" title="Release Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Itergen Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

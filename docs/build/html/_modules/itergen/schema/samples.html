@@ -1,0 +1,742 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>itergen.schema.samples &mdash; itergen 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            itergen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Feature Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">itergen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">itergen.schema.samples</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for itergen.schema.samples</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Sample YAML configurations stored as strings.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+
+<span class="n">CONFIG_BINARY</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">metadata:</span>
+<span class="s2">  name: &quot;binary_only_demo&quot;</span>
+<span class="s2">  version: &quot;1.0&quot;</span>
+
+<span class="s2">columns:</span>
+<span class="s2">  - column_id: &quot;loyalty&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;bernoulli&quot;</span>
+<span class="s2">      probabilities: { true_prob: 0.4, false_prob: 0.6 }</span>
+
+<span class="s2">  - column_id: &quot;discount&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;conditional&quot;</span>
+<span class="s2">      depend_on: [&quot;loyalty&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;loyalty=1&quot;: { true_prob: 0.6, false_prob: 0.4 }</span>
+<span class="s2">        &quot;loyalty=0&quot;: { true_prob: 0.2, false_prob: 0.8 }</span>
+
+<span class="s2">  - column_id: &quot;online&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;conditional&quot;</span>
+<span class="s2">      depend_on: [&quot;discount&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;discount=1&quot;: { true_prob: 0.2, false_prob: 0.8 }</span>
+<span class="s2">        &quot;discount=0&quot;: { true_prob: 0.1, false_prob: 0.9 }</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">CONFIG_CATEGORICAL</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">metadata:</span>
+<span class="s2">  name: &quot;categorical_only_demo&quot;</span>
+<span class="s2">  version: &quot;1.0&quot;</span>
+
+<span class="s2">columns:</span>
+<span class="s2">  - column_id: &quot;device&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;mobile&quot;, &quot;desktop&quot;, &quot;tablet&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      probabilities: { mobile: 0.5, desktop: 0.35, tablet: 0.15 }</span>
+
+<span class="s2">  - column_id: &quot;region&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;na&quot;, &quot;emea&quot;, &quot;apac&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;device&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;device=mobile&quot;: { na: 0.4, emea: 0.35, apac: 0.25 }</span>
+<span class="s2">        &quot;device=desktop&quot;: { na: 0.5, emea: 0.3, apac: 0.2 }</span>
+<span class="s2">        &quot;device=tablet&quot;: { na: 0.3, emea: 0.3, apac: 0.4 }</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">CONFIG_BINARY_CATEGORICAL_LARGE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">metadata:</span>
+<span class="s2">  name: &quot;binary_categorical_large_demo&quot;</span>
+<span class="s2">  version: &quot;1.0&quot;</span>
+
+<span class="s2">columns:</span>
+<span class="s2">  - column_id: &quot;loyalty&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;bernoulli&quot;</span>
+<span class="s2">      probabilities: { true_prob: 0.45, false_prob: 0.55 }</span>
+
+<span class="s2">  - column_id: &quot;discount&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;conditional&quot;</span>
+<span class="s2">      depend_on: [&quot;loyalty&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;loyalty=1&quot;: { true_prob: 0.55, false_prob: 0.45 }</span>
+<span class="s2">        &quot;loyalty=0&quot;: { true_prob: 0.25, false_prob: 0.75 }</span>
+
+<span class="s2">  - column_id: &quot;channel&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;web&quot;, &quot;app&quot;, &quot;store&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      probabilities: { web: 0.45, app: 0.35, store: 0.20 }</span>
+
+<span class="s2">  - column_id: &quot;device&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;mobile&quot;, &quot;desktop&quot;, &quot;tablet&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;channel&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;channel=web&quot;: { mobile: 0.35, desktop: 0.50, tablet: 0.15 }</span>
+<span class="s2">        &quot;channel=app&quot;: { mobile: 0.70, desktop: 0.20, tablet: 0.10 }</span>
+<span class="s2">        &quot;channel=store&quot;: { mobile: 0.30, desktop: 0.45, tablet: 0.25 }</span>
+
+<span class="s2">  - column_id: &quot;region&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;na&quot;, &quot;emea&quot;, &quot;apac&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;device&quot;, &quot;loyalty&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;device=mobile, loyalty=1&quot;: { na: 0.40, emea: 0.35, apac: 0.25 }</span>
+<span class="s2">        &quot;device=desktop, loyalty=1&quot;: { na: 0.45, emea: 0.30, apac: 0.25 }</span>
+<span class="s2">        &quot;device=tablet, loyalty=1&quot;: { na: 0.35, emea: 0.30, apac: 0.35 }</span>
+<span class="s2">        &quot;device=mobile, loyalty=0&quot;: { na: 0.30, emea: 0.40, apac: 0.30 }</span>
+<span class="s2">        &quot;device=desktop, loyalty=0&quot;: { na: 0.35, emea: 0.35, apac: 0.30 }</span>
+<span class="s2">        &quot;device=tablet, loyalty=0&quot;: { na: 0.25, emea: 0.35, apac: 0.40 }</span>
+
+<span class="s2">  - column_id: &quot;plan_tier&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;basic&quot;, &quot;plus&quot;, &quot;pro&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;loyalty&quot;, &quot;channel&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;loyalty=1, channel=web&quot;: { basic: 0.25, plus: 0.45, pro: 0.30 }</span>
+<span class="s2">        &quot;loyalty=1, channel=app&quot;: { basic: 0.20, plus: 0.40, pro: 0.40 }</span>
+<span class="s2">        &quot;loyalty=1, channel=store&quot;: { basic: 0.30, plus: 0.45, pro: 0.25 }</span>
+<span class="s2">        &quot;loyalty=0, channel=web&quot;: { basic: 0.55, plus: 0.30, pro: 0.15 }</span>
+<span class="s2">        &quot;loyalty=0, channel=app&quot;: { basic: 0.45, plus: 0.35, pro: 0.20 }</span>
+<span class="s2">        &quot;loyalty=0, channel=store&quot;: { basic: 0.50, plus: 0.35, pro: 0.15 }</span>
+
+<span class="s2">  - column_id: &quot;auto_pay&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;conditional&quot;</span>
+<span class="s2">      depend_on: [&quot;plan_tier&quot;, &quot;loyalty&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;plan_tier=basic, loyalty=1&quot;: { true_prob: 0.45, false_prob: 0.55 }</span>
+<span class="s2">        &quot;plan_tier=plus, loyalty=1&quot;: { true_prob: 0.55, false_prob: 0.45 }</span>
+<span class="s2">        &quot;plan_tier=pro, loyalty=1&quot;: { true_prob: 0.65, false_prob: 0.35 }</span>
+<span class="s2">        &quot;plan_tier=basic, loyalty=0&quot;: { true_prob: 0.30, false_prob: 0.70 }</span>
+<span class="s2">        &quot;plan_tier=plus, loyalty=0&quot;: { true_prob: 0.38, false_prob: 0.62 }</span>
+<span class="s2">        &quot;plan_tier=pro, loyalty=0&quot;: { true_prob: 0.45, false_prob: 0.55 }</span>
+
+<span class="s2">  - column_id: &quot;support_channel&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;chat&quot;, &quot;email&quot;, &quot;phone&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;plan_tier&quot;, &quot;channel&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;plan_tier=basic, channel=web&quot;: { chat: 0.40, email: 0.40, phone: 0.20 }</span>
+<span class="s2">        &quot;plan_tier=basic, channel=app&quot;: { chat: 0.52, email: 0.33, phone: 0.15 }</span>
+<span class="s2">        &quot;plan_tier=basic, channel=store&quot;: { chat: 0.25, email: 0.35, phone: 0.40 }</span>
+<span class="s2">        &quot;plan_tier=plus, channel=web&quot;: { chat: 0.45, email: 0.35, phone: 0.20 }</span>
+<span class="s2">        &quot;plan_tier=plus, channel=app&quot;: { chat: 0.55, email: 0.30, phone: 0.15 }</span>
+<span class="s2">        &quot;plan_tier=plus, channel=store&quot;: { chat: 0.30, email: 0.30, phone: 0.40 }</span>
+<span class="s2">        &quot;plan_tier=pro, channel=web&quot;: { chat: 0.35, email: 0.30, phone: 0.35 }</span>
+<span class="s2">        &quot;plan_tier=pro, channel=app&quot;: { chat: 0.45, email: 0.25, phone: 0.30 }</span>
+<span class="s2">        &quot;plan_tier=pro, channel=store&quot;: { chat: 0.20, email: 0.30, phone: 0.50 }</span>
+
+<span class="s2">  - column_id: &quot;priority_support&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;conditional&quot;</span>
+<span class="s2">      depend_on: [&quot;plan_tier&quot;, &quot;support_channel&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;plan_tier=basic, support_channel=chat&quot;: { true_prob: 0.15, false_prob: 0.85 }</span>
+<span class="s2">        &quot;plan_tier=basic, support_channel=email&quot;: { true_prob: 0.10, false_prob: 0.90 }</span>
+<span class="s2">        &quot;plan_tier=basic, support_channel=phone&quot;: { true_prob: 0.20, false_prob: 0.80 }</span>
+<span class="s2">        &quot;plan_tier=plus, support_channel=chat&quot;: { true_prob: 0.25, false_prob: 0.75 }</span>
+<span class="s2">        &quot;plan_tier=plus, support_channel=email&quot;: { true_prob: 0.20, false_prob: 0.80 }</span>
+<span class="s2">        &quot;plan_tier=plus, support_channel=phone&quot;: { true_prob: 0.35, false_prob: 0.65 }</span>
+<span class="s2">        &quot;plan_tier=pro, support_channel=chat&quot;: { true_prob: 0.45, false_prob: 0.55 }</span>
+<span class="s2">        &quot;plan_tier=pro, support_channel=email&quot;: { true_prob: 0.35, false_prob: 0.65 }</span>
+<span class="s2">        &quot;plan_tier=pro, support_channel=phone&quot;: { true_prob: 0.55, false_prob: 0.45 }</span>
+
+<span class="s2">  - column_id: &quot;tenure_bucket&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;new&quot;, &quot;mid&quot;, &quot;long&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;auto_pay&quot;, &quot;loyalty&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;auto_pay=1, loyalty=1&quot;: { new: 0.20, mid: 0.40, long: 0.40 }</span>
+<span class="s2">        &quot;auto_pay=0, loyalty=1&quot;: { new: 0.35, mid: 0.45, long: 0.20 }</span>
+<span class="s2">        &quot;auto_pay=1, loyalty=0&quot;: { new: 0.30, mid: 0.45, long: 0.25 }</span>
+<span class="s2">        &quot;auto_pay=0, loyalty=0&quot;: { new: 0.45, mid: 0.40, long: 0.15 }</span>
+
+<span class="s2">  - column_id: &quot;payment_method&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;card&quot;, &quot;bank&quot;, &quot;wallet&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;channel&quot;, &quot;auto_pay&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;channel=web, auto_pay=1&quot;: { card: 0.55, bank: 0.30, wallet: 0.15 }</span>
+<span class="s2">        &quot;channel=web, auto_pay=0&quot;: { card: 0.60, bank: 0.25, wallet: 0.15 }</span>
+<span class="s2">        &quot;channel=app, auto_pay=1&quot;: { card: 0.30, bank: 0.20, wallet: 0.50 }</span>
+<span class="s2">        &quot;channel=app, auto_pay=0&quot;: { card: 0.35, bank: 0.25, wallet: 0.40 }</span>
+<span class="s2">        &quot;channel=store, auto_pay=1&quot;: { card: 0.45, bank: 0.40, wallet: 0.15 }</span>
+<span class="s2">        &quot;channel=store, auto_pay=0&quot;: { card: 0.50, bank: 0.35, wallet: 0.15 }</span>
+
+<span class="s2">  - column_id: &quot;churn_risk&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;conditional&quot;</span>
+<span class="s2">      depend_on: [&quot;plan_tier&quot;, &quot;priority_support&quot;, &quot;discount&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;plan_tier=basic, priority_support=1, discount=1&quot;: { true_prob: 0.25, false_prob: 0.75 }</span>
+<span class="s2">        &quot;plan_tier=basic, priority_support=1, discount=0&quot;: { true_prob: 0.35, false_prob: 0.65 }</span>
+<span class="s2">        &quot;plan_tier=basic, priority_support=0, discount=1&quot;: { true_prob: 0.30, false_prob: 0.70 }</span>
+<span class="s2">        &quot;plan_tier=basic, priority_support=0, discount=0&quot;: { true_prob: 0.45, false_prob: 0.55 }</span>
+<span class="s2">        &quot;plan_tier=plus, priority_support=1, discount=1&quot;: { true_prob: 0.18, false_prob: 0.82 }</span>
+<span class="s2">        &quot;plan_tier=plus, priority_support=1, discount=0&quot;: { true_prob: 0.25, false_prob: 0.75 }</span>
+<span class="s2">        &quot;plan_tier=plus, priority_support=0, discount=1&quot;: { true_prob: 0.22, false_prob: 0.78 }</span>
+<span class="s2">        &quot;plan_tier=plus, priority_support=0, discount=0&quot;: { true_prob: 0.32, false_prob: 0.68 }</span>
+<span class="s2">        &quot;plan_tier=pro, priority_support=1, discount=1&quot;: { true_prob: 0.12, false_prob: 0.88 }</span>
+<span class="s2">        &quot;plan_tier=pro, priority_support=1, discount=0&quot;: { true_prob: 0.18, false_prob: 0.82 }</span>
+<span class="s2">        &quot;plan_tier=pro, priority_support=0, discount=1&quot;: { true_prob: 0.15, false_prob: 0.85 }</span>
+<span class="s2">        &quot;plan_tier=pro, priority_support=0, discount=0&quot;: { true_prob: 0.25, false_prob: 0.75 }</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">CONFIG_CONTINUOUS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">metadata:</span>
+<span class="s2">  name: &quot;continuous_only_demo&quot;</span>
+<span class="s2">  version: &quot;1.0&quot;</span>
+<span class="s2">  continuous_bin_conflict_mode: error</span>
+<span class="s2">  continuous_bin_mean_error_max: 0.12</span>
+<span class="s2">  continuous_bin_max_error_max: 0.30</span>
+<span class="s2">  continuous_violation_rate_max: 0.02</span>
+<span class="s2">  continuous_mean_violation_max: 1.0</span>
+<span class="s2">  continuous_max_violation_max: 5.0</span>
+
+<span class="s2">columns:</span>
+<span class="s2">  - column_id: &quot;spend&quot;</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;continuous&quot;</span>
+<span class="s2">      targets: { mean: 120.0, std: 30.0, min: 20.0, max: 240.0 }</span>
+<span class="s2">      conditioning_bins:</span>
+<span class="s2">        edges: [20.0, 60.0, 95.0, 125.0, 155.0, 190.0, 240.0]</span>
+<span class="s2">        labels: [&quot;vlow&quot;, &quot;low&quot;, &quot;mid&quot;, &quot;high&quot;, &quot;vhigh&quot;, &quot;top&quot;]</span>
+
+<span class="s2">  - column_id: &quot;session_length&quot;</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;continuous&quot;</span>
+<span class="s2">      targets: { mean: 12.0, std: 4.0, min: 1.0, max: 40.0 }</span>
+<span class="s2">      conditioning_bins:</span>
+<span class="s2">        edges: [1.0, 4.0, 7.0, 10.0, 14.0, 20.0, 40.0]</span>
+<span class="s2">        labels: [&quot;short&quot;, &quot;quick&quot;, &quot;mid&quot;, &quot;long&quot;, &quot;xlong&quot;, &quot;extreme&quot;]</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">CONFIG_MIXED</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">metadata:</span>
+<span class="s2">  name: &quot;mixed_demo&quot;</span>
+<span class="s2">  version: &quot;1.0&quot;</span>
+<span class="s2">  continuous_bin_conflict_mode: error</span>
+<span class="s2">  continuous_bin_mean_error_max: 0.12</span>
+<span class="s2">  continuous_bin_max_error_max: 0.30</span>
+<span class="s2">  continuous_violation_rate_max: 0.03</span>
+<span class="s2">  continuous_mean_violation_max: 1.5</span>
+<span class="s2">  continuous_max_violation_max: 8.0</span>
+
+<span class="s2">columns:</span>
+<span class="s2">  - column_id: &quot;loyalty&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;bernoulli&quot;</span>
+<span class="s2">      probabilities: { true_prob: 0.4, false_prob: 0.6 }</span>
+
+<span class="s2">  - column_id: &quot;device&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;mobile&quot;, &quot;desktop&quot;, &quot;tablet&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;loyalty&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;loyalty=1&quot;: { mobile: 0.6, desktop: 0.3, tablet: 0.1 }</span>
+<span class="s2">        &quot;loyalty=0&quot;: { mobile: 0.4, desktop: 0.4, tablet: 0.2 }</span>
+
+<span class="s2">  - column_id: &quot;subscription&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;conditional&quot;</span>
+<span class="s2">      depend_on: [&quot;device&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;device=mobile&quot;: { true_prob: 0.5, false_prob: 0.5 }</span>
+<span class="s2">        &quot;device=desktop&quot;: { true_prob: 0.3, false_prob: 0.7 }</span>
+<span class="s2">        &quot;device=tablet&quot;: { true_prob: 0.2, false_prob: 0.8 }</span>
+
+<span class="s2">  - column_id: &quot;spend&quot;</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;continuous&quot;</span>
+<span class="s2">      targets: { mean: 110.0, std: 25.0, min: 10.0, max: 220.0 }</span>
+<span class="s2">      conditioning_bins:</span>
+<span class="s2">        edges: [10.0, 45.0, 75.0, 105.0, 135.0, 170.0, 220.0]</span>
+<span class="s2">        labels: [&quot;b1&quot;, &quot;b2&quot;, &quot;b3&quot;, &quot;b4&quot;, &quot;b5&quot;, &quot;b6&quot;]</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">CONFIG_CONTINUOUS_PARENT_BINS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">metadata:</span>
+<span class="s2">  name: &quot;continuous_parent_bins_demo&quot;</span>
+<span class="s2">  version: &quot;1.0&quot;</span>
+<span class="s2">  continuous_bin_conflict_mode: error</span>
+<span class="s2">  continuous_bin_mean_error_max: 0.14</span>
+<span class="s2">  continuous_bin_max_error_max: 0.32</span>
+
+<span class="s2">columns:</span>
+<span class="s2">  - column_id: &quot;risk_score&quot;</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;continuous&quot;</span>
+<span class="s2">      targets: { mean: 50.0, std: 15.0, min: 0.0, max: 100.0 }</span>
+<span class="s2">      conditioning_bins:</span>
+<span class="s2">        edges: [0.0, 35.0, 65.0, 100.0]</span>
+<span class="s2">        labels: [&quot;low&quot;, &quot;mid&quot;, &quot;high&quot;]</span>
+<span class="s2">      bin_probs: { low: 0.27, mid: 0.46, high: 0.27 }</span>
+
+<span class="s2">  - column_id: &quot;retained&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;conditional&quot;</span>
+<span class="s2">      depend_on: [&quot;risk_score&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;risk_score=low&quot;: { true_prob: 0.80, false_prob: 0.20 }</span>
+<span class="s2">        &quot;risk_score=mid&quot;: { true_prob: 0.50, false_prob: 0.50 }</span>
+<span class="s2">        &quot;risk_score=high&quot;: { true_prob: 0.25, false_prob: 0.75 }</span>
+
+<span class="s2">  - column_id: &quot;support_cost&quot;</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;continuous&quot;</span>
+<span class="s2">      depend_on: [&quot;risk_score&quot;]</span>
+<span class="s2">      conditioning_bins:</span>
+<span class="s2">        edges: [1.0, 8.0, 12.0, 16.0, 22.0, 30.0, 40.0]</span>
+<span class="s2">        labels: [&quot;vlow&quot;, &quot;low&quot;, &quot;mid&quot;, &quot;high&quot;, &quot;vhigh&quot;, &quot;extreme&quot;]</span>
+<span class="s2">      bin_probs: { vlow: 0.10, low: 0.22, mid: 0.28, high: 0.22, vhigh: 0.13, extreme: 0.05 }</span>
+<span class="s2">      conditional_targets:</span>
+<span class="s2">        &quot;risk_score=low&quot;: { mean: 8.0, std: 2.0, min: 1.0, max: 20.0 }</span>
+<span class="s2">        &quot;risk_score=mid&quot;: { mean: 14.0, std: 3.0, min: 3.0, max: 30.0 }</span>
+<span class="s2">        &quot;risk_score=high&quot;: { mean: 22.0, std: 4.0, min: 6.0, max: 40.0 }</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">CONFIG_MIXED_LARGE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">metadata:</span>
+<span class="s2">  n_rows: 30000</span>
+<span class="s2">  tolerance: 0.05</span>
+<span class="s2">  max_attempts: 3</span>
+<span class="s2">  attempt_workers: 4</span>
+<span class="s2">  proposal_scoring_mode: incremental</span>
+<span class="s2">  continuous_bin_conflict_mode: error</span>
+<span class="s2">  log_level: info</span>
+<span class="s2">  objective_max: 0.40</span>
+<span class="s2">  max_error_max: 0.1</span>
+<span class="s2">  max_column_deviation_max: 0.1</span>
+<span class="s2">  continuous_bin_mean_error_max: 0.05</span>
+<span class="s2">  continuous_bin_max_error_max: 0.09</span>
+<span class="s2">  continuous_violation_rate_max: 0.03</span>
+<span class="s2">  continuous_mean_violation_max: 0.75</span>
+<span class="s2">  continuous_max_violation_max: 1.0</span>
+
+<span class="s2">advanced:</span>
+<span class="s2">  enabled: true</span>
+<span class="s2">  batch_size: 2048</span>
+<span class="s2">  proposals_per_batch: 16</span>
+<span class="s2">  max_iters: 120</span>
+<span class="s2">  patience: 8</span>
+<span class="s2">  temperature_decay: 0.92</span>
+<span class="s2">  random_flip_frac: 0.006</span>
+<span class="s2">  step_size_marginal: 0.22</span>
+<span class="s2">  step_size_conditional: 0.33</span>
+<span class="s2">  step_size_continuous_marginal: 0.28</span>
+<span class="s2">  step_size_continuous_conditional: 0.42</span>
+<span class="s2">  continuous_dependency_gain: 0.20</span>
+<span class="s2">  continuous_noise_frac: 0.05</span>
+<span class="s2">  continuous_edge_guard_frac: 0.04</span>
+
+<span class="s2">columns:</span>
+<span class="s2">  - column_id: &quot;loyalty&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;bernoulli&quot;</span>
+<span class="s2">      probabilities: { true_prob: 0.45, false_prob: 0.55 }</span>
+
+<span class="s2">  - column_id: &quot;discount&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;conditional&quot;</span>
+<span class="s2">      depend_on: [&quot;loyalty&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;loyalty=1&quot;: { true_prob: 0.55, false_prob: 0.45 }</span>
+<span class="s2">        &quot;loyalty=0&quot;: { true_prob: 0.25, false_prob: 0.75 }</span>
+
+<span class="s2">  - column_id: &quot;channel&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;web&quot;, &quot;app&quot;, &quot;store&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      probabilities: { web: 0.45, app: 0.35, store: 0.20 }</span>
+
+<span class="s2">  - column_id: &quot;device&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;mobile&quot;, &quot;desktop&quot;, &quot;tablet&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;channel&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;channel=web&quot;: { mobile: 0.35, desktop: 0.50, tablet: 0.15 }</span>
+<span class="s2">        &quot;channel=app&quot;: { mobile: 0.70, desktop: 0.20, tablet: 0.10 }</span>
+<span class="s2">        &quot;channel=store&quot;: { mobile: 0.30, desktop: 0.45, tablet: 0.25 }</span>
+
+<span class="s2">  - column_id: &quot;region&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;na&quot;, &quot;emea&quot;, &quot;apac&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;device&quot;, &quot;loyalty&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;device=mobile, loyalty=1&quot;: { na: 0.40, emea: 0.35, apac: 0.25 }</span>
+<span class="s2">        &quot;device=desktop, loyalty=1&quot;: { na: 0.45, emea: 0.30, apac: 0.25 }</span>
+<span class="s2">        &quot;device=tablet, loyalty=1&quot;: { na: 0.35, emea: 0.30, apac: 0.35 }</span>
+<span class="s2">        &quot;device=mobile, loyalty=0&quot;: { na: 0.30, emea: 0.40, apac: 0.30 }</span>
+<span class="s2">        &quot;device=desktop, loyalty=0&quot;: { na: 0.35, emea: 0.35, apac: 0.30 }</span>
+<span class="s2">        &quot;device=tablet, loyalty=0&quot;: { na: 0.25, emea: 0.35, apac: 0.40 }</span>
+
+<span class="s2">  - column_id: &quot;plan_tier&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;basic&quot;, &quot;plus&quot;, &quot;pro&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;loyalty&quot;, &quot;channel&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;loyalty=1, channel=web&quot;: { basic: 0.25, plus: 0.45, pro: 0.30 }</span>
+<span class="s2">        &quot;loyalty=1, channel=app&quot;: { basic: 0.20, plus: 0.40, pro: 0.40 }</span>
+<span class="s2">        &quot;loyalty=1, channel=store&quot;: { basic: 0.30, plus: 0.45, pro: 0.25 }</span>
+<span class="s2">        &quot;loyalty=0, channel=web&quot;: { basic: 0.55, plus: 0.30, pro: 0.15 }</span>
+<span class="s2">        &quot;loyalty=0, channel=app&quot;: { basic: 0.45, plus: 0.35, pro: 0.20 }</span>
+<span class="s2">        &quot;loyalty=0, channel=store&quot;: { basic: 0.50, plus: 0.35, pro: 0.15 }</span>
+
+<span class="s2">  - column_id: &quot;auto_pay&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;conditional&quot;</span>
+<span class="s2">      depend_on: [&quot;plan_tier&quot;, &quot;loyalty&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;plan_tier=basic, loyalty=1&quot;: { true_prob: 0.45, false_prob: 0.55 }</span>
+<span class="s2">        &quot;plan_tier=plus, loyalty=1&quot;: { true_prob: 0.55, false_prob: 0.45 }</span>
+<span class="s2">        &quot;plan_tier=pro, loyalty=1&quot;: { true_prob: 0.65, false_prob: 0.35 }</span>
+<span class="s2">        &quot;plan_tier=basic, loyalty=0&quot;: { true_prob: 0.30, false_prob: 0.70 }</span>
+<span class="s2">        &quot;plan_tier=plus, loyalty=0&quot;: { true_prob: 0.38, false_prob: 0.62 }</span>
+<span class="s2">        &quot;plan_tier=pro, loyalty=0&quot;: { true_prob: 0.45, false_prob: 0.55 }</span>
+
+<span class="s2">  - column_id: &quot;support_channel&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;chat&quot;, &quot;email&quot;, &quot;phone&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;plan_tier&quot;, &quot;channel&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;plan_tier=basic, channel=web&quot;: { chat: 0.40, email: 0.40, phone: 0.20 }</span>
+<span class="s2">        &quot;plan_tier=basic, channel=app&quot;: { chat: 0.52, email: 0.33, phone: 0.15 }</span>
+<span class="s2">        &quot;plan_tier=basic, channel=store&quot;: { chat: 0.25, email: 0.35, phone: 0.40 }</span>
+<span class="s2">        &quot;plan_tier=plus, channel=web&quot;: { chat: 0.45, email: 0.35, phone: 0.20 }</span>
+<span class="s2">        &quot;plan_tier=plus, channel=app&quot;: { chat: 0.55, email: 0.30, phone: 0.15 }</span>
+<span class="s2">        &quot;plan_tier=plus, channel=store&quot;: { chat: 0.30, email: 0.30, phone: 0.40 }</span>
+<span class="s2">        &quot;plan_tier=pro, channel=web&quot;: { chat: 0.35, email: 0.30, phone: 0.35 }</span>
+<span class="s2">        &quot;plan_tier=pro, channel=app&quot;: { chat: 0.45, email: 0.25, phone: 0.30 }</span>
+<span class="s2">        &quot;plan_tier=pro, channel=store&quot;: { chat: 0.20, email: 0.30, phone: 0.50 }</span>
+
+<span class="s2">  - column_id: &quot;priority_support&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;conditional&quot;</span>
+<span class="s2">      depend_on: [&quot;plan_tier&quot;, &quot;support_channel&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;plan_tier=basic, support_channel=chat&quot;: { true_prob: 0.15, false_prob: 0.85 }</span>
+<span class="s2">        &quot;plan_tier=basic, support_channel=email&quot;: { true_prob: 0.10, false_prob: 0.90 }</span>
+<span class="s2">        &quot;plan_tier=basic, support_channel=phone&quot;: { true_prob: 0.20, false_prob: 0.80 }</span>
+<span class="s2">        &quot;plan_tier=plus, support_channel=chat&quot;: { true_prob: 0.25, false_prob: 0.75 }</span>
+<span class="s2">        &quot;plan_tier=plus, support_channel=email&quot;: { true_prob: 0.20, false_prob: 0.80 }</span>
+<span class="s2">        &quot;plan_tier=plus, support_channel=phone&quot;: { true_prob: 0.35, false_prob: 0.65 }</span>
+<span class="s2">        &quot;plan_tier=pro, support_channel=chat&quot;: { true_prob: 0.45, false_prob: 0.55 }</span>
+<span class="s2">        &quot;plan_tier=pro, support_channel=email&quot;: { true_prob: 0.35, false_prob: 0.65 }</span>
+<span class="s2">        &quot;plan_tier=pro, support_channel=phone&quot;: { true_prob: 0.55, false_prob: 0.45 }</span>
+
+<span class="s2">  - column_id: &quot;tenure_bucket&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;new&quot;, &quot;mid&quot;, &quot;long&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;auto_pay&quot;, &quot;loyalty&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;auto_pay=1, loyalty=1&quot;: { new: 0.20, mid: 0.40, long: 0.40 }</span>
+<span class="s2">        &quot;auto_pay=0, loyalty=1&quot;: { new: 0.35, mid: 0.45, long: 0.20 }</span>
+<span class="s2">        &quot;auto_pay=1, loyalty=0&quot;: { new: 0.30, mid: 0.45, long: 0.25 }</span>
+<span class="s2">        &quot;auto_pay=0, loyalty=0&quot;: { new: 0.45, mid: 0.40, long: 0.15 }</span>
+
+<span class="s2">  - column_id: &quot;payment_method&quot;</span>
+<span class="s2">    values:</span>
+<span class="s2">      categories: [&quot;card&quot;, &quot;bank&quot;, &quot;wallet&quot;]</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;categorical&quot;</span>
+<span class="s2">      depend_on: [&quot;channel&quot;, &quot;auto_pay&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;channel=web, auto_pay=1&quot;: { card: 0.55, bank: 0.30, wallet: 0.15 }</span>
+<span class="s2">        &quot;channel=web, auto_pay=0&quot;: { card: 0.60, bank: 0.25, wallet: 0.15 }</span>
+<span class="s2">        &quot;channel=app, auto_pay=1&quot;: { card: 0.30, bank: 0.20, wallet: 0.50 }</span>
+<span class="s2">        &quot;channel=app, auto_pay=0&quot;: { card: 0.35, bank: 0.25, wallet: 0.40 }</span>
+<span class="s2">        &quot;channel=store, auto_pay=1&quot;: { card: 0.45, bank: 0.40, wallet: 0.15 }</span>
+<span class="s2">        &quot;channel=store, auto_pay=0&quot;: { card: 0.50, bank: 0.35, wallet: 0.15 }</span>
+
+<span class="s2">  - column_id: &quot;spend&quot;</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;continuous&quot;</span>
+<span class="s2">      targets: { mean: 115.0, std: 28.0, min: 10.0, max: 240.0 }</span>
+<span class="s2">      conditioning_bins:</span>
+<span class="s2">        edges: [10.0, 45.0, 75.0, 105.0, 135.0, 170.0, 240.0]</span>
+<span class="s2">        labels: [&quot;sp1&quot;, &quot;sp2&quot;, &quot;sp3&quot;, &quot;sp4&quot;, &quot;sp5&quot;, &quot;sp6&quot;]</span>
+
+<span class="s2">  - column_id: &quot;session_length&quot;</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;continuous&quot;</span>
+<span class="s2">      targets: { mean: 12.5, std: 4.5, min: 1.0, max: 40.0 }</span>
+<span class="s2">      conditioning_bins:</span>
+<span class="s2">        edges: [1.0, 4.0, 7.0, 10.0, 14.0, 20.0, 40.0]</span>
+<span class="s2">        labels: [&quot;sl1&quot;, &quot;sl2&quot;, &quot;sl3&quot;, &quot;sl4&quot;, &quot;sl5&quot;, &quot;sl6&quot;]</span>
+
+<span class="s2">  - column_id: &quot;support_cost&quot;</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;continuous&quot;</span>
+<span class="s2">      depend_on: [&quot;support_channel&quot;, &quot;priority_support&quot;]</span>
+<span class="s2">      conditioning_bins:</span>
+<span class="s2">        edges: [1.0, 8.0, 14.0, 20.0, 30.0, 45.0, 90.0]</span>
+<span class="s2">        labels: [&quot;c1&quot;, &quot;c2&quot;, &quot;c3&quot;, &quot;c4&quot;, &quot;c5&quot;, &quot;c6&quot;]</span>
+<span class="s2">      bin_probs: { c1: 0.12, c2: 0.24, c3: 0.26, c4: 0.20, c5: 0.13, c6: 0.05 }</span>
+<span class="s2">      conditional_targets:</span>
+<span class="s2">        &quot;support_channel=chat, priority_support=1&quot;: { mean: 18.0, std: 5.0, min: 2.0, max: 60.0 }</span>
+<span class="s2">        &quot;support_channel=chat, priority_support=0&quot;: { mean: 12.0, std: 4.0, min: 1.0, max: 50.0 }</span>
+<span class="s2">        &quot;support_channel=email, priority_support=1&quot;: { mean: 22.0, std: 6.0, min: 3.0, max: 70.0 }</span>
+<span class="s2">        &quot;support_channel=email, priority_support=0&quot;: { mean: 15.0, std: 5.0, min: 2.0, max: 60.0 }</span>
+<span class="s2">        &quot;support_channel=phone, priority_support=1&quot;: { mean: 30.0, std: 8.0, min: 5.0, max: 90.0 }</span>
+<span class="s2">        &quot;support_channel=phone, priority_support=0&quot;: { mean: 22.0, std: 6.0, min: 4.0, max: 75.0 }</span>
+
+<span class="s2">  - column_id: &quot;risk_score&quot;</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;continuous&quot;</span>
+<span class="s2">      depend_on: [&quot;loyalty&quot;, &quot;discount&quot;]</span>
+<span class="s2">      conditioning_bins:</span>
+<span class="s2">        edges: [0.0, 20.0, 35.0, 50.0, 65.0, 80.0, 100.0]</span>
+<span class="s2">        labels: [&quot;r1&quot;, &quot;r2&quot;, &quot;r3&quot;, &quot;r4&quot;, &quot;r5&quot;, &quot;r6&quot;]</span>
+<span class="s2">      bin_probs: { r1: 0.10, r2: 0.16, r3: 0.24, r4: 0.24, r5: 0.16, r6: 0.10 }</span>
+<span class="s2">      conditional_targets:</span>
+<span class="s2">        &quot;loyalty=1, discount=1&quot;: { mean: 35.0, std: 10.0, min: 0.0, max: 100.0 }</span>
+<span class="s2">        &quot;loyalty=1, discount=0&quot;: { mean: 45.0, std: 12.0, min: 0.0, max: 100.0 }</span>
+<span class="s2">        &quot;loyalty=0, discount=1&quot;: { mean: 55.0, std: 15.0, min: 0.0, max: 100.0 }</span>
+<span class="s2">        &quot;loyalty=0, discount=0&quot;: { mean: 65.0, std: 18.0, min: 0.0, max: 100.0 }</span>
+
+<span class="s2">  - column_id: &quot;churn_risk&quot;</span>
+<span class="s2">    values: { true_value: 1, false_value: 0 }</span>
+<span class="s2">    distribution:</span>
+<span class="s2">      type: &quot;conditional&quot;</span>
+<span class="s2">      depend_on: [&quot;plan_tier&quot;, &quot;priority_support&quot;, &quot;discount&quot;]</span>
+<span class="s2">      conditional_probs:</span>
+<span class="s2">        &quot;plan_tier=basic, priority_support=1, discount=1&quot;: { true_prob: 0.25, false_prob: 0.75 }</span>
+<span class="s2">        &quot;plan_tier=basic, priority_support=1, discount=0&quot;: { true_prob: 0.35, false_prob: 0.65 }</span>
+<span class="s2">        &quot;plan_tier=basic, priority_support=0, discount=1&quot;: { true_prob: 0.30, false_prob: 0.70 }</span>
+<span class="s2">        &quot;plan_tier=basic, priority_support=0, discount=0&quot;: { true_prob: 0.45, false_prob: 0.55 }</span>
+<span class="s2">        &quot;plan_tier=plus, priority_support=1, discount=1&quot;: { true_prob: 0.18, false_prob: 0.82 }</span>
+<span class="s2">        &quot;plan_tier=plus, priority_support=1, discount=0&quot;: { true_prob: 0.25, false_prob: 0.75 }</span>
+<span class="s2">        &quot;plan_tier=plus, priority_support=0, discount=1&quot;: { true_prob: 0.22, false_prob: 0.78 }</span>
+<span class="s2">        &quot;plan_tier=plus, priority_support=0, discount=0&quot;: { true_prob: 0.32, false_prob: 0.68 }</span>
+<span class="s2">        &quot;plan_tier=pro, priority_support=1, discount=1&quot;: { true_prob: 0.12, false_prob: 0.88 }</span>
+<span class="s2">        &quot;plan_tier=pro, priority_support=1, discount=0&quot;: { true_prob: 0.18, false_prob: 0.82 }</span>
+<span class="s2">        &quot;plan_tier=pro, priority_support=0, discount=1&quot;: { true_prob: 0.15, false_prob: 0.85 }</span>
+<span class="s2">        &quot;plan_tier=pro, priority_support=0, discount=0&quot;: { true_prob: 0.25, false_prob: 0.75 }</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="n">_SAMPLE_CONFIGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;binary&quot;</span><span class="p">:</span> <span class="n">CONFIG_BINARY</span><span class="p">,</span>
+    <span class="s2">&quot;categorical&quot;</span><span class="p">:</span> <span class="n">CONFIG_CATEGORICAL</span><span class="p">,</span>
+    <span class="s2">&quot;binary_categorical_large&quot;</span><span class="p">:</span> <span class="n">CONFIG_BINARY_CATEGORICAL_LARGE</span><span class="p">,</span>
+    <span class="s2">&quot;continuous&quot;</span><span class="p">:</span> <span class="n">CONFIG_CONTINUOUS</span><span class="p">,</span>
+    <span class="s2">&quot;mixed&quot;</span><span class="p">:</span> <span class="n">CONFIG_MIXED</span><span class="p">,</span>
+    <span class="s2">&quot;continuous_parent_bins&quot;</span><span class="p">:</span> <span class="n">CONFIG_CONTINUOUS_PARENT_BINS</span><span class="p">,</span>
+    <span class="s2">&quot;mixed_large&quot;</span><span class="p">:</span> <span class="n">CONFIG_MIXED_LARGE</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="available_sample_configs">
+<a class="viewcode-back" href="../../../api.html#itergen.schema.samples.available_sample_configs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">available_sample_configs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return sorted names for all built-in sample configurations.&quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">_SAMPLE_CONFIGS</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="load_config">
+<a class="viewcode-back" href="../../../api.html#itergen.schema.samples.load_config">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_config</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse and normalize a config from YAML text or dict input.&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">parsed</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">parsed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Config text is empty&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parsed</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Config must parse to a mapping&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">parsed</span>
+
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Config must be a dict or YAML string&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_sample_config">
+<a class="viewcode-back" href="../../../api.html#itergen.schema.samples.get_sample_config">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_sample_config</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load one of the built-in sample configurations by name.&quot;&quot;&quot;</span>
+
+    <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_SAMPLE_CONFIGS</span><span class="p">:</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">available_sample_configs</span><span class="p">())</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown sample config &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;. Available: </span><span class="si">{</span><span class="n">options</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">load_config</span><span class="p">(</span><span class="n">_SAMPLE_CONFIGS</span><span class="p">[</span><span class="n">key</span><span class="p">])</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Itergen Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

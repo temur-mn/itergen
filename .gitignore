@@ -29,7 +29,7 @@ draft_1.xlsx
 
 # Sphinx generated helper files
 docs/source/_autosummary/
-docs/build
+# docs/build
 
 # Demo folder
 demo/logs

@@ -1,0 +1,353 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feature Guide &mdash; itergen 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration" href="configuration.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            itergen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Feature Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#feature-types-at-a-glance">Feature Types At A Glance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#schema-and-distribution-features">1. Schema And Distribution Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#binary-bernoulli">Binary: <code class="docutils literal notranslate"><span class="pre">bernoulli</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#binary-conditional">Binary: <code class="docutils literal notranslate"><span class="pre">conditional</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#categorical">Categorical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#continuous">Continuous</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#dependency-and-integrity-features">2. Dependency And Integrity Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#runtime-and-execution-features">3. Runtime And Execution Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optimization-features">4. Optimization Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#controller-features">5. Controller Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classic-controller-default">Classic Controller (default)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#torch-controller-optional">Torch Controller (optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#quality-rules-and-diagnostics">6. Quality, Rules, And Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output-logs-and-runtime-artifacts">7. Output, Logs, And Runtime Artifacts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#built-in-feature-scenarios">8. Built-In Feature Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#related-docs">Related Docs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">itergen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Feature Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/features.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="feature-guide">
+<h1>Feature Guide<a class="headerlink" href="#feature-guide" title="Link to this heading"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">itergen</span></code> is a config-driven synthetic tabular data engine with explicit support for
+dependency-aware binary, categorical, and continuous generation.</p>
+<p>This guide describes each current feature type and how it fits into the runtime.</p>
+<section id="feature-types-at-a-glance">
+<h2>Feature Types At A Glance<a class="headerlink" href="#feature-types-at-a-glance" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature type</p></th>
+<th class="head"><p>What it provides</p></th>
+<th class="head"><p>Where to use it</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Schema and distributions</p></td>
+<td><p>Binary, categorical, and continuous targets with dependency conditions</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">columns[*].distribution</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Dependency management</p></td>
+<td><p>Ordered dependency execution, condition key parsing, missing-reference strategies</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depend_on</span></code>, <code class="docutils literal notranslate"><span class="pre">missing_columns_mode</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Runtime orchestration</p></td>
+<td><p>Retry loops, attempt-level parallelism, deterministic seeds</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RunConfig</span></code>, <code class="docutils literal notranslate"><span class="pre">metadata</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Optimization controls</p></td>
+<td><p>Guided plus random proposals, annealing, plateau stop, per-column step multipliers</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">advanced</span></code>, <code class="docutils literal notranslate"><span class="pre">RunConfig.proposal_scoring_mode</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Controller backends</p></td>
+<td><p>Classic controller by default, optional torch backend</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RunConfig(use_torch_controller=...)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Quality and rule checks</p></td>
+<td><p>Objective, max error, column deviation, continuous bin and bounds validation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">quality_report</span></code>, <code class="docutils literal notranslate"><span class="pre">rules_overrides</span></code>, metadata rule keys</p></td>
+</tr>
+<tr class="row-even"><td><p>Observability and artifacts</p></td>
+<td><p>Timestamped workbook output, per-run logs, runtime notes, optional history</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GenerateResult</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="schema-and-distribution-features">
+<h2>1. Schema And Distribution Features<a class="headerlink" href="#schema-and-distribution-features" title="Link to this heading"></a></h2>
+<section id="binary-bernoulli">
+<h3>Binary: <code class="docutils literal notranslate"><span class="pre">bernoulli</span></code><a class="headerlink" href="#binary-bernoulli" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Independent binary column with explicit <code class="docutils literal notranslate"><span class="pre">true_prob</span></code> and <code class="docutils literal notranslate"><span class="pre">false_prob</span></code>.</p></li>
+<li><p>Best for root features with no parent dependencies.</p></li>
+</ul>
+</section>
+<section id="binary-conditional">
+<h3>Binary: <code class="docutils literal notranslate"><span class="pre">conditional</span></code><a class="headerlink" href="#binary-conditional" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Binary target controlled by one or more parents declared in <code class="docutils literal notranslate"><span class="pre">depend_on</span></code>.</p></li>
+<li><p>Each <code class="docutils literal notranslate"><span class="pre">conditional_probs</span></code> key uses <code class="docutils literal notranslate"><span class="pre">col=value</span></code> pairs (for example
+<code class="docutils literal notranslate"><span class="pre">&quot;device=mobile,</span> <span class="pre">loyalty=1&quot;</span></code>).</p></li>
+<li><p>Supports conditional behavior modes (<code class="docutils literal notranslate"><span class="pre">hard</span></code>, <code class="docutils literal notranslate"><span class="pre">soft</span></code>, <code class="docutils literal notranslate"><span class="pre">fallback</span></code>) when advanced
+mode is enabled.</p></li>
+</ul>
+</section>
+<section id="categorical">
+<h3>Categorical<a class="headerlink" href="#categorical" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Supports finite category domains via <code class="docutils literal notranslate"><span class="pre">values.categories</span></code>.</p></li>
+<li><p>Supports optional marginal probabilities plus full conditional probability maps.</p></li>
+<li><p>Internally encoded for optimization and decoded in final output.</p></li>
+</ul>
+</section>
+<section id="continuous">
+<h3>Continuous<a class="headerlink" href="#continuous" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Supports moment and range targets via <code class="docutils literal notranslate"><span class="pre">targets:</span> <span class="pre">{mean,</span> <span class="pre">std,</span> <span class="pre">min,</span> <span class="pre">max}</span></code>.</p></li>
+<li><p>Supports <code class="docutils literal notranslate"><span class="pre">conditioning_bins</span></code> to make continuous columns dependency-safe.</p></li>
+<li><p>Supports global <code class="docutils literal notranslate"><span class="pre">bin_probs</span></code>, plus conditional moments and conditional bin
+probabilities.</p></li>
+<li><p>Supports bin-target conflict policy through
+<code class="docutils literal notranslate"><span class="pre">metadata.continuous_bin_conflict_mode</span></code> (<code class="docutils literal notranslate"><span class="pre">infer</span></code>, <code class="docutils literal notranslate"><span class="pre">warn</span></code>, <code class="docutils literal notranslate"><span class="pre">error</span></code>).</p></li>
+</ul>
+</section>
+</section>
+<section id="dependency-and-integrity-features">
+<h2>2. Dependency And Integrity Features<a class="headerlink" href="#dependency-and-integrity-features" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Dependency graph ordering is resolved automatically before generation.</p></li>
+<li><p>Condition keys are validated against declared domains and dependency parents.</p></li>
+<li><p>Missing references are handled via <code class="docutils literal notranslate"><span class="pre">missing_columns_mode</span></code>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">error</span></code>: strict fail-fast.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skip</span></code>: prune dependent branches automatically.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prompt</span></code>: interactive remediation for local/manual runs.</p></li>
+</ul>
+</li>
+<li><p>Feasibility checks estimate expected support for each conditional group and warn
+when <code class="docutils literal notranslate"><span class="pre">min_group_size</span></code> is likely unrealistic.</p></li>
+</ul>
+</section>
+<section id="runtime-and-execution-features">
+<h2>3. Runtime And Execution Features<a class="headerlink" href="#runtime-and-execution-features" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Unified high-level API through <code class="docutils literal notranslate"><span class="pre">ItergenSynthesizer</span></code> and <code class="docutils literal notranslate"><span class="pre">RunConfig</span></code>.</p></li>
+<li><p>Runtime precedence model: <code class="docutils literal notranslate"><span class="pre">RunConfig</span></code> overrides metadata values.</p></li>
+<li><p>Attempt-based generation with best-effort fallback if strict rules are not met.</p></li>
+<li><p>Parallel full attempts via <code class="docutils literal notranslate"><span class="pre">attempt_workers</span></code> (process-level), with deterministic attempt-order selection.</p></li>
+<li><p>Deterministic randomness via seed derivation for reproducibility.</p></li>
+</ul>
+</section>
+<section id="optimization-features">
+<h2>4. Optimization Features<a class="headerlink" href="#optimization-features" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Mixed strategy search: guided flips + random flips per batch.</p></li>
+<li><p>Annealed acceptance schedule (<code class="docutils literal notranslate"><span class="pre">temperature_init</span></code>, <code class="docutils literal notranslate"><span class="pre">temperature_decay</span></code>).</p></li>
+<li><p>Two scoring modes:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">incremental</span></code>: patch-based objective updates for speed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">full</span></code>: full metric recomputation for each proposal.</p></li>
+</ul>
+</li>
+<li><p>Convergence controls via tolerance, <code class="docutils literal notranslate"><span class="pre">max_iters</span></code>, and plateau <code class="docutils literal notranslate"><span class="pre">patience</span></code>.</p></li>
+<li><p>Small-group handling modes:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">ignore</span></code>: skip tiny groups for conditional scoring.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">downweight</span></code>: keep groups with reduced impact.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lock</span></code>: protect small-group rows during proposal flips.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="controller-features">
+<h2>5. Controller Features<a class="headerlink" href="#controller-features" title="Link to this heading"></a></h2>
+<section id="classic-controller-default">
+<h3>Classic Controller (default)<a class="headerlink" href="#classic-controller-default" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Lightweight controller with no torch dependency.</p></li>
+<li><p>Learns per-column multipliers from marginal/conditional error trends.</p></li>
+</ul>
+</section>
+<section id="torch-controller-optional">
+<h3>Torch Controller (optional)<a class="headerlink" href="#torch-controller-optional" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Neural controller with embedding plus MLP predictor for multipliers.</p></li>
+<li><p>Enable with <code class="docutils literal notranslate"><span class="pre">RunConfig(use_torch_controller=True)</span></code>.</p></li>
+<li><p>Optional strict mode via <code class="docutils literal notranslate"><span class="pre">RunConfig(torch_required=True)</span></code>.</p></li>
+<li><p>Safe fallback to classic mode when torch is unavailable and strict mode is off.</p></li>
+</ul>
+</section>
+</section>
+<section id="quality-rules-and-diagnostics">
+<h2>6. Quality, Rules, And Diagnostics<a class="headerlink" href="#quality-rules-and-diagnostics" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Final metrics include:</p>
+<ul>
+<li><p>objective, mean_marginal, mean_conditional</p></li>
+<li><p>max_error, max_column_deviation</p></li>
+<li><p>continuous bin errors and continuous bounds violations</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">quality_report</span></code> includes:</p>
+<ul>
+<li><p>confidence score</p></li>
+<li><p>per-column marginal/conditional error breakdown</p></li>
+<li><p>worst conditionals, worst continuous bins, worst continuous bounds</p></li>
+<li><p>detected small groups</p></li>
+</ul>
+</li>
+<li><p>Rule thresholds can be set from tolerance defaults, metadata overrides, or
+<code class="docutils literal notranslate"><span class="pre">RunConfig.rules_overrides</span></code>.</p></li>
+</ul>
+</section>
+<section id="output-logs-and-runtime-artifacts">
+<h2>7. Output, Logs, And Runtime Artifacts<a class="headerlink" href="#output-logs-and-runtime-artifacts" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Output workbook write can be disabled via <code class="docutils literal notranslate"><span class="pre">save_output=false</span></code>
+(<code class="docutils literal notranslate"><span class="pre">metadata.save_output</span></code> or <code class="docutils literal notranslate"><span class="pre">RunConfig.save_output</span></code>).</p></li>
+<li><p>When output saving is enabled, workbook is written to a timestamped path if a
+filename is not provided.</p></li>
+<li><p>Each run writes a timestamped log file under the configured <code class="docutils literal notranslate"><span class="pre">log_dir</span></code>
+(<code class="docutils literal notranslate"><span class="pre">metadata.log_dir</span></code> or <code class="docutils literal notranslate"><span class="pre">RunConfig.log_dir</span></code>; default <code class="docutils literal notranslate"><span class="pre">./logs/</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GenerateResult</span></code> returns:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">dataframe</span></code>, <code class="docutils literal notranslate"><span class="pre">metrics</span></code>, <code class="docutils literal notranslate"><span class="pre">quality_report</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">success</span></code>, <code class="docutils literal notranslate"><span class="pre">attempts</span></code>, <code class="docutils literal notranslate"><span class="pre">output_path</span></code> (or <code class="docutils literal notranslate"><span class="pre">None</span></code>), <code class="docutils literal notranslate"><span class="pre">log_path</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">runtime_notes</span></code>, plus optional <code class="docutils literal notranslate"><span class="pre">history</span></code> and <code class="docutils literal notranslate"><span class="pre">initial_dataframe</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="built-in-feature-scenarios">
+<h2>8. Built-In Feature Scenarios<a class="headerlink" href="#built-in-feature-scenarios" title="Link to this heading"></a></h2>
+<p>Built-in sample configs are designed as feature templates:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">binary</span></code>, <code class="docutils literal notranslate"><span class="pre">categorical</span></code>, <code class="docutils literal notranslate"><span class="pre">continuous</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mixed</span></code>, <code class="docutils literal notranslate"><span class="pre">mixed_large</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">binary_categorical_large</span></code>, <code class="docutils literal notranslate"><span class="pre">continuous_parent_bins</span></code></p></li>
+</ul>
+<p>Use <code class="docutils literal notranslate"><span class="pre">available_sample_configs()</span></code> to list them and <code class="docutils literal notranslate"><span class="pre">get_sample_config(name)</span></code> to
+load a deep-copy config payload for adaptation.</p>
+</section>
+<section id="related-docs">
+<h2>Related Docs<a class="headerlink" href="#related-docs" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Runtime setup and examples: <code class="docutils literal notranslate"><span class="pre">quickstart.md</span></code></p></li>
+<li><p>Full config reference and examples: <code class="docutils literal notranslate"><span class="pre">configuration.md</span></code></p></li>
+<li><p>Public API surface: <code class="docutils literal notranslate"><span class="pre">api.md</span></code></p></li>
+<li><p>System internals: <code class="docutils literal notranslate"><span class="pre">architecture.md</span></code></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="configuration.html" class="btn btn-neutral float-right" title="Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Itergen Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

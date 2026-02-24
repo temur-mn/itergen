@@ -1,0 +1,381 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuration &mdash; itergen 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api.html" />
+    <link rel="prev" title="Feature Guide" href="features.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            itergen
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Feature Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-shape">Configuration Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#runtime-metadata-reference">Runtime Metadata Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#column-feature-types">Column Feature Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#binary-bernoulli">1) Binary (<code class="docutils literal notranslate"><span class="pre">bernoulli</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#binary-conditional-conditional">2) Binary Conditional (<code class="docutils literal notranslate"><span class="pre">conditional</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#categorical">3) Categorical</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#continuous">4) Continuous</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-optimizer-features">Advanced Optimizer Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#precedence-runconfig-vs-metadata">Precedence: <code class="docutils literal notranslate"><span class="pre">RunConfig</span></code> Vs Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#missing-dependency-handling">Missing Dependency Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#validation-and-feasibility-workflow">Validation And Feasibility Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#practical-tuning-sequence">Practical Tuning Sequence</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">itergen</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Configuration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/configuration.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">itergen</span></code> accepts configuration as:</p>
+<ul class="simple">
+<li><p>a Python mapping (<code class="docutils literal notranslate"><span class="pre">dict</span></code>)</p></li>
+<li><p>YAML text</p></li>
+<li><p>a YAML file loaded and parsed in Python (<code class="docutils literal notranslate"><span class="pre">load_config(...)</span></code>)</p></li>
+</ul>
+<p>Use <code class="docutils literal notranslate"><span class="pre">get_sample_config(&lt;name&gt;)</span></code> to start from known-good templates and adapt safely.</p>
+<section id="configuration-shape">
+<h2>Configuration Shape<a class="headerlink" href="#configuration-shape" title="Link to this heading"></a></h2>
+<p>Typical structure:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">n_rows</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3000</span>
+<span class="w">  </span><span class="nt">seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
+<span class="w">  </span><span class="nt">tolerance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.02</span>
+<span class="w">  </span><span class="nt">max_attempts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">  </span><span class="nt">attempt_workers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+
+<span class="nt">advanced</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">max_iters</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200</span>
+<span class="w">  </span><span class="nt">proposals_per_batch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32</span>
+
+<span class="nt">columns</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">column_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;loyalty&quot;</span>
+<span class="w">    </span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> true_value</span><span class="p">:</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="nt"> false_value</span><span class="p">:</span><span class="w"> </span><span class="nv">0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">distribution</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;bernoulli&quot;</span>
+<span class="w">      </span><span class="nt">probabilities</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> true_prob</span><span class="p">:</span><span class="w"> </span><span class="nv">0.45</span><span class="p p-Indicator">,</span><span class="nt"> false_prob</span><span class="p">:</span><span class="w"> </span><span class="nv">0.55</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+<p>Core sections:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">metadata</span></code>: runtime defaults, rule thresholds, behavior flags</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">columns</span></code>: schema and target distributions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">advanced</span></code> (optional): optimizer-level tuning controls</p></li>
+</ul>
+</section>
+<section id="runtime-metadata-reference">
+<h2>Runtime Metadata Reference<a class="headerlink" href="#runtime-metadata-reference" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">metadata</span></code> supports these runtime-focused keys:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">n_rows</span></code></p></td>
+<td><p>Default row count when <code class="docutils literal notranslate"><span class="pre">RunConfig.n_rows</span></code> is not provided</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">seed</span></code></p></td>
+<td><p>Base deterministic seed</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tolerance</span></code></p></td>
+<td><p>Default objective target level</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">max_attempts</span></code></p></td>
+<td><p>Attempt retry budget</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">attempt_workers</span></code></p></td>
+<td><p>Process-level workers for full attempts (deterministic attempt-order result selection)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">log_level</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">info</span></code> or <code class="docutils literal notranslate"><span class="pre">quiet</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">log_dir</span></code></p></td>
+<td><p>Directory for per-run log files</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">save_output</span></code></p></td>
+<td><p>Whether to write the output workbook (<code class="docutils literal notranslate"><span class="pre">true</span></code> or <code class="docutils literal notranslate"><span class="pre">false</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">output_path</span></code></p></td>
+<td><p>Output file path or directory hint</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">proposal_scoring_mode</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">incremental</span></code> or <code class="docutils literal notranslate"><span class="pre">full</span></code> proposal scoring</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">missing_columns_mode</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">prompt</span></code>, <code class="docutils literal notranslate"><span class="pre">skip</span></code>, or <code class="docutils literal notranslate"><span class="pre">error</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">small_group_mode</span></code></p></td>
+<td><p>Small-group handling strategy during optimization/scoring</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">conditional_mode</span></code></p></td>
+<td><p>Global conditional behavior: <code class="docutils literal notranslate"><span class="pre">hard</span></code>, <code class="docutils literal notranslate"><span class="pre">soft</span></code>, <code class="docutils literal notranslate"><span class="pre">fallback</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">continuous_bin_conflict_mode</span></code></p></td>
+<td><p>Continuous bin conflict behavior: <code class="docutils literal notranslate"><span class="pre">infer</span></code>, <code class="docutils literal notranslate"><span class="pre">warn</span></code>, <code class="docutils literal notranslate"><span class="pre">error</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Rule-threshold keys (optional) are also read from metadata:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">objective_max</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_error_max</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_column_deviation_max</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">continuous_bin_mean_error_max</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">continuous_bin_max_error_max</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">continuous_violation_rate_max</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">continuous_mean_violation_max</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">continuous_max_violation_max</span></code></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">attempt_workers</span></code> behavior notes:</p>
+<ul class="simple">
+<li><p>each worker executes one full attempt (initialize, optimize, and score)</p></li>
+<li><p>result selection remains deterministic by attempt index (same order as sequential retries)</p></li>
+<li><p>parallel mode uses bounded in-flight submission rather than launching every attempt at once</p></li>
+</ul>
+</section>
+<section id="column-feature-types">
+<h2>Column Feature Types<a class="headerlink" href="#column-feature-types" title="Link to this heading"></a></h2>
+<section id="binary-bernoulli">
+<h3>1) Binary (<code class="docutils literal notranslate"><span class="pre">bernoulli</span></code>)<a class="headerlink" href="#binary-bernoulli" title="Link to this heading"></a></h3>
+<p>Independent binary column with explicit probabilities.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">column_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;loyalty&quot;</span>
+<span class="w">  </span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> true_value</span><span class="p">:</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="nt"> false_value</span><span class="p">:</span><span class="w"> </span><span class="nv">0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">distribution</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;bernoulli&quot;</span>
+<span class="w">    </span><span class="nt">probabilities</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> true_prob</span><span class="p">:</span><span class="w"> </span><span class="nv">0.4</span><span class="p p-Indicator">,</span><span class="nt"> false_prob</span><span class="p">:</span><span class="w"> </span><span class="nv">0.6</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+</section>
+<section id="binary-conditional-conditional">
+<h3>2) Binary Conditional (<code class="docutils literal notranslate"><span class="pre">conditional</span></code>)<a class="headerlink" href="#binary-conditional-conditional" title="Link to this heading"></a></h3>
+<p>Binary target controlled by parent columns.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">column_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;discount&quot;</span>
+<span class="w">  </span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> true_value</span><span class="p">:</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="nt"> false_value</span><span class="p">:</span><span class="w"> </span><span class="nv">0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">distribution</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;conditional&quot;</span>
+<span class="w">    </span><span class="nt">depend_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;loyalty&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">conditional_probs</span><span class="p">:</span>
+<span class="w">      </span><span class="s">&quot;loyalty=1&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> true_prob</span><span class="p">:</span><span class="w"> </span><span class="nv">0.55</span><span class="p p-Indicator">,</span><span class="nt"> false_prob</span><span class="p">:</span><span class="w"> </span><span class="nv">0.45</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="s">&quot;loyalty=0&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> true_prob</span><span class="p">:</span><span class="w"> </span><span class="nv">0.25</span><span class="p p-Indicator">,</span><span class="nt"> false_prob</span><span class="p">:</span><span class="w"> </span><span class="nv">0.75</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+</section>
+<section id="categorical">
+<h3>3) Categorical<a class="headerlink" href="#categorical" title="Link to this heading"></a></h3>
+<p>Finite category domain with optional marginal and conditional targets.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">column_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;device&quot;</span>
+<span class="w">  </span><span class="nt">values</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">categories</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;mobile&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;desktop&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;tablet&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">distribution</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;categorical&quot;</span>
+<span class="w">    </span><span class="nt">probabilities</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> mobile</span><span class="p">:</span><span class="w"> </span><span class="nv">0.50</span><span class="p p-Indicator">,</span><span class="nt"> desktop</span><span class="p">:</span><span class="w"> </span><span class="nv">0.35</span><span class="p p-Indicator">,</span><span class="nt"> tablet</span><span class="p">:</span><span class="w"> </span><span class="nv">0.15</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">depend_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;loyalty&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">conditional_probs</span><span class="p">:</span>
+<span class="w">      </span><span class="s">&quot;loyalty=1&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> mobile</span><span class="p">:</span><span class="w"> </span><span class="nv">0.60</span><span class="p p-Indicator">,</span><span class="nt"> desktop</span><span class="p">:</span><span class="w"> </span><span class="nv">0.30</span><span class="p p-Indicator">,</span><span class="nt"> tablet</span><span class="p">:</span><span class="w"> </span><span class="nv">0.10</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="s">&quot;loyalty=0&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> mobile</span><span class="p">:</span><span class="w"> </span><span class="nv">0.40</span><span class="p p-Indicator">,</span><span class="nt"> desktop</span><span class="p">:</span><span class="w"> </span><span class="nv">0.40</span><span class="p p-Indicator">,</span><span class="nt"> tablet</span><span class="p">:</span><span class="w"> </span><span class="nv">0.20</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+</section>
+<section id="continuous">
+<h3>4) Continuous<a class="headerlink" href="#continuous" title="Link to this heading"></a></h3>
+<p>Continuous target with moment/range constraints and optional conditional targets.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">column_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;support_cost&quot;</span>
+<span class="w">  </span><span class="nt">distribution</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;continuous&quot;</span>
+<span class="w">    </span><span class="nt">depend_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;support_channel&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;priority_support&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> mean</span><span class="p">:</span><span class="w"> </span><span class="nv">18.0</span><span class="p p-Indicator">,</span><span class="nt"> std</span><span class="p">:</span><span class="w"> </span><span class="nv">5.0</span><span class="p p-Indicator">,</span><span class="nt"> min</span><span class="p">:</span><span class="w"> </span><span class="nv">2.0</span><span class="p p-Indicator">,</span><span class="nt"> max</span><span class="p">:</span><span class="w"> </span><span class="nv">60.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">conditioning_bins</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">edges</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">8.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">14.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">20.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">30.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">45.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">90.0</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;c1&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;c2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;c3&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;c4&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;c5&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;c6&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">conditional_targets</span><span class="p">:</span>
+<span class="w">      </span><span class="s">&quot;support_channel=chat,</span><span class="nv"> </span><span class="s">priority_support=1&quot;</span><span class="p p-Indicator">:</span>
+<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt"> mean</span><span class="p">:</span><span class="w"> </span><span class="nv">18.0</span><span class="p p-Indicator">,</span><span class="nt"> std</span><span class="p">:</span><span class="w"> </span><span class="nv">5.0</span><span class="p p-Indicator">,</span><span class="nt"> min</span><span class="p">:</span><span class="w"> </span><span class="nv">2.0</span><span class="p p-Indicator">,</span><span class="nt"> max</span><span class="p">:</span><span class="w"> </span><span class="nv">60.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+<p>Continuous columns additionally support:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bin_probs</span></code> for global bin targets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">conditional_bin_probs</span></code> for condition-specific bin targets</p></li>
+</ul>
+</section>
+</section>
+<section id="advanced-optimizer-features">
+<h2>Advanced Optimizer Features<a class="headerlink" href="#advanced-optimizer-features" title="Link to this heading"></a></h2>
+<p>Enable with <code class="docutils literal notranslate"><span class="pre">advanced.enabled:</span> <span class="pre">true</span></code>. Supported keys include:</p>
+<ul class="simple">
+<li><p>Search and schedule:
+<code class="docutils literal notranslate"><span class="pre">batch_size</span></code>, <code class="docutils literal notranslate"><span class="pre">proposals_per_batch</span></code>, <code class="docutils literal notranslate"><span class="pre">max_iters</span></code>, <code class="docutils literal notranslate"><span class="pre">patience</span></code>,
+<code class="docutils literal notranslate"><span class="pre">temperature_init</span></code>, <code class="docutils literal notranslate"><span class="pre">temperature_decay</span></code></p></li>
+<li><p>Step magnitudes:
+<code class="docutils literal notranslate"><span class="pre">step_size_marginal</span></code>, <code class="docutils literal notranslate"><span class="pre">step_size_conditional</span></code>,
+<code class="docutils literal notranslate"><span class="pre">step_size_continuous_marginal</span></code>, <code class="docutils literal notranslate"><span class="pre">step_size_continuous_conditional</span></code>,
+<code class="docutils literal notranslate"><span class="pre">max_flip_frac</span></code>, <code class="docutils literal notranslate"><span class="pre">random_flip_frac</span></code></p></li>
+<li><p>Weighting and behavior:
+<code class="docutils literal notranslate"><span class="pre">weight_marginal</span></code>, <code class="docutils literal notranslate"><span class="pre">weight_conditional</span></code>, <code class="docutils literal notranslate"><span class="pre">flip_mode</span></code>, <code class="docutils literal notranslate"><span class="pre">small_group_mode</span></code></p></li>
+<li><p>Group/category controls:
+<code class="docutils literal notranslate"><span class="pre">min_group_size</span></code>, <code class="docutils literal notranslate"><span class="pre">large_category_threshold</span></code>, <code class="docutils literal notranslate"><span class="pre">target_column_pool_size</span></code></p></li>
+<li><p>Continuous-specialized controls:
+<code class="docutils literal notranslate"><span class="pre">continuous_dependency_gain</span></code>, <code class="docutils literal notranslate"><span class="pre">continuous_magnifier_min</span></code>,
+<code class="docutils literal notranslate"><span class="pre">continuous_magnifier_max</span></code>, <code class="docutils literal notranslate"><span class="pre">continuous_noise_frac</span></code>,
+<code class="docutils literal notranslate"><span class="pre">continuous_edge_guard_frac</span></code></p></li>
+<li><p>Attempt-level parallel override:
+<code class="docutils literal notranslate"><span class="pre">attempt_workers</span></code></p></li>
+</ul>
+<p>Deprecated advanced keys (<code class="docutils literal notranslate"><span class="pre">hybrid_ratio</span></code>, <code class="docutils literal notranslate"><span class="pre">weight_max</span></code>) are ignored with warnings.</p>
+</section>
+<section id="precedence-runconfig-vs-metadata">
+<h2>Precedence: <code class="docutils literal notranslate"><span class="pre">RunConfig</span></code> Vs Metadata<a class="headerlink" href="#precedence-runconfig-vs-metadata" title="Link to this heading"></a></h2>
+<p>When both are present, <code class="docutils literal notranslate"><span class="pre">RunConfig</span></code> wins over <code class="docutils literal notranslate"><span class="pre">metadata</span></code> for overlapping runtime
+options. This allows stable defaults in YAML with explicit per-run overrides.</p>
+</section>
+<section id="missing-dependency-handling">
+<h2>Missing Dependency Handling<a class="headerlink" href="#missing-dependency-handling" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">missing_columns_mode</span></code> controls unresolved references:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">error</span></code>: strict fail-fast (recommended for CI and production)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skip</span></code>: auto-prune unresolved dependency branches</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prompt</span></code>: interactive remediation for local/manual usage</p></li>
+</ul>
+<p>If <code class="docutils literal notranslate"><span class="pre">prompt</span></code> is used in non-interactive environments, generation fails with a
+clear error explaining how to switch modes.</p>
+</section>
+<section id="validation-and-feasibility-workflow">
+<h2>Validation And Feasibility Workflow<a class="headerlink" href="#validation-and-feasibility-workflow" title="Link to this heading"></a></h2>
+<p>Before expensive runs, validate config and check feasibility:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">itergen.schema.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_column_specs</span><span class="p">,</span> <span class="n">check_feasibility</span><span class="p">,</span> <span class="n">validate_config</span>
+
+<span class="n">warnings</span> <span class="o">=</span> <span class="n">validate_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="n">specs</span> <span class="o">=</span> <span class="n">build_column_specs</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="n">feas_warnings</span><span class="p">,</span> <span class="n">feas_errors</span> <span class="o">=</span> <span class="n">check_feasibility</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">specs</span><span class="p">,</span> <span class="n">n_rows</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>What this catches:</p>
+<ul class="simple">
+<li><p>schema issues (unknown distributions, bad condition keys, invalid probabilities)</p></li>
+<li><p>dependency integrity issues (missing domains/references)</p></li>
+<li><p>likely infeasible conditional group sizes versus <code class="docutils literal notranslate"><span class="pre">min_group_size</span></code></p></li>
+<li><p>continuous bin/target conflicts based on selected conflict policy</p></li>
+</ul>
+</section>
+<section id="practical-tuning-sequence">
+<h2>Practical Tuning Sequence<a class="headerlink" href="#practical-tuning-sequence" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Start from a built-in sample (<code class="docutils literal notranslate"><span class="pre">mixed</span></code>, <code class="docutils literal notranslate"><span class="pre">continuous_parent_bins</span></code>, <code class="docutils literal notranslate"><span class="pre">mixed_large</span></code>).</p></li>
+<li><p>Validate and fix warnings that affect dependencies or probability mass.</p></li>
+<li><p>Tune with smaller <code class="docutils literal notranslate"><span class="pre">n_rows</span></code> first, then scale up.</p></li>
+<li><p>Adjust rule thresholds only after reviewing <code class="docutils literal notranslate"><span class="pre">quality_report</span></code> worst offenders.</p></li>
+<li><p>For deterministic automation, keep <code class="docutils literal notranslate"><span class="pre">missing_columns_mode=error</span></code> and fixed seeds.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="features.html" class="btn btn-neutral float-left" title="Feature Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Itergen Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
