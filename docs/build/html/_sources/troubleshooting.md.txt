@@ -67,16 +67,6 @@ Install torch extras when you want strict torch-backed runs:
 
 `pip install -e .[torch]`
 
-## Docs build fails
-
-Install docs extras first:
-
-`pip install -e .[docs]`
-
-Then run:
-
-`python -m sphinx -W -b html docs/source docs/build/html`
-
 ## Run looks stalled on large configs
 
 Large configs (for example `mixed_large`) can appear idle for long periods when

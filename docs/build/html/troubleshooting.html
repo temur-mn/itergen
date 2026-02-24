@@ -303,13 +303,6 @@
 <p>Install torch extras when you want strict torch-backed runs:</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.[torch]</span></code></p>
 </section>
-<section id="docs-build-fails">
-<h2>Docs build fails<a class="headerlink" href="#docs-build-fails" title="Link to this heading">¶</a></h2>
-<p>Install docs extras first:</p>
-<p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.[docs]</span></code></p>
-<p>Then run:</p>
-<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">sphinx</span> <span class="pre">-W</span> <span class="pre">-b</span> <span class="pre">html</span> <span class="pre">docs/source</span> <span class="pre">docs/build/html</span></code></p>
-</section>
 <section id="run-looks-stalled-on-large-configs">
 <h2>Run looks stalled on large configs<a class="headerlink" href="#run-looks-stalled-on-large-configs" title="Link to this heading">¶</a></h2>
 <p>Large configs (for example <code class="docutils literal notranslate"><span class="pre">mixed_large</span></code>) can appear idle for long periods when
@@ -411,7 +404,6 @@ upfront.</p>
 <li><a class="reference internal" href="#validate-config-before-generation">Validate config before generation</a></li>
 <li><a class="reference internal" href="#config-dependency-errors">Config dependency errors</a></li>
 <li><a class="reference internal" href="#torch-controller-requested-but-torch-unavailable">Torch controller requested but torch unavailable</a></li>
-<li><a class="reference internal" href="#docs-build-fails">Docs build fails</a></li>
 <li><a class="reference internal" href="#run-looks-stalled-on-large-configs">Run looks stalled on large configs</a></li>
 <li><a class="reference internal" href="#slow-convergence">Slow convergence</a></li>
 </ul>

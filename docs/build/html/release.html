@@ -258,11 +258,10 @@ version section.</p></li>
 </section>
 <section id="run-full-quality-gate">
 <h2>2) Run full quality gate<a class="headerlink" href="#run-full-quality-gate" title="Link to this heading">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dev,docs,torch<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dev,torch<span class="o">]</span>
 ruff<span class="w"> </span>check<span class="w"> </span>.
 ruff<span class="w"> </span>format<span class="w"> </span>--check<span class="w"> </span>.
 mypy<span class="w"> </span>src/itergen
-python<span class="w"> </span>-m<span class="w"> </span>sphinx<span class="w"> </span>-W<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span>docs/source<span class="w"> </span>docs/build/html
 python<span class="w"> </span>-m<span class="w"> </span>build
 python<span class="w"> </span>-m<span class="w"> </span>twine<span class="w"> </span>check<span class="w"> </span>dist/*
 </pre></div>
