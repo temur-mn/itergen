@@ -1,4 +1,4 @@
-"""Module execution stub for API-only intergen package."""
+"""Module execution stub for API-only itergen package."""
 
 from __future__ import annotations
 

@@ -8,6 +8,26 @@ to validate different aspects of the configuration independently.
 from typing import Any
 
 
+def _sum_probability_values(probabilities: dict[Any, Any]) -> tuple[float, bool]:
+    total = 0.0
+    for value in probabilities.values():
+        if value is None:
+            continue
+        try:
+            total += float(value)
+        except (TypeError, ValueError):
+            return 0.0, False
+    return total, True
+
+
+def _categorical_missing_extra(
+    probabilities: dict[Any, Any], categories: list[Any]
+) -> tuple[list[Any], list[Any]]:
+    missing = [category for category in categories if category not in probabilities]
+    extra = [key for key in probabilities.keys() if key not in categories]
+    return missing, extra
+
+
 def validate_metadata(metadata: dict[str, Any]) -> list[str]:
     """Validate metadata section of config.
 
@@ -125,7 +145,7 @@ def validate_advanced_settings(advanced: dict[str, Any], enabled: bool) -> list[
     Returns:
         List of warning messages
     """
-    warnings = []
+    warnings: list[str] = []
 
     if not enabled:
         return warnings
@@ -189,13 +209,18 @@ def validate_column_structure(
     Returns:
         Tuple of (warnings, errors)
     """
-    warnings = []
-    errors = []
+    warnings: list[str] = []
+    errors: list[str] = []
 
     if not isinstance(columns, list):
         raise ValueError("Config must include a 'columns' list")
 
-    column_ids = [col.get("column_id") for col in columns if col.get("column_id")]
+    column_ids = [
+        col_id
+        for col in columns
+        for col_id in [col.get("column_id")]
+        if isinstance(col_id, str) and col_id
+    ]
     duplicates = sorted({x for x in column_ids if column_ids.count(x) > 1})
 
     if duplicates:
@@ -238,8 +263,8 @@ def validate_dependencies(
     Returns:
         Tuple of (warnings, errors)
     """
-    warnings = []
-    errors = []
+    warnings: list[str] = []
+    errors: list[str] = []
 
     id_to_col = {col.get("column_id"): col for col in columns if col.get("column_id")}
 
@@ -275,7 +300,7 @@ def validate_dependencies(
 
 
 def validate_probabilities(
-    col: dict[str, Any], categories: list, warnings: list[str]
+    col: dict[str, Any], categories: list[Any], warnings: list[str]
 ) -> None:
     """Validate probability distributions for a column.
 
@@ -284,7 +309,8 @@ def validate_probabilities(
         categories: List of categories for the column
         warnings: List to append warnings to
     """
-    col_id = col.get("column_id")
+    col_id_raw = col.get("column_id")
+    col_id = col_id_raw if isinstance(col_id_raw, str) and col_id_raw else "<unknown>"
     dist = col.get("distribution", {})
     dist_type = dist.get("type")
 
@@ -310,11 +336,10 @@ def validate_probabilities(
 
 
 def _validate_categorical_probs(
-    col_id: str, probs: dict[str, Any], categories: list, warnings: list[str]
+    col_id: str, probs: dict[Any, Any], categories: list[Any], warnings: list[str]
 ) -> None:
     """Validate categorical probability distribution."""
-    missing = [cat for cat in categories if cat not in probs]
-    extra = [k for k in probs.keys() if k not in categories]
+    missing, extra = _categorical_missing_extra(probs, categories)
 
     if missing:
         warnings.append(
@@ -325,17 +350,7 @@ def _validate_categorical_probs(
             f"Column '{col_id}' probabilities has unknown categories: {extra[:5]}"
         )
 
-    total = 0.0
-    numeric = True
-
-    for val in probs.values():
-        if val is None:
-            continue
-        try:
-            total += float(val)
-        except (TypeError, ValueError):
-            numeric = False
-            break
+    total, numeric = _sum_probability_values(probs)
 
     if not numeric:
         warnings.append(f"Column '{col_id}' probabilities include non-numeric values")
@@ -345,10 +360,10 @@ def _validate_categorical_probs(
 
 def validate_column_probabilities(
     col: dict[str, Any],
-    categories: list,
-    domains: dict[str, list],
+    categories: list[Any],
+    domains: dict[str, list[Any]],
     column_set: set[str],
-    id_to_col: dict[str, dict],
+    id_to_col: dict[str, dict[str, Any]],
     continuous_bins_by_col: dict[str, Any],
     bin_conflict_mode: str,
     advanced_enabled: bool,
@@ -368,10 +383,13 @@ def validate_column_probabilities(
     Returns:
         Tuple of (warnings, errors)
     """
-    warnings = []
-    errors = []
+    warnings: list[str] = []
+    errors: list[str] = []
 
-    col_id = col.get("column_id")
+    col_id_raw = col.get("column_id")
+    if not isinstance(col_id_raw, str) or not col_id_raw:
+        return warnings, errors
+    col_id = col_id_raw
     dist = col.get("distribution", {})
     dist_type = dist.get("type")
 
@@ -468,8 +486,7 @@ def validate_column_probabilities(
                 )
         elif dist_type == "categorical" and categories:
             if isinstance(probs, dict):
-                missing = [cat for cat in categories if cat not in probs]
-                extra = [k for k in probs.keys() if k not in categories]
+                missing, extra = _categorical_missing_extra(probs, categories)
                 if missing:
                     warnings.append(
                         f"Column '{col_id}' condition '{cond_key}' missing categories: {missing[:5]}"
@@ -479,16 +496,7 @@ def validate_column_probabilities(
                         f"Column '{col_id}' condition '{cond_key}' unknown categories: {extra[:5]}"
                     )
 
-                total = 0.0
-                numeric = True
-                for val in probs.values():
-                    if val is None:
-                        continue
-                    try:
-                        total += float(val)
-                    except (TypeError, ValueError):
-                        numeric = False
-                        break
+                total, numeric = _sum_probability_values(probs)
                 if not numeric:
                     warnings.append(
                         f"Column '{col_id}' condition '{cond_key}' has non-numeric probabilities"
@@ -546,16 +554,7 @@ def validate_column_probabilities(
                         f"Column '{col_id}' bin_probs has unknown bins: {extra[:5]}"
                     )
 
-                total = 0.0
-                numeric = True
-                for val in bin_probs.values():
-                    if val is None:
-                        continue
-                    try:
-                        total += float(val)
-                    except (TypeError, ValueError):
-                        numeric = False
-                        break
+                total, numeric = _sum_probability_values(bin_probs)
                 if not numeric:
                     warnings.append(
                         f"Column '{col_id}' bin_probs include non-numeric values"

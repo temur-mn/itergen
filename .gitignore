@@ -37,3 +37,6 @@ demo/output
 
 # OS metadata
 .DS_Store
+
+# diagrame
+project.drawio

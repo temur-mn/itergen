@@ -1033,11 +1033,6 @@ torch = [
     { name = "torch", version = "2.10.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
 ]
 
-[package.dev-dependencies]
-dev = [
-    { name = "ruff" },
-]
-
 [package.metadata]
 requires-dist = [
     { name = "build", marker = "extra == 'dev'", specifier = ">=1.2.2" },
@@ -1047,15 +1042,12 @@ requires-dist = [
     { name = "openpyxl", specifier = ">=3.1" },
     { name = "pandas", specifier = ">=1.5" },
     { name = "pyyaml", specifier = ">=6.0" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.6.4" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.15.0" },
     { name = "torch", marker = "extra == 'torch'", specifier = ">=2.1" },
     { name = "twine", marker = "extra == 'dev'", specifier = ">=5.1.1" },
     { name = "types-pyyaml", marker = "extra == 'dev'", specifier = ">=6.0.12.20240917" },
 ]
 provides-extras = ["torch", "dev"]
-
-[package.metadata.requires-dev]
-dev = [{ name = "ruff", specifier = ">=0.15.0" }]
 
 [[package]]
 name = "jaraco-classes"

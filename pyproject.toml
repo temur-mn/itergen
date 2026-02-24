@@ -42,7 +42,7 @@ torch = ["torch>=2.1"]
 dev = [
     "build>=1.2.2",
     "twine>=5.1.1",
-    "ruff>=0.6.4",
+    "ruff>=0.15.0",
     "mypy>=1.11",
     "types-PyYAML>=6.0.12.20240917",
     "jupyter>=1.0",
@@ -82,8 +82,3 @@ mypy_path = "src"
 ignore_missing_imports = true
 disable_error_code = ["import-untyped"]
 files = ["src/itergen"]
-
-[dependency-groups]
-dev = [
-    "ruff>=0.15.0",
-]
