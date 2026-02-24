@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import sphinx_rtd_theme
 import re
 import sys
 from datetime import datetime
