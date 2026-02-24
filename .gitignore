@@ -31,5 +31,9 @@ draft_1.xlsx
 docs/source/_autosummary/
 docs/build
 
+# Demo folder
+demo/logs
+demo/output
+
 # OS metadata
 .DS_Store
