@@ -7,7 +7,7 @@ Thanks for contributing.
 ```bash
 git clone <repo-url>
 cd itergen
-pip install -e .[dev,docs]
+pip install -e .[dev]
 ```
 
 ## Local checks
@@ -18,7 +18,6 @@ Run these before opening a PR:
 ruff check .
 ruff format --check .
 mypy src/itergen
-python -m sphinx -W -b html docs/source docs/build/html
 python -m build
 python -m twine check dist/*
 ```

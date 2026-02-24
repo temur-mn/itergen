@@ -18,7 +18,6 @@ Optional extras from source:
 
 ```bash
 pip install -e .[dev]
-pip install -e .[docs]
 pip install -e .[torch]
 ```
 

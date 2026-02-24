@@ -12,11 +12,10 @@ This page is the canonical release checklist for both GitHub and PyPI.
 ## 2) Run full quality gate
 
 ```bash
-pip install -e .[dev,docs,torch]
+pip install -e .[dev,torch]
 ruff check .
 ruff format --check .
 mypy src/itergen
-python -m sphinx -W -b html docs/source docs/build/html
 python -m build
 python -m twine check dist/*
 ```

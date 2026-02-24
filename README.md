@@ -40,7 +40,6 @@ Optional source extras:
 
 ```bash
 pip install -e .[dev]    # lint, type-checking, packaging tools
-pip install -e .[docs]   # Sphinx docs tooling
 pip install -e .[torch]  # torch controller backend
 ```
 
