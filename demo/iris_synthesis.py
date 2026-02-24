@@ -5,8 +5,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from itergen import ItergenSynthesizer, RunConfig
 import yaml
+
+from itergen import ItergenSynthesizer, RunConfig
 
 HERE = Path(__file__).resolve().parent
 PARAMS_YAML = HERE / "iris_params.yaml"

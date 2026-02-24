@@ -5,10 +5,10 @@ This module provides modular validation functions that can be composed
 to validate different aspects of the configuration independently.
 """
 
-from typing import Dict, List, Tuple, Any, Set
+from typing import Any
 
 
-def validate_metadata(metadata: Dict[str, Any]) -> List[str]:
+def validate_metadata(metadata: dict[str, Any]) -> list[str]:
     """Validate metadata section of config.
 
     Args:
@@ -115,7 +115,7 @@ def validate_metadata(metadata: Dict[str, Any]) -> List[str]:
     return warnings
 
 
-def validate_advanced_settings(advanced: Dict[str, Any], enabled: bool) -> List[str]:
+def validate_advanced_settings(advanced: dict[str, Any], enabled: bool) -> list[str]:
     """Validate advanced settings section.
 
     Args:
@@ -179,8 +179,8 @@ def validate_advanced_settings(advanced: Dict[str, Any], enabled: bool) -> List[
 
 
 def validate_column_structure(
-    columns: List[Dict[str, Any]],
-) -> Tuple[List[str], List[str]]:
+    columns: list[dict[str, Any]],
+) -> tuple[list[str], list[str]]:
     """Validate basic column structure.
 
     Args:
@@ -222,11 +222,11 @@ def validate_column_structure(
 
 
 def validate_dependencies(
-    columns: List[Dict[str, Any]],
-    column_set: Set[str],
-    domains: Dict[str, List],
-    continuous_bins_by_col: Dict[str, Any],
-) -> Tuple[List[str], List[str]]:
+    columns: list[dict[str, Any]],
+    column_set: set[str],
+    domains: dict[str, list],
+    continuous_bins_by_col: dict[str, Any],
+) -> tuple[list[str], list[str]]:
     """Validate column dependencies.
 
     Args:
@@ -275,7 +275,7 @@ def validate_dependencies(
 
 
 def validate_probabilities(
-    col: Dict[str, Any], categories: List, warnings: List[str]
+    col: dict[str, Any], categories: list, warnings: list[str]
 ) -> None:
     """Validate probability distributions for a column.
 
@@ -310,7 +310,7 @@ def validate_probabilities(
 
 
 def _validate_categorical_probs(
-    col_id: str, probs: Dict[str, Any], categories: List, warnings: List[str]
+    col_id: str, probs: dict[str, Any], categories: list, warnings: list[str]
 ) -> None:
     """Validate categorical probability distribution."""
     missing = [cat for cat in categories if cat not in probs]
@@ -344,15 +344,15 @@ def _validate_categorical_probs(
 
 
 def validate_column_probabilities(
-    col: Dict[str, Any],
-    categories: List,
-    domains: Dict[str, List],
-    column_set: Set[str],
-    id_to_col: Dict[str, Dict],
-    continuous_bins_by_col: Dict[str, Any],
+    col: dict[str, Any],
+    categories: list,
+    domains: dict[str, list],
+    column_set: set[str],
+    id_to_col: dict[str, dict],
+    continuous_bins_by_col: dict[str, Any],
     bin_conflict_mode: str,
     advanced_enabled: bool,
-) -> Tuple[List[str], List[str]]:
+) -> tuple[list[str], list[str]]:
     """Validate all probability-related aspects of a column.
 
     Args:
@@ -377,13 +377,13 @@ def validate_column_probabilities(
 
     # Import functions we need
     from .config import (
-        parse_condition,
-        canonical_condition_key,
-        _expected_condition_keys,
         _coerce_to_domain_value,
-        _normalize_bin_probabilities,
-        _continuous_bin_moment_conflict,
         _continuous_bin_conflict_message,
+        _continuous_bin_moment_conflict,
+        _expected_condition_keys,
+        _normalize_bin_probabilities,
+        canonical_condition_key,
+        parse_condition,
     )
 
     if dist_type == "bernoulli":

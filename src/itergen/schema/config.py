@@ -486,10 +486,10 @@ def validate_config(config):
         ValueError: If there are critical validation errors
     """
     from .validation import (
-        validate_metadata,
         validate_advanced_settings,
         validate_column_structure,
         validate_dependencies,
+        validate_metadata,
     )
 
     warnings = []
