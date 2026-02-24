@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sphinx_rtd_theme
 import re
 import sys
 from datetime import datetime
@@ -28,6 +29,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.intersphinx",
+    "sphinx_rtd_theme",
     "sphinx.ext.viewcode",
 ]
 
@@ -49,5 +51,5 @@ intersphinx_mapping = {
 }
 
 
-html_theme = "furo"
+html_theme = "sphinx_rtd_theme"
 html_static_path = []
