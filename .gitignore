@@ -29,6 +29,7 @@ draft_1.xlsx
 
 # Sphinx generated helper files
 docs/source/_autosummary/
+docs/build
 
 # OS metadata
 .DS_Store
