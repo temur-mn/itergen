@@ -54,7 +54,6 @@ include-package-data = false
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["itergen*"]
-exclude = ["itergen.benchmarks*"]
 namespaces = false
 
 [tool.ruff]
