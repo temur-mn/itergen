@@ -1217,3 +1217,153 @@ def check_equilibrium_rules(metrics, rules):
         "continuous_max_violation",
     )
     return len(violations) == 0, violations
+
+
+def _normalized_rule_excess(
+    metrics,
+    rules,
+    exclude_metrics=None,
+    metric_keys=None,
+):
+    if not isinstance(rules, dict):
+        try:
+            rules = dict(rules or {})
+        except Exception:
+            rules = {}
+
+    if exclude_metrics is None:
+        excluded = set()
+    else:
+        excluded = {str(key) for key in exclude_metrics}
+
+    if metric_keys is None:
+        allowed = None
+    else:
+        allowed = {str(key) for key in metric_keys}
+
+    violation_count = 0
+    normalized_excess = 0.0
+
+    for rule_key, limit in rules.items():
+        rule_key = str(rule_key)
+        if not rule_key.endswith("_max"):
+            continue
+        metric_key = rule_key[:-4]
+        if metric_key in excluded:
+            continue
+        if allowed is not None and metric_key not in allowed:
+            continue
+
+        metric_value = _to_float_or_none((metrics or {}).get(metric_key))
+        limit_value = _to_float_or_none(limit)
+        if metric_value is None or limit_value is None:
+            continue
+
+        excess = metric_value - limit_value
+        if excess <= 0:
+            continue
+
+        violation_count += 1
+        scale = max(abs(limit_value), 1e-9)
+        normalized_excess += excess / scale
+
+    return {
+        "violation_count": int(violation_count),
+        "normalized_excess": float(normalized_excess),
+    }
+
+
+def _objective_near_tie_margin(
+    candidate_objective,
+    incumbent_objective,
+    rules,
+    objective_tie_ratio,
+):
+    if not isinstance(rules, dict):
+        try:
+            rules = dict(rules or {})
+        except Exception:
+            rules = {}
+
+    obj_limit = _to_float_or_none(rules.get("objective_max"))
+    if obj_limit is None or obj_limit <= 0:
+        obj_limit = max(candidate_objective, incumbent_objective, 1.0)
+
+    try:
+        objective_tie_ratio = float(objective_tie_ratio)
+    except (TypeError, ValueError):
+        objective_tie_ratio = 0.05
+    objective_tie_ratio = max(0.0, objective_tie_ratio)
+
+    margin = max(1e-6, objective_tie_ratio * obj_limit)
+    local_scale = max(1e-6, min(candidate_objective, incumbent_objective))
+    capped_margin = 0.10 * local_scale
+    return max(1e-6, min(margin, capped_margin))
+
+
+def objective_priority_is_better(
+    candidate_metrics,
+    incumbent_metrics,
+    rules=None,
+    objective_tie_ratio=0.05,
+    secondary_metric_keys=None,
+):
+    if incumbent_metrics is None:
+        return True
+
+    candidate_objective = _to_float_or_none((candidate_metrics or {}).get("objective"))
+    incumbent_objective = _to_float_or_none((incumbent_metrics or {}).get("objective"))
+
+    if candidate_objective is None:
+        return False
+    if incumbent_objective is None:
+        return True
+
+    tie_margin = _objective_near_tie_margin(
+        candidate_objective,
+        incumbent_objective,
+        rules,
+        objective_tie_ratio,
+    )
+
+    if candidate_objective + tie_margin < incumbent_objective:
+        return True
+    if incumbent_objective + tie_margin < candidate_objective:
+        return False
+
+    candidate_secondary = _normalized_rule_excess(
+        candidate_metrics,
+        rules,
+        exclude_metrics={"objective"},
+        metric_keys=secondary_metric_keys,
+    )
+    incumbent_secondary = _normalized_rule_excess(
+        incumbent_metrics,
+        rules,
+        exclude_metrics={"objective"},
+        metric_keys=secondary_metric_keys,
+    )
+
+    candidate_excess = candidate_secondary["normalized_excess"]
+    incumbent_excess = incumbent_secondary["normalized_excess"]
+    if candidate_excess < incumbent_excess - 1e-12:
+        return True
+    if incumbent_excess < candidate_excess - 1e-12:
+        return False
+
+    candidate_violations = candidate_secondary["violation_count"]
+    incumbent_violations = incumbent_secondary["violation_count"]
+    if candidate_violations < incumbent_violations:
+        return True
+    if incumbent_violations < candidate_violations:
+        return False
+
+    candidate_max_error = _to_float_or_none((candidate_metrics or {}).get("max_error"))
+    incumbent_max_error = _to_float_or_none((incumbent_metrics or {}).get("max_error"))
+    if candidate_max_error is not None and incumbent_max_error is not None:
+        if candidate_max_error < incumbent_max_error - 1e-12:
+            return True
+        if incumbent_max_error < candidate_max_error - 1e-12:
+            return False
+
+    return candidate_objective < incumbent_objective

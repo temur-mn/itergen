@@ -184,12 +184,25 @@ class ItergenSynthesizer:
         if not isinstance(metadata, dict):
             metadata = {}
 
+        log_level = _normalize_choice(
+            self.run_config.log_level
+            if self.run_config.log_level is not None
+            else metadata.get("log_level", defaults.DEFAULT_LOG_LEVEL),
+            _VALID_LOG_LEVELS,
+            defaults.DEFAULT_LOG_LEVEL,
+        )
+
         log_dir = _resolve_log_dir(
             self.run_config.log_dir
             if self.run_config.log_dir is not None
             else metadata.get("log_dir")
         )
-        logger, log_path = setup_run_logger(log_dir=log_dir, name="itergen")
+        stream_level = "info" if log_level == "info" else "error"
+        logger, log_path = setup_run_logger(
+            log_dir=log_dir,
+            name="itergen",
+            stream_level=stream_level,
+        )
         runtime_notes = []
 
         torch_available = is_torch_available()
@@ -221,13 +234,6 @@ class ItergenSynthesizer:
             ),
             _VALID_MISSING_MODES,
             defaults.DEFAULT_MISSING_COLUMNS_MODE,
-        )
-        log_level = _normalize_choice(
-            self.run_config.log_level
-            if self.run_config.log_level is not None
-            else metadata.get("log_level", defaults.DEFAULT_LOG_LEVEL),
-            _VALID_LOG_LEVELS,
-            defaults.DEFAULT_LOG_LEVEL,
         )
         scoring_mode = _normalize_choice(
             self.run_config.proposal_scoring_mode

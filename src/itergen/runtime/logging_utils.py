@@ -7,7 +7,16 @@ from datetime import datetime
 from pathlib import Path
 
 
-def setup_run_logger(log_dir=None, name="generator"):
+def _resolve_stream_level(stream_level):
+    if isinstance(stream_level, int):
+        return int(stream_level)
+    text = str(stream_level).strip().lower() if stream_level is not None else "warning"
+    if text in {"debug", "info", "warning", "error", "critical"}:
+        return int(getattr(logging, text.upper(), logging.WARNING))
+    return int(logging.WARNING)
+
+
+def setup_run_logger(log_dir=None, name="generator", stream_level="warning"):
     default_log_dir = Path.cwd() / "logs"
 
     if log_dir is None:
@@ -41,7 +50,7 @@ def setup_run_logger(log_dir=None, name="generator"):
     logger.addHandler(file_handler)
 
     stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.WARNING)
+    stream_handler.setLevel(_resolve_stream_level(stream_level))
     stream_handler.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
     logger.addHandler(stream_handler)
 

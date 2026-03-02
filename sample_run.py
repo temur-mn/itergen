@@ -17,11 +17,18 @@ def main() -> int:
     try:
         config = get_sample_config("mixed_large")
         run_cfg = RunConfig(
-            n_rows=12_000,
+            attempt_workers=4,
+            n_rows=6_000,
             seed=42,
-            tolerance=0.01,
+            tolerance=0.03,
             max_attempts=20,
             log_level="info",
+            save_output=False,
+        )
+        print(
+            "[SAMPLE RUN] starting mixed_large demo run...",
+            file=sys.stderr,
+            flush=True,
         )
         result = ItergenSynthesizer(config, run_cfg).generate()
     except Exception as exc:
@@ -35,7 +42,7 @@ def main() -> int:
     print(
         f"[SAMPLE RUN] status={status} attempts={result.attempts} "
         f"confidence={confidence:.3f} objective={objective:.6f} "
-        f"output={result.output_path}"
+        f"output={result.output_path} log={result.log_path}"
     )
     return 0
 

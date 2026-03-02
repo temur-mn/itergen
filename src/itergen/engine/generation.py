@@ -16,6 +16,7 @@ from ..scoring.metrics import (
     check_equilibrium_rules,
     compute_equilibrium_metrics,
     default_equilibrium_rules,
+    objective_priority_is_better,
 )
 from .initial import generate_initial
 from .optimizer import optimize
@@ -112,6 +113,74 @@ def _print_stats(df, columns, column_specs, label, logger=None):
             logger.info(f"  {col_id}: {df[col_id].value_counts().to_dict()}")
 
 
+def _fmt_metric(value):
+    try:
+        return f"{float(value):.6f}"
+    except (TypeError, ValueError):
+        return "n/a"
+
+
+def _log_selected_attempt(
+    logger,
+    log_level,
+    result,
+    attempts_total,
+    mode,
+):
+    if logger is None or log_level == "quiet" or result is None:
+        return
+
+    metrics = result.get("metrics", {})
+    objective_text = _fmt_metric(metrics.get("objective"))
+    max_error_text = _fmt_metric(metrics.get("max_error"))
+    attempt_idx = int(result.get("attempt", -1))
+    attempt_text = (
+        f"{attempt_idx + 1}/{attempts_total}"
+        if attempt_idx >= 0
+        else f"?/{attempts_total}"
+    )
+    if mode == "success":
+        reason = "first_attempt_meeting_rules_in_deterministic_order"
+    else:
+        reason = "objective_priority_with_near_tie_secondary_rule_checks"
+    logger.info(
+        "[SELECTED ATTEMPT] "
+        f"mode={mode} attempt={attempt_text} "
+        f"objective={objective_text} max_error={max_error_text} "
+        f"reason={reason}"
+    )
+
+
+def _log_retry_summary(logger, log_level, failed_violations, attempts_to_report):
+    if logger is None or log_level == "quiet":
+        return
+    if attempts_to_report <= 0:
+        return
+
+    grouped = {}
+    for attempt in range(int(attempts_to_report)):
+        violations = failed_violations.get(attempt)
+        if not violations:
+            continue
+        details = ", ".join(violations)
+        grouped[details] = grouped.get(details, 0) + 1
+
+    failed_total = int(sum(grouped.values()))
+    logger.info(
+        "[RETRY SUMMARY] "
+        f"failed_attempts={failed_total}/{attempts_to_report} "
+        f"unique_patterns={len(grouped)}"
+    )
+
+    ordered_patterns = sorted(grouped.items(), key=lambda row: (-row[1], row[0]))
+    for details, count in ordered_patterns:
+        logger.info(
+            "[RETRY PATTERN] "
+            f"count={count}/{attempts_to_report} "
+            f"rules_not_met={details}"
+        )
+
+
 def generate_until_valid(
     config,
     n_rows,
@@ -139,6 +208,8 @@ def generate_until_valid(
     if rules is None:
         rules = default_equilibrium_rules(tolerance)
 
+    optimize_kwargs.setdefault("selection_rules", dict(rules))
+
     try:
         attempt_workers = int(attempt_workers)
     except (TypeError, ValueError):
@@ -164,7 +235,7 @@ def generate_until_valid(
         n_rows=n_rows,
         min_group_size=min_group_size,
     )
-    if feas_warnings and logger is not None:
+    if feas_warnings and logger is not None and log_level != "quiet":
         logger.warning("[FEASIBILITY WARNINGS]")
         for warning in feas_warnings:
             logger.warning(f"  - {warning}")
@@ -270,10 +341,10 @@ def generate_until_valid(
                         failed_violations[next_to_resolve] = list(
                             ordered.get("violations", [])
                         )
-                        if (
-                            best_failure_result is None
-                            or ordered["metrics"]["objective"]
-                            < best_failure_result["metrics"]["objective"]
+                        if best_failure_result is None or objective_priority_is_better(
+                            ordered.get("metrics"),
+                            best_failure_result.get("metrics"),
+                            rules,
                         ):
                             best_failure_result = ordered
                         next_to_resolve += 1
@@ -292,12 +363,19 @@ def generate_until_valid(
 
             if first_success_result is not None and first_success_attempt is not None:
                 attempts_used = first_success_attempt + 1
-                if logger is not None and log_level != "quiet":
-                    for attempt in range(attempts_used):
-                        if attempt not in failed_violations:
-                            continue
-                        details = ", ".join(failed_violations[attempt])
-                        logger.info(f"[RETRY] rules_not_met={details}")
+                _log_retry_summary(
+                    logger,
+                    log_level,
+                    failed_violations,
+                    attempts_used,
+                )
+                _log_selected_attempt(
+                    logger,
+                    log_level,
+                    first_success_result,
+                    attempts_used,
+                    mode="success",
+                )
                 return (
                     first_success_result["df"],
                     first_success_result["metrics"],
@@ -308,13 +386,19 @@ def generate_until_valid(
                 )
 
             if best_failure_result is not None:
-                if logger is not None and log_level != "quiet":
-                    for attempt in range(total_attempts):
-                        violations = failed_violations.get(attempt)
-                        if not violations:
-                            continue
-                        details = ", ".join(violations)
-                        logger.info(f"[RETRY] rules_not_met={details}")
+                _log_retry_summary(
+                    logger,
+                    log_level,
+                    failed_violations,
+                    total_attempts,
+                )
+                _log_selected_attempt(
+                    logger,
+                    log_level,
+                    best_failure_result,
+                    total_attempts,
+                    mode="best_effort",
+                )
                 return (
                     best_failure_result["df"],
                     best_failure_result["metrics"],
@@ -381,7 +465,7 @@ def generate_until_valid(
         if ok:
             return df, metrics, True, attempt + 1, history, initial_df
 
-        if best_metrics is None or metrics["objective"] < best_metrics["objective"]:
+        if objective_priority_is_better(metrics, best_metrics, rules):
             best_df = df
             best_metrics = metrics
             best_history = history

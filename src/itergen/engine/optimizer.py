@@ -13,8 +13,10 @@ from ..scoring.metrics import (
     build_equilibrium_state,
     compute_column_errors,
     compute_equilibrium_metrics,
+    default_equilibrium_rules,
     equilibrium_metrics_from_state,
     max_column_deviation,
+    objective_priority_is_better,
     preview_equilibrium_objective,
 )
 from .adjustments import (
@@ -58,6 +60,7 @@ def optimize(
     continuous_noise_frac=0.08,
     continuous_edge_guard_frac=0.03,
     max_column_deviation_limit=None,
+    selection_rules=None,
     proposal_scoring_mode="incremental",
     controller_backend="classic",
     controller_config=None,
@@ -217,6 +220,20 @@ def optimize(
         max_column_deviation_limit = float(tolerance) * 1.25
     max_column_deviation_limit = max(0.0, max_column_deviation_limit)
 
+    selection_rank_rules = default_equilibrium_rules(tolerance)
+    if isinstance(selection_rules, dict):
+        selection_rank_rules.update(selection_rules)
+    else:
+        try:
+            selection_rank_rules.update(dict(selection_rules or {}))
+        except Exception:
+            pass
+    selection_rank_rules.setdefault("objective_max", float(tolerance))
+    selection_rank_rules.setdefault(
+        "max_column_deviation_max", float(max_column_deviation_limit)
+    )
+    ranking_secondary_metric_keys = ("max_error", "max_column_deviation")
+
     scoring_mode = str(proposal_scoring_mode or "incremental").strip().lower()
     if scoring_mode not in ("incremental", "full"):
         if logger is not None and log_level != "quiet":
@@ -278,6 +295,31 @@ def optimize(
         )
     else:
         reverse_deps = _build_reverse_dependency_map(column_specs)
+
+    if scoring_mode == "incremental":
+        initial_equilibrium = equilibrium_metrics_from_state(
+            equilibrium_state,
+            weight_marginal=weight_marginal,
+            weight_conditional=weight_conditional,
+        )
+    else:
+        initial_equilibrium = compute_equilibrium_metrics(
+            df,
+            column_specs,
+            min_group_size,
+            weight_marginal=weight_marginal,
+            weight_conditional=weight_conditional,
+            small_group_mode=small_group_mode,
+            include_continuous_bounds=False,
+            include_column_deviation=False,
+            include_continuous_bin=False,
+        )
+
+    best_df_snapshot = df.copy()
+    best_iteration_metrics = {
+        **initial_equilibrium,
+        "max_column_deviation": max_column_deviation(errors),
+    }
 
     downstream_span = {
         col_id: len(_expand_impacted_columns(reverse_deps, {col_id}))
@@ -556,6 +598,19 @@ def optimize(
         controller.update(errors)
         multipliers = controller.compute_multipliers(errors)
 
+        iteration_metrics = {
+            **equilibrium,
+            "max_column_deviation": max_col_dev,
+        }
+        if objective_priority_is_better(
+            iteration_metrics,
+            best_iteration_metrics,
+            selection_rank_rules,
+            secondary_metric_keys=ranking_secondary_metric_keys,
+        ):
+            best_iteration_metrics = dict(iteration_metrics)
+            best_df_snapshot = df.copy()
+
         if history is not None:
             history.append(
                 {
@@ -602,4 +657,4 @@ def optimize(
 
         prev_obj = objective
 
-    return df
+    return best_df_snapshot
