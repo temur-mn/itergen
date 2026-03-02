@@ -18,7 +18,7 @@ def setup_run_logger(log_dir=None, name="generator"):
 
     resolved_log_dir.mkdir(parents=True, exist_ok=True)
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
     log_path = resolved_log_dir / f"run_{timestamp}.log"
 
     logger = logging.getLogger(name)

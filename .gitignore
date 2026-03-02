@@ -26,6 +26,8 @@ draft_1.xlsx
 .backlog/
 /configuration_benchmark/
 /notes-to-read/
+/testing/
+.$project.drawio.*
 
 # Sphinx generated helper files
 docs/source/_autosummary/
@@ -34,6 +36,8 @@ docs/source/_autosummary/
 # Demo folder
 demo/logs
 demo/output
+demo/data/continuous_factory_process.csv
+demo/data/creditcard_2023.csv
 
 # OS metadata
 .DS_Store

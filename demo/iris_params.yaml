@@ -7,17 +7,21 @@ metadata:
 
 advanced:
   enabled: true
-  max_iters: 200
-  patience: 20
-  temperature_decay: 0.97
-  random_flip_frac: 0.006
-  step_size_marginal: 0.22
-  step_size_conditional: 0.33
-  step_size_continuous_marginal: 0.28
-  step_size_continuous_conditional: 0.42
-  continuous_dependency_gain: 0.20
-  continuous_noise_frac: 0.05
-  continuous_edge_guard_frac: 0.04
+  batch_size: 150
+  proposals_per_batch: 72
+  max_iters: 320
+  patience: 40
+  temperature_init: 0.02
+  temperature_decay: 0.985
+  max_flip_frac: 0.12
+  random_flip_frac: 0.003
+  step_size_marginal: 0.16
+  step_size_conditional: 0.24
+  step_size_continuous_marginal: 0.20
+  step_size_continuous_conditional: 0.30
+  continuous_dependency_gain: 0.15
+  continuous_noise_frac: 0.03
+  continuous_edge_guard_frac: 0.08
 
 columns:
   - column_id: species

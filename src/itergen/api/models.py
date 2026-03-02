@@ -53,7 +53,7 @@ class GenerateResult:
     """Result payload returned by high-level generation APIs."""
 
     dataframe: pd.DataFrame
-    metrics: dict[str, Any]
+    metrics: dict[str, float]
     quality_report: dict[str, Any]
     success: bool
     attempts: int
@@ -66,4 +66,8 @@ class GenerateResult:
     def objective(self) -> float:
         """Return the objective score from the final metrics payload."""
 
-        return float(self.metrics.get("objective", 0.0))
+        value = self.metrics.get("objective", 0.0)
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return 0.0
