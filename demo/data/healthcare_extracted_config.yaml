@@ -1,0 +1,236 @@
+metadata:
+  n_rows: 900
+  tolerance: 0.06
+  max_attempts: 5
+  log_level: quiet
+  missing_columns_mode: error
+columns:
+- column_id: medical_condition
+  values:
+    categories:
+    - Hypertension
+    - Diabetes
+    - Arthritis
+    - Cancer
+    - Asthma
+    - Obesity
+  distribution:
+    type: categorical
+    probabilities:
+      Hypertension: 0.17183333333333334
+      Diabetes: 0.16983333333333334
+      Arthritis: 0.16741666666666666
+      Cancer: 0.16433333333333333
+      Asthma: 0.164
+      Obesity: 0.16258333333333333
+- column_id: gender
+  values:
+    categories:
+    - Male
+    - Female
+  distribution:
+    type: categorical
+    probabilities:
+      Male: 0.5015833333333334
+      Female: 0.4984166666666667
+- column_id: blood_type
+  values:
+    categories:
+    - A+
+    - B-
+    - O+
+    - A-
+    - B+
+    - AB+
+    - O-
+    - AB-
+  distribution:
+    type: categorical
+    probabilities:
+      A+: 0.12858333333333333
+      B-: 0.12708333333333333
+      O+: 0.12691666666666668
+      A-: 0.1265
+      B+: 0.12558333333333332
+      AB+: 0.124
+      O-: 0.12216666666666667
+      AB-: 0.11916666666666667
+- column_id: insurance_provider
+  values:
+    categories:
+    - Cigna
+    - Medicare
+    - UnitedHealthcare
+    - Aetna
+    - Blue Cross
+  distribution:
+    type: categorical
+    probabilities:
+      Cigna: 0.20733333333333334
+      Medicare: 0.20208333333333334
+      UnitedHealthcare: 0.19741666666666666
+      Aetna: 0.197
+      Blue Cross: 0.19616666666666666
+- column_id: admission_type
+  values:
+    categories:
+    - Elective
+    - Urgent
+    - Emergency
+  distribution:
+    type: categorical
+    probabilities:
+      Elective: 0.3411666666666667
+      Urgent: 0.3365
+      Emergency: 0.32233333333333336
+- column_id: medication
+  values:
+    categories:
+    - Paracetamol
+    - Ibuprofen
+    - Lipitor
+    - Aspirin
+    - Penicillin
+  distribution:
+    type: categorical
+    probabilities:
+      Paracetamol: 0.2025
+      Ibuprofen: 0.20025
+      Lipitor: 0.20008333333333334
+      Aspirin: 0.19925
+      Penicillin: 0.19791666666666666
+- column_id: test_results
+  values:
+    categories:
+    - Abnormal
+    - Inconclusive
+    - Normal
+  distribution:
+    type: categorical
+    probabilities:
+      Abnormal: 0.3345
+      Inconclusive: 0.33416666666666667
+      Normal: 0.3313333333333333
+- column_id: age
+  distribution:
+    type: continuous
+    targets:
+      mean: 51.84466666666667
+      std: 19.529643847357345
+      min: 13.0
+      max: 89.0
+    depend_on:
+    - medical_condition
+    conditional_targets:
+      medical_condition='Diabetes':
+        mean: 51.74877330716389
+        std: 19.18830762983633
+        min: 15.0
+        max: 87.0
+      medical_condition='Asthma':
+        mean: 52.46798780487805
+        std: 19.57943661590111
+        min: 15.0
+        max: 88.0
+      medical_condition='Arthritis':
+        mean: 51.80039820806371
+        std: 19.594811895698452
+        min: 15.0
+        max: 89.0
+      medical_condition='Obesity':
+        mean: 51.18349564325987
+        std: 19.66848720682353
+        min: 13.0
+        max: 88.0
+      medical_condition='Hypertension':
+        mean: 52.24199806013579
+        std: 19.581827257494492
+        min: 13.0
+        max: 89.0
+      medical_condition='Cancer':
+        mean: 51.605476673427994
+        std: 19.568312492551645
+        min: 14.0
+        max: 89.0
+- column_id: billing_amount
+  distribution:
+    type: continuous
+    targets:
+      mean: 25457.763513179045
+      std: 14245.253080003366
+      min: -1310.2728947084124
+      max: 52170.03685355641
+    depend_on:
+    - medical_condition
+    conditional_targets:
+      medical_condition='Diabetes':
+        mean: 25305.390925031068
+        std: 14298.759278798872
+        min: -614.9455855134909
+        max: 51848.20159668146
+      medical_condition='Asthma':
+        mean: 25769.761835516707
+        std: 14299.640821534353
+        min: -1018.245371228288
+        max: 51634.09983523182
+      medical_condition='Arthritis':
+        mean: 25450.352926786018
+        std: 14313.460407987795
+        min: -1129.997175862368
+        max: 52170.03685355641
+      medical_condition='Obesity':
+        mean: 25569.529068520304
+        std: 14216.67574821694
+        min: -1310.2728947084124
+        max: 52024.72644288463
+      medical_condition='Hypertension':
+        mean: 26052.493977508715
+        std: 14419.510507530798
+        min: -230.57928253828663
+        max: 51531.96456324429
+      medical_condition='Cancer':
+        mean: 24578.971265932625
+        std: 13879.301699297626
+        min: -1049.0123411221978
+        max: 51174.74265397622
+- column_id: room_number
+  distribution:
+    type: continuous
+    targets:
+      mean: 301.913
+      std: 115.1169764088749
+      min: 101.0
+      max: 500.0
+    depend_on:
+    - medical_condition
+    conditional_targets:
+      medical_condition='Diabetes':
+        mean: 301.9489695780177
+        std: 113.59519264590921
+        min: 101.0
+        max: 500.0
+      medical_condition='Asthma':
+        mean: 300.7154471544715
+        std: 114.89230750377368
+        min: 101.0
+        max: 500.0
+      medical_condition='Arthritis':
+        mean: 300.7187655550025
+        std: 114.92398774595128
+        min: 101.0
+        max: 500.0
+      medical_condition='Obesity':
+        mean: 301.90107637109173
+        std: 116.56625695448615
+        min: 101.0
+        max: 500.0
+      medical_condition='Hypertension':
+        mean: 299.75751697381185
+        std: 114.87280217069551
+        min: 101.0
+        max: 500.0
+      medical_condition='Cancer':
+        mean: 306.5532454361055
+        std: 115.9278879085669
+        min: 101.0
+        max: 500.0
