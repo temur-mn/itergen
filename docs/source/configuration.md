@@ -76,6 +76,8 @@ Rule-threshold keys (optional) are also read from metadata:
 - each worker executes one full attempt (initialize, optimize, and score)
 - result selection remains deterministic by attempt index (same order as sequential retries)
 - parallel mode uses bounded in-flight submission rather than launching every attempt at once
+- when `fork` is available, worker pools prefer `fork` start method to avoid replaying top-level script code in child processes
+- on platforms without `fork` (for example Windows), keep runner code inside `if __name__ == "__main__":` when using `attempt_workers > 1`
 
 ## Column Feature Types
 

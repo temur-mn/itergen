@@ -4,6 +4,7 @@ Generation loop that retries until equilibrium rules are satisfied.
 
 from __future__ import annotations
 
+import multiprocessing as mp
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from typing import Any
 
@@ -18,6 +19,21 @@ from ..scoring.metrics import (
 )
 from .initial import generate_initial
 from .optimizer import optimize
+
+
+def _resolve_attempt_pool_context():
+    try:
+        available_methods = mp.get_all_start_methods()
+    except Exception:
+        return None, "default"
+
+    if "fork" not in available_methods:
+        return None, "default"
+
+    try:
+        return mp.get_context("fork"), "fork"
+    except ValueError:
+        return None, "default"
 
 
 def _run_single_attempt(
@@ -162,12 +178,14 @@ def generate_until_valid(
     if attempt_workers > 1 and max_attempts is not None and int(max_attempts) > 1:
         total_attempts = int(max_attempts)
         worker_count = min(attempt_workers, total_attempts)
+        pool_context, pool_start_method = _resolve_attempt_pool_context()
 
         if logger is not None and log_level != "quiet":
             logger.info(
                 "[ATTEMPT MODE] "
                 f"parallel workers={worker_count} total_attempts={total_attempts} "
-                "selection=deterministic_attempt_order"
+                "selection=deterministic_attempt_order "
+                f"start_method={pool_start_method}"
             )
 
         try:
@@ -179,7 +197,10 @@ def generate_until_valid(
             next_to_submit = 0
             pending_results = {}
 
-            with ProcessPoolExecutor(max_workers=worker_count) as executor:
+            with ProcessPoolExecutor(
+                max_workers=worker_count,
+                mp_context=pool_context,
+            ) as executor:
                 future_to_attempt = {}
 
                 def _submit_attempt(attempt_index):

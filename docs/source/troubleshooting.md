@@ -103,3 +103,20 @@ How to shorten local iteration loops:
 - reduce row count during tuning iterations
 - simplify conditional branches first, then add complexity
 - inspect `quality_report` and focus on worst columns/conditions
+
+## Script appears to run multiple times
+
+If your runner prints duplicate output while `attempt_workers > 1`, child worker
+processes may be replaying top-level script code.
+
+Current behavior:
+
+- when `fork` is available, itergen uses a `fork` process context for attempt-level workers
+- on platforms without `fork`, Python multiprocessing uses spawn-style startup
+
+For spawn-style startup, keep runnable code behind a main guard:
+
+```python
+if __name__ == "__main__":
+    main()
+```
